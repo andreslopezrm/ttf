@@ -16,7 +16,7 @@ export function links() {
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "New Remix App",
+  title: "Ten True or False",
   viewport: "width=device-width,initial-scale=1",
 });
 
@@ -28,7 +28,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="bg-black text-neutral-400 min-h-full">
         <Outlet />
         <ScrollRestoration />
         <Scripts />

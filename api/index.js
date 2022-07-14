@@ -52,7 +52,7 @@ __export(root_exports, {
 var import_react2 = require("@remix-run/react");
 
 // app/styles/app.css
-var app_default = "/build/_assets/app-FDOSUOOC.css";
+var app_default = "/build/_assets/app-LUKEAUNE.css";
 
 // route:/Users/andres/Documents/Github/ttf/app/root.tsx
 function links() {
@@ -60,13 +60,15 @@ function links() {
 }
 var meta = () => ({
   charset: "utf-8",
-  title: "New Remix App",
+  title: "Ten True or False",
   viewport: "width=device-width,initial-scale=1"
 });
 function App() {
   return /* @__PURE__ */ React.createElement("html", {
     lang: "en"
-  }, /* @__PURE__ */ React.createElement("head", null, /* @__PURE__ */ React.createElement(import_react2.Meta, null), /* @__PURE__ */ React.createElement(import_react2.Links, null)), /* @__PURE__ */ React.createElement("body", null, /* @__PURE__ */ React.createElement(import_react2.Outlet, null), /* @__PURE__ */ React.createElement(import_react2.ScrollRestoration, null), /* @__PURE__ */ React.createElement(import_react2.Scripts, null), /* @__PURE__ */ React.createElement(import_react2.LiveReload, null)));
+  }, /* @__PURE__ */ React.createElement("head", null, /* @__PURE__ */ React.createElement(import_react2.Meta, null), /* @__PURE__ */ React.createElement(import_react2.Links, null)), /* @__PURE__ */ React.createElement("body", {
+    className: "bg-black text-neutral-400 min-h-full"
+  }, /* @__PURE__ */ React.createElement(import_react2.Outlet, null), /* @__PURE__ */ React.createElement(import_react2.ScrollRestoration, null), /* @__PURE__ */ React.createElement(import_react2.Scripts, null), /* @__PURE__ */ React.createElement(import_react2.LiveReload, null)));
 }
 
 // route:/Users/andres/Documents/Github/ttf/app/routes/index.tsx
@@ -75,13 +77,17 @@ __export(routes_exports, {
   default: () => Index
 });
 function Index() {
-  return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h1", {
-    className: "bg-red-700"
-  }, "Initial"));
+  return /* @__PURE__ */ React.createElement("div", {
+    className: "container mx-auto"
+  }, /* @__PURE__ */ React.createElement("h1", {
+    className: "text-8xl mt-52 text-zinc-100 font-extrabold"
+  }, /* @__PURE__ */ React.createElement("span", {
+    className: "text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600"
+  }, "Ten True or False"), " the new age questions for developers"));
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { version: "033589c0", entry: { module: "/build/entry.client-KR7SBP66.js", imports: ["/build/_shared/chunk-L3AQNOKS.js", "/build/_shared/chunk-DNEVBLEG.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-DBHEYXPN.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-JZCMRZ6A.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-033589C0.js" };
+var assets_manifest_default = { version: "97a8f8d5", entry: { module: "/build/entry.client-KR7SBP66.js", imports: ["/build/_shared/chunk-L3AQNOKS.js", "/build/_shared/chunk-DNEVBLEG.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-3JCNLJ3C.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-CCEUCJL6.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-97A8F8D5.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var entry = { module: entry_server_exports }, routes = {
