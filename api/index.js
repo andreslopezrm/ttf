@@ -46,9 +46,19 @@ function handleRequest(request, responseStatusCode, responseHeaders, remixContex
 var root_exports = {};
 __export(root_exports, {
   default: () => App,
+  links: () => links,
   meta: () => meta
 });
-var import_react2 = require("@remix-run/react"), meta = () => ({
+var import_react2 = require("@remix-run/react");
+
+// app/styles/app.css
+var app_default = "/build/_assets/app-FDOSUOOC.css";
+
+// route:/Users/andres/Documents/Github/ttf/app/root.tsx
+function links() {
+  return [{ rel: "stylesheet", href: app_default }];
+}
+var meta = () => ({
   charset: "utf-8",
   title: "New Remix App",
   viewport: "width=device-width,initial-scale=1"
@@ -65,25 +75,13 @@ __export(routes_exports, {
   default: () => Index
 });
 function Index() {
-  return /* @__PURE__ */ React.createElement("div", {
-    style: { fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }
-  }, /* @__PURE__ */ React.createElement("h1", null, "Welcome to Remix"), /* @__PURE__ */ React.createElement("ul", null, /* @__PURE__ */ React.createElement("li", null, /* @__PURE__ */ React.createElement("a", {
-    target: "_blank",
-    href: "https://remix.run/tutorials/blog",
-    rel: "noreferrer"
-  }, "15m Quickstart Blog Tutorial")), /* @__PURE__ */ React.createElement("li", null, /* @__PURE__ */ React.createElement("a", {
-    target: "_blank",
-    href: "https://remix.run/tutorials/jokes",
-    rel: "noreferrer"
-  }, "Deep Dive Jokes App Tutorial")), /* @__PURE__ */ React.createElement("li", null, /* @__PURE__ */ React.createElement("a", {
-    target: "_blank",
-    href: "https://remix.run/docs",
-    rel: "noreferrer"
-  }, "Remix Docs"))));
+  return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h1", {
+    className: "bg-red-700"
+  }, "Initial"));
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { version: "c116c03f", entry: { module: "/build/entry.client-KR7SBP66.js", imports: ["/build/_shared/chunk-L3AQNOKS.js", "/build/_shared/chunk-DNEVBLEG.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-2VHTGTUO.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-XRNANFMZ.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-C116C03F.js" };
+var assets_manifest_default = { version: "033589c0", entry: { module: "/build/entry.client-KR7SBP66.js", imports: ["/build/_shared/chunk-L3AQNOKS.js", "/build/_shared/chunk-DNEVBLEG.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-DBHEYXPN.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-JZCMRZ6A.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-033589C0.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var entry = { module: entry_server_exports }, routes = {
