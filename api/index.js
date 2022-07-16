@@ -52,7 +52,7 @@ __export(root_exports, {
 var import_react2 = require("@remix-run/react");
 
 // app/styles/app.css
-var app_default = "/build/_assets/app-GKHD5FPK.css";
+var app_default = "/build/_assets/app-QLGPDI45.css";
 
 // route:/Users/andres/Documents/Github/ttf/app/root.tsx
 function links() {
@@ -76,6 +76,7 @@ var routes_exports = {};
 __export(routes_exports, {
   default: () => Index
 });
+var import_react3 = require("@remix-run/react");
 function Index() {
   return /* @__PURE__ */ React.createElement("div", {
     className: "container mx-auto"
@@ -83,11 +84,37 @@ function Index() {
     className: "text-8xl mt-52 text-zinc-900 font-extrabold"
   }, /* @__PURE__ */ React.createElement("span", {
     className: "text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600"
-  }, "Ten True or False"), " the new age questions for developers"));
+  }, "Ten True or False"), " the new age questions for developers"), /* @__PURE__ */ React.createElement("br", null), /* @__PURE__ */ React.createElement("hr", null), /* @__PURE__ */ React.createElement(import_react3.Link, {
+    to: "uno"
+  }, "Uno"));
+}
+
+// route:/Users/andres/Documents/Github/ttf/app/routes/uno.tsx
+var uno_exports = {};
+__export(uno_exports, {
+  default: () => Index2,
+  loader: () => loader
+});
+var import_node = require("@remix-run/node"), import_react4 = require("@remix-run/react");
+
+// app/utils/db.server.ts
+var import_client = require("@prisma/client"), db;
+global.__db || (global.__db = new import_client.PrismaClient()), db = global.__db;
+
+// route:/Users/andres/Documents/Github/ttf/app/routes/uno.tsx
+var loader = async () => {
+  let data = await db.questionnaire.findMany();
+  return (0, import_node.json)(data);
+};
+function Index2() {
+  let data = (0, import_react4.useLoaderData)();
+  return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h2", null, "Ejemplo"), /* @__PURE__ */ React.createElement("p", null, "Total: ", data.length), /* @__PURE__ */ React.createElement("ul", null, data.map((q, index) => /* @__PURE__ */ React.createElement("li", {
+    key: index
+  }, q.name))));
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { version: "ea005b2c", entry: { module: "/build/entry.client-KR7SBP66.js", imports: ["/build/_shared/chunk-L3AQNOKS.js", "/build/_shared/chunk-DNEVBLEG.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-AK2LH5N5.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-NZC5KCJL.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-EA005B2C.js" };
+var assets_manifest_default = { version: "64575619", entry: { module: "/build/entry.client-BP6MYQ7D.js", imports: ["/build/_shared/chunk-AQ5TLZ7M.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-ANSZGMAD.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-36KS2HUW.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/uno": { id: "routes/uno", parentId: "root", path: "uno", index: void 0, caseSensitive: void 0, module: "/build/routes/uno-WC3DFOIF.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-64575619.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var entry = { module: entry_server_exports }, routes = {
@@ -106,6 +133,14 @@ var entry = { module: entry_server_exports }, routes = {
     index: !0,
     caseSensitive: void 0,
     module: routes_exports
+  },
+  "routes/uno": {
+    id: "routes/uno",
+    parentId: "root",
+    path: "uno",
+    index: void 0,
+    caseSensitive: void 0,
+    module: uno_exports
   }
 };
 module.exports = __toCommonJS(stdin_exports);
