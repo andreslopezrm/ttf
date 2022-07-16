@@ -54,7 +54,7 @@ __export(root_exports, {
 var import_react2 = require("@remix-run/react"), import_ssr = require("@clerk/remix/ssr.server"), import_remix = require("@clerk/remix"), import_remix2 = require("@clerk/remix");
 
 // app/styles/app.css
-var app_default = "/build/_assets/app-TQG2Y4Q5.css";
+var app_default = "/build/_assets/app-WZNF3NV4.css";
 
 // route:/Users/andres/Documents/Github/ttf/app/root.tsx
 var CatchBoundary = (0, import_remix2.ClerkCatchBoundary)(), loader = (args) => (0, import_ssr.rootAuthLoader)(args);
@@ -113,13 +113,13 @@ __export(privado_exports, {
 });
 var import_ssr2 = require("@clerk/remix/ssr.server"), import_remix5 = require("@clerk/remix"), import_node = require("@remix-run/node"), import_react3 = require("@remix-run/react"), loader2 = async ({ request }) => {
   let { userId } = await (0, import_ssr2.getAuth)(request);
-  return userId ? { userId } : (0, import_node.redirect)(process.env.CLERK_REDIRECT_LOGIN);
+  return userId ? { userId } : (0, import_node.redirect)(`${process.env.CLERK_REDIRECT_LOGIN}?redirect_url=${request.url}`);
 };
 function Privado() {
-  let { userId } = (0, import_react3.useLoaderData)(), { signOut } = (0, import_remix5.useClerk)();
-  return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h2", null, "Ruta privada"), /* @__PURE__ */ React.createElement("p", null, userId), /* @__PURE__ */ React.createElement("br", null), /* @__PURE__ */ React.createElement("button", {
+  let { userId } = (0, import_react3.useLoaderData)(), { signOut } = (0, import_remix5.useClerk)(), navigate = (0, import_react3.useNavigate)();
+  return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h2", null, "Ruta privada (2)"), /* @__PURE__ */ React.createElement("p", null, userId), /* @__PURE__ */ React.createElement("br", null), /* @__PURE__ */ React.createElement("button", {
     onClick: async () => {
-      console.log("comenzando"), await signOut(), console.log("terminado");
+      console.log("comenzando"), await signOut(), console.log("terminado"), navigate("/", { replace: !0 });
     }
   }, "salir"));
 }
@@ -129,19 +129,21 @@ var routes_exports = {};
 __export(routes_exports, {
   default: () => Index
 });
-var import_react4 = require("@remix-run/react");
-function Index() {
-  return /* @__PURE__ */ React.createElement("div", {
-    className: "container mx-auto"
+
+// app/components/home/home-out.tsx
+function HomeOut() {
+  return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", {
+    className: "mt-52"
   }, /* @__PURE__ */ React.createElement("h1", {
-    className: "text-8xl mt-52 text-zinc-900 font-extrabold"
+    className: "text-8xl text-zinc-900 font-extrabold"
   }, /* @__PURE__ */ React.createElement("span", {
     className: "text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600"
-  }, "Ten True or False"), " the new age questions for developers"), /* @__PURE__ */ React.createElement("br", null), /* @__PURE__ */ React.createElement("hr", null), /* @__PURE__ */ React.createElement(import_react4.Link, {
-    to: "uno"
-  }, "Uno"), /* @__PURE__ */ React.createElement("br", null), /* @__PURE__ */ React.createElement("br", null), /* @__PURE__ */ React.createElement(import_react4.Link, {
-    to: "privado"
-  }, "Privado"));
+  }, "Ten True or False"), " the new age questions for developers")));
+}
+
+// route:/Users/andres/Documents/Github/ttf/app/routes/index.tsx
+function Index() {
+  return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(HomeOut, null));
 }
 
 // route:/Users/andres/Documents/Github/ttf/app/routes/me/$.tsx
@@ -160,7 +162,7 @@ __export(uno_exports, {
   default: () => Index2,
   loader: () => loader3
 });
-var import_node2 = require("@remix-run/node"), import_react5 = require("@remix-run/react");
+var import_node2 = require("@remix-run/node"), import_react4 = require("@remix-run/react");
 
 // app/utils/db.server.ts
 var import_client = require("@prisma/client"), db;
@@ -172,14 +174,14 @@ var loader3 = async () => {
   return (0, import_node2.json)(data);
 };
 function Index2() {
-  let data = (0, import_react5.useLoaderData)();
+  let data = (0, import_react4.useLoaderData)();
   return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h2", null, "Ejemplo"), /* @__PURE__ */ React.createElement("p", null, "Total: ", data.length), /* @__PURE__ */ React.createElement("ul", null, data.map((q, index) => /* @__PURE__ */ React.createElement("li", {
     key: index
   }, q.name))));
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { version: "382b9eaf", entry: { module: "/build/entry.client-43VFDX5E.js", imports: ["/build/_shared/chunk-DKZACK7T.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-YP6LPGD4.js", imports: ["/build/_shared/chunk-J5XEKV5Y.js", "/build/_shared/chunk-3QLSPGNE.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-ZUGVLUVV.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/me/$": { id: "routes/me/$", parentId: "root", path: "me/*", index: void 0, caseSensitive: void 0, module: "/build/routes/me/$-5N3OAGHK.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/privado": { id: "routes/privado", parentId: "root", path: "privado", index: void 0, caseSensitive: void 0, module: "/build/routes/privado-HCVHZRJU.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-in/$": { id: "routes/sign-in/$", parentId: "root", path: "sign-in/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-in/$-QXSKLZ5P.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-up/$": { id: "routes/sign-up/$", parentId: "root", path: "sign-up/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-up/$-DLO7W4QH.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/uno": { id: "routes/uno", parentId: "root", path: "uno", index: void 0, caseSensitive: void 0, module: "/build/routes/uno-2YLC44PO.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-382B9EAF.js" };
+var assets_manifest_default = { version: "9e89b655", entry: { module: "/build/entry.client-PFFY4HSH.js", imports: ["/build/_shared/chunk-NFY4WJ4J.js", "/build/_shared/chunk-BNRLY3XL.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-UVYJGOL6.js", imports: ["/build/_shared/chunk-A563IWXS.js", "/build/_shared/chunk-EOBL3LET.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-CER3QJI4.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/me/$": { id: "routes/me/$", parentId: "root", path: "me/*", index: void 0, caseSensitive: void 0, module: "/build/routes/me/$-6QMGUUIZ.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/privado": { id: "routes/privado", parentId: "root", path: "privado", index: void 0, caseSensitive: void 0, module: "/build/routes/privado-3DBG7N5X.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-in/$": { id: "routes/sign-in/$", parentId: "root", path: "sign-in/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-in/$-GCCGMX6R.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-up/$": { id: "routes/sign-up/$", parentId: "root", path: "sign-up/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-up/$-HHKKTIGO.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/uno": { id: "routes/uno", parentId: "root", path: "uno", index: void 0, caseSensitive: void 0, module: "/build/routes/uno-L5MZA2SK.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-9E89B655.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var entry = { module: entry_server_exports }, routes = {
