@@ -52,7 +52,7 @@ __export(root_exports, {
 var import_react2 = require("@remix-run/react");
 
 // app/styles/app.css
-var app_default = "/build/_assets/app-HA2KZBDO.css";
+var app_default = "/build/_assets/app-GKHD5FPK.css";
 
 // route:/Users/andres/Documents/Github/ttf/app/root.tsx
 function links() {
@@ -67,7 +67,7 @@ function App() {
   return /* @__PURE__ */ React.createElement("html", {
     lang: "en"
   }, /* @__PURE__ */ React.createElement("head", null, /* @__PURE__ */ React.createElement(import_react2.Meta, null), /* @__PURE__ */ React.createElement(import_react2.Links, null)), /* @__PURE__ */ React.createElement("body", {
-    className: "bg-black text-neutral-400 min-h-full"
+    className: "bg-white text-black min-h-full"
   }, /* @__PURE__ */ React.createElement(import_react2.Outlet, null), /* @__PURE__ */ React.createElement(import_react2.ScrollRestoration, null), /* @__PURE__ */ React.createElement(import_react2.Scripts, null), /* @__PURE__ */ React.createElement(import_react2.LiveReload, null)));
 }
 
@@ -80,14 +80,14 @@ function Index() {
   return /* @__PURE__ */ React.createElement("div", {
     className: "container mx-auto"
   }, /* @__PURE__ */ React.createElement("h1", {
-    className: "text-8xl mt-52 text-zinc-100 font-extrabold"
+    className: "text-8xl mt-52 text-zinc-900 font-extrabold"
   }, /* @__PURE__ */ React.createElement("span", {
     className: "text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600"
   }, "Ten True or False"), " the new age questions for developers"));
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { version: "875ef499", entry: { module: "/build/entry.client-KR7SBP66.js", imports: ["/build/_shared/chunk-L3AQNOKS.js", "/build/_shared/chunk-DNEVBLEG.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-YEO5WR5M.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-CCEUCJL6.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-875EF499.js" };
+var assets_manifest_default = { version: "ea005b2c", entry: { module: "/build/entry.client-KR7SBP66.js", imports: ["/build/_shared/chunk-L3AQNOKS.js", "/build/_shared/chunk-DNEVBLEG.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-AK2LH5N5.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-NZC5KCJL.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-EA005B2C.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var entry = { module: entry_server_exports }, routes = {
