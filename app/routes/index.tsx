@@ -1,5 +1,6 @@
 import { Link } from "@remix-run/react";
 
+
 export default function Index() {
   return (
     <div className="container mx-auto">
@@ -8,6 +9,11 @@ export default function Index() {
       <hr />
       <Link to="uno">
         Uno
+      </Link>
+      <br />
+      <br />
+      <Link to="privado">
+        Privado
       </Link>
     </div>
   );
