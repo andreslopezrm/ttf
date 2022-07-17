@@ -54,7 +54,7 @@ __export(root_exports, {
 var import_react2 = require("@remix-run/react"), import_ssr = require("@clerk/remix/ssr.server"), import_remix = require("@clerk/remix"), import_remix2 = require("@clerk/remix");
 
 // app/styles/app.css
-var app_default = "/build/_assets/app-WZNF3NV4.css";
+var app_default = "/build/_assets/app-JZEUNJ5Q.css";
 
 // route:/Users/andres/Documents/Github/ttf/app/root.tsx
 var CatchBoundary = (0, import_remix2.ClerkCatchBoundary)(), loader = (args) => (0, import_ssr.rootAuthLoader)(args);
@@ -132,13 +132,55 @@ __export(routes_exports, {
 
 // app/components/home/home-out.tsx
 function HomeOut() {
-  return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", {
-    className: "mt-52"
+  return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("section", {
+    className: "mt-32 md:mt-52"
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "container m-0 mx-auto p-8 md:p-16"
   }, /* @__PURE__ */ React.createElement("h1", {
-    className: "text-8xl text-zinc-900 font-extrabold"
+    className: "text-6xl text-zinc-900 font-extrabold md:text-8xl"
   }, /* @__PURE__ */ React.createElement("span", {
     className: "text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600"
-  }, "Ten True or False"), " the new age questions for developers")));
+  }, "Ten True or False"), " the new age questions for developers"), /* @__PURE__ */ React.createElement("p", {
+    className: "mt-8 text-2xl text-gray-600 font-extralight md:text-3xl md:w-9/12 md:mt-12"
+  }, "Create easily and simply questionnaires that help other developers to improve their knowledge and share your results with others"), /* @__PURE__ */ React.createElement("div", {
+    className: "mt-8 flex flex-col justify-center gap-4 md:flex-row md:justify-start md:w-9/12"
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "flex gap-4 md:flex-col"
+  }, /* @__PURE__ */ React.createElement("img", {
+    src: "/img/short.png",
+    alt: "ten questions",
+    width: "70"
+  }), /* @__PURE__ */ React.createElement("div", {
+    className: "mt-2"
+  }, /* @__PURE__ */ React.createElement("h4", {
+    className: "text-lg"
+  }, "Short Questionnaires"), /* @__PURE__ */ React.createElement("p", {
+    className: "text-gray-500 font-light"
+  }, "Just in ten questions test your knowledge"))), /* @__PURE__ */ React.createElement("div", {
+    className: "flex gap-4 md:flex-col"
+  }, /* @__PURE__ */ React.createElement("img", {
+    src: "/img/sharew.png",
+    alt: "ten questions",
+    width: "70"
+  }), /* @__PURE__ */ React.createElement("div", {
+    className: "mt-2"
+  }, /* @__PURE__ */ React.createElement("h4", {
+    className: "text-lg"
+  }, "Share with the world"), /* @__PURE__ */ React.createElement("p", {
+    className: "text-gray-500 font-light"
+  }, "Questionnaires that other programmers take can solve them"))), /* @__PURE__ */ React.createElement("div", {
+    className: "flex gap-4 md:flex-col"
+  }, /* @__PURE__ */ React.createElement("img", {
+    src: "/img/day.png",
+    alt: "ten questions",
+    width: "70"
+  }), /* @__PURE__ */ React.createElement("div", {
+    className: "mt-2"
+  }, /* @__PURE__ */ React.createElement("h4", {
+    className: "text-lg"
+  }, "Stay up to date"), /* @__PURE__ */ React.createElement("p", {
+    className: "text-gray-500 font-light"
+  }, "Continuously find new quizzes that improve your level")))))));
 }
 
 // route:/Users/andres/Documents/Github/ttf/app/routes/index.tsx
@@ -181,7 +223,7 @@ function Index2() {
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { version: "9e89b655", entry: { module: "/build/entry.client-PFFY4HSH.js", imports: ["/build/_shared/chunk-NFY4WJ4J.js", "/build/_shared/chunk-BNRLY3XL.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-UVYJGOL6.js", imports: ["/build/_shared/chunk-A563IWXS.js", "/build/_shared/chunk-EOBL3LET.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-CER3QJI4.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/me/$": { id: "routes/me/$", parentId: "root", path: "me/*", index: void 0, caseSensitive: void 0, module: "/build/routes/me/$-6QMGUUIZ.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/privado": { id: "routes/privado", parentId: "root", path: "privado", index: void 0, caseSensitive: void 0, module: "/build/routes/privado-3DBG7N5X.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-in/$": { id: "routes/sign-in/$", parentId: "root", path: "sign-in/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-in/$-GCCGMX6R.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-up/$": { id: "routes/sign-up/$", parentId: "root", path: "sign-up/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-up/$-HHKKTIGO.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/uno": { id: "routes/uno", parentId: "root", path: "uno", index: void 0, caseSensitive: void 0, module: "/build/routes/uno-L5MZA2SK.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-9E89B655.js" };
+var assets_manifest_default = { version: "f74259bc", entry: { module: "/build/entry.client-PFFY4HSH.js", imports: ["/build/_shared/chunk-NFY4WJ4J.js", "/build/_shared/chunk-BNRLY3XL.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-QLBEFI2F.js", imports: ["/build/_shared/chunk-A563IWXS.js", "/build/_shared/chunk-EOBL3LET.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-ZK263GTL.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/me/$": { id: "routes/me/$", parentId: "root", path: "me/*", index: void 0, caseSensitive: void 0, module: "/build/routes/me/$-6QMGUUIZ.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/privado": { id: "routes/privado", parentId: "root", path: "privado", index: void 0, caseSensitive: void 0, module: "/build/routes/privado-3DBG7N5X.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-in/$": { id: "routes/sign-in/$", parentId: "root", path: "sign-in/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-in/$-GCCGMX6R.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-up/$": { id: "routes/sign-up/$", parentId: "root", path: "sign-up/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-up/$-HHKKTIGO.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/uno": { id: "routes/uno", parentId: "root", path: "uno", index: void 0, caseSensitive: void 0, module: "/build/routes/uno-L5MZA2SK.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-F74259BC.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var entry = { module: entry_server_exports }, routes = {
