@@ -21,9 +21,10 @@ model Questionnaire {
 }
 
 model Question {
-  id              String          @default(uuid()) @id
-  desc            String
-  answer          Boolean
-  questionnaire   Questionnaire   @relation(fields: [questionnaireId], references: [id])
-  questionnaireId String
+  id                String          @default(uuid()) @id
+  name              String
+  description       String
+  answer            Boolean
+  questionnaire     Questionnaire   @relation(fields: [questionnaireId], references: [id])
+  questionnaireId   String
 }

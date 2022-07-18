@@ -11,6 +11,7 @@ export default function Index() {
       <SignedIn>
         <HomeIn />
       </SignedIn>
+      
       <SignedOut>
         <HomeOut />
       </SignedOut>
