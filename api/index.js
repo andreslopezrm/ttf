@@ -54,7 +54,7 @@ __export(root_exports, {
 var import_react2 = require("@remix-run/react"), import_ssr = require("@clerk/remix/ssr.server"), import_remix = require("@clerk/remix"), import_remix2 = require("@clerk/remix");
 
 // app/styles/app.css
-var app_default = "/build/_assets/app-JZEUNJ5Q.css";
+var app_default = "/build/_assets/app-HWD7DH3J.css";
 
 // route:/Users/andres/Documents/Github/ttf/app/root.tsx
 var CatchBoundary = (0, import_remix2.ClerkCatchBoundary)(), loader = (args) => (0, import_ssr.rootAuthLoader)(args);
@@ -129,6 +129,12 @@ var routes_exports = {};
 __export(routes_exports, {
   default: () => Index
 });
+var import_remix7 = require("@clerk/remix");
+
+// app/components/home/home-in.tsx
+function HomeIn() {
+  return /* @__PURE__ */ React.createElement("h1", null, "Logueado");
+}
 
 // app/components/home/home-out.tsx
 function HomeOut() {
@@ -180,12 +186,45 @@ function HomeOut() {
     className: "text-lg"
   }, "Stay up to date"), /* @__PURE__ */ React.createElement("p", {
     className: "text-gray-500 font-light"
-  }, "Continuously find new quizzes that improve your level")))))));
+  }, "Continuously find new quizzes that improve your level")))), /* @__PURE__ */ React.createElement("div", {
+    className: "mt-8 flex gap-4"
+  }, /* @__PURE__ */ React.createElement("button", {
+    type: "button",
+    className: "text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-xl px-5 py-2.5 text-center mr-2 mb-2 md:px-12 md:py-5"
+  }, "Get starter"), /* @__PURE__ */ React.createElement("button", {
+    type: "button",
+    className: "text-black hover:text-zinc-800 border border-black hover:bg-zinc-50 focus:ring-4 focus:outline-none focus:ring-zinc-700 font-medium rounded-lg text-xl px-5 py-2.5 text-center mr-2 mb-2 md:px-12 md:py-5"
+  }, "About us")))));
+}
+
+// app/components/navbar.tsx
+var import_remix6 = require("@clerk/remix"), import_react4 = require("@remix-run/react");
+function Navbar() {
+  return /* @__PURE__ */ React.createElement("nav", {
+    className: "bg-white h-16 fixed top-0 left-0 right-0 flex justify-between items-center border-b border-slate-200 border-solid"
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "flex items-center gap-2 ml-4"
+  }, /* @__PURE__ */ React.createElement("img", {
+    src: "/img/logo.png",
+    alt: "logo",
+    className: "w-12 h-12 rounded-full"
+  }), /* @__PURE__ */ React.createElement("span", {
+    className: "font-bold"
+  }, "#TenTrueOrFalse")), /* @__PURE__ */ React.createElement(import_remix6.SignedIn, null, /* @__PURE__ */ React.createElement(import_react4.Link, {
+    to: "me"
+  }, "Me")), /* @__PURE__ */ React.createElement(import_remix6.SignedOut, null, /* @__PURE__ */ React.createElement("div", {
+    className: "mr-4 flex gap-6 text-sm items-center"
+  }, /* @__PURE__ */ React.createElement(import_react4.Link, {
+    to: "sign-in"
+  }, "Sign In"), /* @__PURE__ */ React.createElement(import_react4.Link, {
+    className: "bg-black text-white rounded px-4 py-2 border border-solid border-black hover:bg-white hover:text-black",
+    to: "sign-up"
+  }, "Sign Up"))));
 }
 
 // route:/Users/andres/Documents/Github/ttf/app/routes/index.tsx
 function Index() {
-  return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(HomeOut, null));
+  return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Navbar, null), /* @__PURE__ */ React.createElement(import_remix7.SignedIn, null, /* @__PURE__ */ React.createElement(HomeIn, null)), /* @__PURE__ */ React.createElement(import_remix7.SignedOut, null, /* @__PURE__ */ React.createElement(HomeOut, null)));
 }
 
 // route:/Users/andres/Documents/Github/ttf/app/routes/me/$.tsx
@@ -193,9 +232,9 @@ var __exports3 = {};
 __export(__exports3, {
   default: () => MePage
 });
-var import_remix6 = require("@clerk/remix");
+var import_remix8 = require("@clerk/remix");
 function MePage() {
-  return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement(import_remix6.UserProfile, null));
+  return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement(import_remix8.UserProfile, null));
 }
 
 // route:/Users/andres/Documents/Github/ttf/app/routes/uno.tsx
@@ -204,7 +243,7 @@ __export(uno_exports, {
   default: () => Index2,
   loader: () => loader3
 });
-var import_node2 = require("@remix-run/node"), import_react4 = require("@remix-run/react");
+var import_node2 = require("@remix-run/node"), import_react5 = require("@remix-run/react");
 
 // app/utils/db.server.ts
 var import_client = require("@prisma/client"), db;
@@ -216,14 +255,14 @@ var loader3 = async () => {
   return (0, import_node2.json)(data);
 };
 function Index2() {
-  let data = (0, import_react4.useLoaderData)();
+  let data = (0, import_react5.useLoaderData)();
   return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h2", null, "Ejemplo"), /* @__PURE__ */ React.createElement("p", null, "Total: ", data.length), /* @__PURE__ */ React.createElement("ul", null, data.map((q, index) => /* @__PURE__ */ React.createElement("li", {
     key: index
   }, q.name))));
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { version: "f74259bc", entry: { module: "/build/entry.client-PFFY4HSH.js", imports: ["/build/_shared/chunk-NFY4WJ4J.js", "/build/_shared/chunk-BNRLY3XL.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-QLBEFI2F.js", imports: ["/build/_shared/chunk-A563IWXS.js", "/build/_shared/chunk-EOBL3LET.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-ZK263GTL.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/me/$": { id: "routes/me/$", parentId: "root", path: "me/*", index: void 0, caseSensitive: void 0, module: "/build/routes/me/$-6QMGUUIZ.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/privado": { id: "routes/privado", parentId: "root", path: "privado", index: void 0, caseSensitive: void 0, module: "/build/routes/privado-3DBG7N5X.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-in/$": { id: "routes/sign-in/$", parentId: "root", path: "sign-in/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-in/$-GCCGMX6R.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-up/$": { id: "routes/sign-up/$", parentId: "root", path: "sign-up/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-up/$-HHKKTIGO.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/uno": { id: "routes/uno", parentId: "root", path: "uno", index: void 0, caseSensitive: void 0, module: "/build/routes/uno-L5MZA2SK.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-F74259BC.js" };
+var assets_manifest_default = { version: "f75a7f33", entry: { module: "/build/entry.client-XHDAV7MW.js", imports: ["/build/_shared/chunk-W36UGD4O.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-UE6XDHB2.js", imports: ["/build/_shared/chunk-KUUVOK2M.js", "/build/_shared/chunk-ML6ZC2AK.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-XUXOCPFF.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/me/$": { id: "routes/me/$", parentId: "root", path: "me/*", index: void 0, caseSensitive: void 0, module: "/build/routes/me/$-D5NKORD2.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/privado": { id: "routes/privado", parentId: "root", path: "privado", index: void 0, caseSensitive: void 0, module: "/build/routes/privado-BX6YEWOS.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-in/$": { id: "routes/sign-in/$", parentId: "root", path: "sign-in/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-in/$-K253C3NT.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-up/$": { id: "routes/sign-up/$", parentId: "root", path: "sign-up/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-up/$-HKVYQMLU.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/uno": { id: "routes/uno", parentId: "root", path: "uno", index: void 0, caseSensitive: void 0, module: "/build/routes/uno-VOL5G47R.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-F75A7F33.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var entry = { module: entry_server_exports }, routes = {
