@@ -1,8 +1,6 @@
 import { useNavigate } from "@remix-run/react";
-import { ChangeEvent, useState, useEffect } from "react";
-
-type InputEvent = React.ChangeEvent<HTMLInputElement>;
-type FormEvent = React.ChangeEvent<HTMLFormElement>;
+import { useState, useEffect } from "react";
+import type { FormEvent, InputEvent } from "~/types/event";
 
 export function CreateForm() {
 
@@ -10,7 +8,7 @@ export function CreateForm() {
     const [path, setPath] = useState('');
 
     useEffect(() => {
-        setPath(`/questionnaire/create?name=${name}`);
+        setPath(`/questionnaire/create?questionnarie=${name}`);
     }, [name]);
 
     const navigate = useNavigate();

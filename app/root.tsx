@@ -13,6 +13,7 @@ import { ClerkApp } from "@clerk/remix";
 import { ClerkCatchBoundary } from "@clerk/remix";
 
 import styles from "./styles/app.css";
+import { Navbar } from "./components/navbar";
 
 export const CatchBoundary = ClerkCatchBoundary();
 
@@ -39,7 +40,10 @@ function App() {
         <Links />
       </head>
       <body className="bg-white text-black min-h-full">
-        <Outlet />
+        <Navbar />
+        <div className="mt-20">
+          <Outlet />
+        </div>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

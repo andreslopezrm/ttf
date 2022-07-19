@@ -1,7 +1,7 @@
 export function HomeOut() {
     return (
         <>
-            <section className="mt-32 md:mt-52">
+            <section className="">
                 <div className="container m-0 mx-auto p-8 md:p-16">
                     <h1 className="text-6xl text-zinc-900 font-extrabold md:text-8xl"><span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Ten True or False</span> the new age questions for developers</h1>
                     <p className="mt-8 text-2xl text-gray-600 font-extralight md:text-3xl md:w-9/12 md:mt-12">Create easily and simply questionnaires that help other developers to improve their knowledge and share your results with others</p>
