@@ -66,7 +66,7 @@ export const action: ActionFunction = async ({ request }) => {
     return json({ name, id: questionnarie.id, questions: questions.count  });
 };
 
-export default function QuestionnaireCreate() {
+export default function QuestionnairePageCreate() {
     const { state } = useTransition();
     const { questionnarie, categories } = useLoaderData<LoaderTypeData>();
 
