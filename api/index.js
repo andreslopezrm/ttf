@@ -54,7 +54,7 @@ __export(root_exports, {
 var import_react4 = require("@remix-run/react"), import_ssr = require("@clerk/remix/ssr.server"), import_remix2 = require("@clerk/remix"), import_remix3 = require("@clerk/remix");
 
 // app/styles/app.css
-var app_default = "/build/_assets/app-GDOF72P4.css";
+var app_default = "/build/_assets/app-XALKCACJ.css";
 
 // app/components/navbar.tsx
 var import_remix = require("@clerk/remix"), import_react2 = require("@remix-run/react"), import_react3 = require("react");
@@ -84,7 +84,7 @@ function Navbar() {
     onClick: async () => {
       setIsDisabled(!0), await signOut(), setIsDisabled(!1), window.location.href = "/";
     },
-    className: "bg-black text-white rounded px-4 py-2 border border-solid border-black hover:bg-white hover:text-black disabled:bg-gray-400 disabled:border-gray-400 disabled:text-gray-700"
+    className: "rounded px-4 py-2 border border-solid border-black bg-white text-black disabled:bg-gray-400 disabled:border-gray-400 disabled:text-gray-700"
   }, "Sign out"))), /* @__PURE__ */ React.createElement(import_remix.SignedOut, null, /* @__PURE__ */ React.createElement("div", {
     className: "mr-4 flex gap-6 text-sm items-center"
   }, /* @__PURE__ */ React.createElement(import_react2.Link, {
@@ -131,18 +131,18 @@ var import_client = require("@prisma/client"), db;
 global.__db || (global.__db = new import_client.PrismaClient()), db = global.__db;
 
 // route:/Users/andres/Documents/Github/ttf/app/routes/questionnaire/create.tsx
-var loader2 = async ({ request }) => {
+var questionsKeyList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], loader2 = async ({ request }) => {
   let { userId } = await (0, import_ssr2.getAuth)(request);
   if (!userId)
     return (0, import_node.redirect)(`${process.env.CLERK_REDIRECT_LOGIN}?redirect_url=${request.url}`);
-  let questionnarie = new URL(request.url).searchParams.get("questionnarie");
-  return { userId, questionnarie };
+  let questionnarie = new URL(request.url).searchParams.get("questionnarie"), categories = await db.category.findMany();
+  return { userId, questionnarie, categories };
 }, action = async ({ request }) => {
   var _a;
   let { userId } = await (0, import_ssr2.getAuth)(request);
   if (!userId)
     return (0, import_node.redirect)(`${process.env.CLERK_REDIRECT_LOGIN}?redirect_url=${request.url}`);
-  let formData = await request.formData(), name = ((_a = formData.get("name")) == null ? void 0 : _a.toString()) ?? "", questionsKeyList = [1, 2, 3], categoryId = "21ffc43c-f3f1-4ed6-b1e5-24666584efe9", questionnarie = await db.questionnaire.create({
+  let formData = await request.formData(), name = ((_a = formData.get("name")) == null ? void 0 : _a.toString()) ?? "", categoryId = "21ffc43c-f3f1-4ed6-b1e5-24666584efe9", questionnarie = await db.questionnaire.create({
     data: {
       name,
       categoryId,
@@ -161,8 +161,8 @@ var loader2 = async ({ request }) => {
   return (0, import_node.json)({ name, id: questionnarie.id, questions: questions.count });
 };
 function QuestionnaireCreate() {
-  let transition = (0, import_react5.useTransition)(), { questionnarie } = (0, import_react5.useLoaderData)(), data = (0, import_react5.useActionData)();
-  return console.log(data), /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", {
+  let { state } = (0, import_react5.useTransition)(), { questionnarie, categories } = (0, import_react5.useLoaderData)();
+  return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", {
     className: "container m-0 mx-auto"
   }, /* @__PURE__ */ React.createElement("div", {
     className: "px-8"
@@ -170,7 +170,7 @@ function QuestionnaireCreate() {
     method: "post",
     className: "flex flex-col md:w-8/12"
   }, /* @__PURE__ */ React.createElement("label", {
-    className: "block text-gray-700 text-xl font-bold mb-2",
+    className: "block text-gray-900 text-2xl font-extrabold mb-2",
     htmlFor: "name"
   }, "Questionnarie Name"), /* @__PURE__ */ React.createElement("input", {
     defaultValue: questionnarie,
@@ -182,122 +182,63 @@ function QuestionnaireCreate() {
     placeholder: "name"
   }), /* @__PURE__ */ React.createElement("p", {
     className: "mt-8"
-  }, "Enter 10 questions each with a true or false answer, can be a combination of true/false or all true or all false"), /* @__PURE__ */ React.createElement("div", {
-    className: "mt-8"
+  }, "Enter 10 questions each with a true or false answer, can be a combination of true/false or all true or all false"), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", {
+    htmlFor: "categoryId",
+    className: "block text-gray-700 text-sm font-bold mb-2"
+  }, "Category"), /* @__PURE__ */ React.createElement("select", {
+    required: !0,
+    name: "categoryId",
+    id: "categoryId",
+    className: "bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+  }, /* @__PURE__ */ React.createElement("option", {
+    value: ""
+  }, "- Select an option - "), categories.map(({ id, name }) => /* @__PURE__ */ React.createElement("option", {
+    key: id,
+    value: id
+  }, name)))), questionsKeyList.map((questionKey) => /* @__PURE__ */ React.createElement("div", {
+    className: "mt-8",
+    key: questionKey
   }, /* @__PURE__ */ React.createElement("label", {
     className: "block text-gray-700 text-sm font-bold mb-2",
-    htmlFor: "question-1-description"
-  }, "Question 1"), /* @__PURE__ */ React.createElement("input", {
+    htmlFor: `question-${questionKey}-description`
+  }, "Question ", questionKey), /* @__PURE__ */ React.createElement("input", {
     required: !0,
     className: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
-    id: "question-1-description",
-    name: "question-1-description",
+    id: `question-${questionKey}-description`,
+    name: `question-${questionKey}-description`,
     type: "text",
-    placeholder: "Question 1"
+    placeholder: `Question ${questionKey}`
   }), /* @__PURE__ */ React.createElement("div", {
     className: "mt-4 flex gap-6"
   }, /* @__PURE__ */ React.createElement("div", {
     className: "flex items-center"
   }, /* @__PURE__ */ React.createElement("input", {
-    id: "question-1-answer-true",
+    id: `question-${questionKey}-answer-true`,
     value: "true",
-    name: "question-1-answer",
+    name: `question-${questionKey}-answer`,
     type: "radio",
     className: "focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
   }), /* @__PURE__ */ React.createElement("label", {
-    htmlFor: "question-1-answer-true",
+    htmlFor: `question-${questionKey}-answer-true`,
     className: "cursor-pointer ml-3 block text-sm font-medium text-gray-700"
   }, "True")), /* @__PURE__ */ React.createElement("div", {
     className: "flex items-center"
   }, /* @__PURE__ */ React.createElement("input", {
-    id: "question-1-answer-false",
+    id: `question-${questionKey}-answer-false`,
     defaultChecked: !0,
     value: "false",
-    name: "question-1-answer",
+    name: `question-${questionKey}-answer`,
     type: "radio",
     className: "focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
   }), /* @__PURE__ */ React.createElement("label", {
-    htmlFor: "question-1-answer-false",
+    htmlFor: `question-${questionKey}-answer-false`,
     className: "cursor-pointer ml-3 block text-sm font-medium text-gray-700"
-  }, "False")))), /* @__PURE__ */ React.createElement("div", {
-    className: "mt-12"
-  }, /* @__PURE__ */ React.createElement("label", {
-    className: "block text-gray-700 text-sm font-bold mb-2",
-    htmlFor: "question-2-description"
-  }, "Question 2"), /* @__PURE__ */ React.createElement("input", {
-    required: !0,
-    className: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
-    id: "question-2-description",
-    name: "question-2-description",
-    type: "text",
-    placeholder: "Question 2"
-  }), /* @__PURE__ */ React.createElement("div", {
-    className: "mt-4 flex gap-6"
-  }, /* @__PURE__ */ React.createElement("div", {
-    className: "flex items-center"
-  }, /* @__PURE__ */ React.createElement("input", {
-    id: "question-2-answer-true",
-    value: "true",
-    name: "question-2-answer",
-    type: "radio",
-    className: "focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-  }), /* @__PURE__ */ React.createElement("label", {
-    htmlFor: "question-2-answer-true",
-    className: "cursor-pointer ml-3 block text-sm font-medium text-gray-700"
-  }, "True")), /* @__PURE__ */ React.createElement("div", {
-    className: "flex items-center"
-  }, /* @__PURE__ */ React.createElement("input", {
-    id: "question-2-answer-false",
-    defaultChecked: !0,
-    value: "false",
-    name: "question-2-answer",
-    type: "radio",
-    className: "focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-  }), /* @__PURE__ */ React.createElement("label", {
-    htmlFor: "question-2-answer-false",
-    className: "cursor-pointer ml-3 block text-sm font-medium text-gray-700"
-  }, "False")))), /* @__PURE__ */ React.createElement("div", {
-    className: "mt-12"
-  }, /* @__PURE__ */ React.createElement("label", {
-    className: "block text-gray-700 text-sm font-bold mb-2",
-    htmlFor: "question-3-description"
-  }, "Question 3"), /* @__PURE__ */ React.createElement("input", {
-    required: !0,
-    className: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline",
-    id: "question-3-description",
-    name: "question-3-description",
-    type: "text",
-    placeholder: "Question 3"
-  }), /* @__PURE__ */ React.createElement("div", {
-    className: "mt-4 flex gap-6"
-  }, /* @__PURE__ */ React.createElement("div", {
-    className: "flex items-center"
-  }, /* @__PURE__ */ React.createElement("input", {
-    id: "question-3-answer-true",
-    value: "true",
-    name: "question-3-answer",
-    type: "radio",
-    className: "focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-  }), /* @__PURE__ */ React.createElement("label", {
-    htmlFor: "question-3-answer-true",
-    className: "cursor-pointer ml-3 block text-sm font-medium text-gray-700"
-  }, "True")), /* @__PURE__ */ React.createElement("div", {
-    className: "flex items-center"
-  }, /* @__PURE__ */ React.createElement("input", {
-    id: "question-3-answer-false",
-    defaultChecked: !0,
-    value: "false",
-    name: "question-3-answer",
-    type: "radio",
-    className: "focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
-  }), /* @__PURE__ */ React.createElement("label", {
-    htmlFor: "question-3-answer-false",
-    className: "cursor-pointer ml-3 block text-sm font-medium text-gray-700"
-  }, "False")))), /* @__PURE__ */ React.createElement("div", {
+  }, "False"))))), /* @__PURE__ */ React.createElement("div", {
     className: "mt-8"
   }, /* @__PURE__ */ React.createElement("button", {
+    disabled: state === "submitting",
     type: "submit",
-    className: "text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-xl px-5 py-2.5 text-center mr-2 mb-2"
+    className: "cursor-pointer text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-xl px-5 py-2.5 text-center mr-2 mb-2 disabled:opacity-20"
   }, "Save"))))));
 }
 
@@ -491,7 +432,7 @@ function Index2() {
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { version: "3013e201", entry: { module: "/build/entry.client-637DL6UL.js", imports: ["/build/_shared/chunk-5MF7F7N7.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-A5KW6Q6K.js", imports: ["/build/_shared/chunk-TZT65SKO.js", "/build/_shared/chunk-7ULR6U5J.js", "/build/_shared/chunk-2GEXV7HX.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-4U6BSKYW.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/me/$": { id: "routes/me/$", parentId: "root", path: "me/*", index: void 0, caseSensitive: void 0, module: "/build/routes/me/$-O4CTRK3L.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/privado": { id: "routes/privado", parentId: "root", path: "privado", index: void 0, caseSensitive: void 0, module: "/build/routes/privado-IQXED3J2.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/create": { id: "routes/questionnaire/create", parentId: "root", path: "questionnaire/create", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/create-TQNWGF52.js", imports: ["/build/_shared/chunk-YWJKQFH7.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-in/$": { id: "routes/sign-in/$", parentId: "root", path: "sign-in/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-in/$-FNUFPZP4.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-up/$": { id: "routes/sign-up/$", parentId: "root", path: "sign-up/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-up/$-6P2NIIDY.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/uno": { id: "routes/uno", parentId: "root", path: "uno", index: void 0, caseSensitive: void 0, module: "/build/routes/uno-PS5FDIWF.js", imports: ["/build/_shared/chunk-YWJKQFH7.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-3013E201.js" };
+var assets_manifest_default = { version: "cc0ddaac", entry: { module: "/build/entry.client-DNW2O5WR.js", imports: ["/build/_shared/chunk-FSOWSPSN.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-MWCHEDLG.js", imports: ["/build/_shared/chunk-HAMLPOBF.js", "/build/_shared/chunk-D27OGKK2.js", "/build/_shared/chunk-DTHRHCWQ.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-M3KA75DS.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/me/$": { id: "routes/me/$", parentId: "root", path: "me/*", index: void 0, caseSensitive: void 0, module: "/build/routes/me/$-6MXU3GXU.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/privado": { id: "routes/privado", parentId: "root", path: "privado", index: void 0, caseSensitive: void 0, module: "/build/routes/privado-URNCU4HH.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/create": { id: "routes/questionnaire/create", parentId: "root", path: "questionnaire/create", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/create-FL6G3QT6.js", imports: ["/build/_shared/chunk-QGJ43WGZ.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-in/$": { id: "routes/sign-in/$", parentId: "root", path: "sign-in/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-in/$-TVKNI73T.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-up/$": { id: "routes/sign-up/$", parentId: "root", path: "sign-up/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-up/$-VIEZ37IZ.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/uno": { id: "routes/uno", parentId: "root", path: "uno", index: void 0, caseSensitive: void 0, module: "/build/routes/uno-SEZ6BKFR.js", imports: ["/build/_shared/chunk-QGJ43WGZ.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-CC0DDAAC.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var entry = { module: entry_server_exports }, routes = {

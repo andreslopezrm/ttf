@@ -31,7 +31,7 @@ export function Navbar() {
             <SignedIn>
                 <div className="mr-4 flex gap-6 text-sm items-center">
                     <Link to="me" className="text-slate-600">Perfil</Link>
-                    <button disabled={isDisabled} onClick={handleOnExitSession} className="bg-black text-white rounded px-4 py-2 border border-solid border-black hover:bg-white hover:text-black disabled:bg-gray-400 disabled:border-gray-400 disabled:text-gray-700">Sign out</button>
+                    <button disabled={isDisabled} onClick={handleOnExitSession} className="rounded px-4 py-2 border border-solid border-black bg-white text-black disabled:bg-gray-400 disabled:border-gray-400 disabled:text-gray-700">Sign out</button>
                 </div>
             </SignedIn>
             <SignedOut>
