@@ -146,11 +146,11 @@ var questionsKeyList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], loader2 = async ({ reque
   let questionnarie = new URL(request.url).searchParams.get("questionnarie"), categories = await db.category.findMany();
   return { userId, questionnarie, categories };
 }, action = async ({ request }) => {
-  var _a;
+  var _a, _b;
   let { userId } = await (0, import_ssr2.getAuth)(request);
   if (!userId)
     return (0, import_node.redirect)(`${process.env.CLERK_REDIRECT_LOGIN}?redirect_url=${request.url}`);
-  let formData = await request.formData(), name = ((_a = formData.get("name")) == null ? void 0 : _a.toString()) ?? "", categoryId = "21ffc43c-f3f1-4ed6-b1e5-24666584efe9", questionnarie = await db.questionnaire.create({
+  let formData = await request.formData(), name = ((_a = formData.get("name")) == null ? void 0 : _a.toString()) ?? "", categoryId = ((_b = formData.get("categoryId")) == null ? void 0 : _b.toString()) ?? "", questionnarie = await db.questionnaire.create({
     data: {
       name,
       categoryId,
@@ -165,8 +165,8 @@ var questionsKeyList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], loader2 = async ({ reque
       answer,
       questionnaireId: questionnarie.id
     };
-  }), questions = await db.question.createMany({ data: questionsData });
-  return (0, import_node.json)({ name, id: questionnarie.id, questions: questions.count });
+  });
+  return await db.question.createMany({ data: questionsData }), (0, import_node.redirect)("/questionnaire/owner");
 };
 function QuestionnairePageCreate() {
   let { state } = (0, import_react5.useTransition)(), { questionnarie, categories } = (0, import_react5.useLoaderData)();
@@ -178,7 +178,7 @@ function QuestionnairePageCreate() {
     method: "post",
     className: "flex flex-col md:w-8/12"
   }, /* @__PURE__ */ React.createElement("label", {
-    className: "block text-gray-900 text-2xl font-extrabold mb-2",
+    className: "block text-gray-900 text-3xl font-extrabold mb-4",
     htmlFor: "name"
   }, "Questionnarie Name"), /* @__PURE__ */ React.createElement("input", {
     defaultValue: questionnarie,
@@ -189,7 +189,7 @@ function QuestionnairePageCreate() {
     type: "text",
     placeholder: "name"
   }), /* @__PURE__ */ React.createElement("p", {
-    className: "mt-8"
+    className: "mt-8 mb-4"
   }, "Enter 10 questions each with a true or false answer, can be a combination of true/false or all true or all false"), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", {
     htmlFor: "categoryId",
     className: "block text-gray-700 text-sm font-bold mb-2"
@@ -256,7 +256,7 @@ __export(owner_exports, {
   default: () => QuestionnarieOwnerPage,
   loader: () => loader3
 });
-var import_ssr3 = require("@clerk/remix/ssr.server"), import_node2 = require("@remix-run/node"), import_react6 = require("@remix-run/react");
+var import_ssr3 = require("@clerk/remix/ssr.server"), import_node2 = require("@remix-run/node"), import_dayjs = __toESM(require("dayjs")), import_react6 = require("@remix-run/react");
 
 // app/utils/params.server.ts
 function getQueryIntParameter(request, name, defaultValue) {
@@ -269,24 +269,28 @@ var loader3 = async ({ request }) => {
   let { userId } = await (0, import_ssr3.getAuth)(request);
   if (!userId)
     return (0, import_node2.redirect)(`${process.env.CLERK_REDIRECT_LOGIN}?redirect_url=${request.url}`);
-  let take = getQueryIntParameter(request, "per_page", 2), skip = getQueryIntParameter(request, "offset", 0);
-  return { questionnaries: await db.questionnaire.findMany({
+  let take = getQueryIntParameter(request, "per_page", 2), skip = getQueryIntParameter(request, "offset", 0), totalQuery = await db.questionnaire.count({
+    where: {
+      userId
+    }
+  }), questionnariesQuery = await db.questionnaire.findMany({
     skip,
     take,
     where: {
       userId
     },
-    include: {
-      category: !0
-    },
     orderBy: {
       createdAt: "desc"
+    },
+    include: {
+      category: !0
     }
-  }) };
+  }), [total, questionnaries] = await Promise.all([totalQuery, questionnariesQuery]);
+  return { total, questionnaries };
 };
 function QuestionnarieOwnerPage() {
-  let { questionnaries } = (0, import_react6.useLoaderData)();
-  return console.log(questionnaries), /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", {
+  let { total, questionnaries } = (0, import_react6.useLoaderData)();
+  return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", {
     className: "container m-0 mx-auto"
   }, /* @__PURE__ */ React.createElement("div", {
     className: "px-8"
@@ -310,7 +314,28 @@ function QuestionnarieOwnerPage() {
   }, "Create At"), /* @__PURE__ */ React.createElement("th", {
     scope: "col",
     className: "py-3 px-6"
-  }, "Actions"))), /* @__PURE__ */ React.createElement("tbody", null))))));
+  }, "Actions"))), /* @__PURE__ */ React.createElement("tbody", null, questionnaries.map((questionnarie) => /* @__PURE__ */ React.createElement("tr", {
+    key: questionnarie.id,
+    className: "bg-white border-b"
+  }, /* @__PURE__ */ React.createElement("th", {
+    scope: "row",
+    className: "py-4 px-6 font-medium text-gray-900 whitespace-nowrap"
+  }, questionnarie.name), /* @__PURE__ */ React.createElement("td", {
+    className: "py-4 px-6"
+  }, questionnarie.category.name), /* @__PURE__ */ React.createElement("td", {
+    className: "py-4 px-6"
+  }, (0, import_dayjs.default)(questionnarie.createdAt).format("MMMM D, YYYY h:mm A")), /* @__PURE__ */ React.createElement("td", {
+    className: "py-4 px-6"
+  }, "-")))))))));
+}
+
+// route:/Users/andres/Documents/Github/ttf/app/routes/api/example.tsx
+var example_exports = {};
+__export(example_exports, {
+  loader: () => loader4
+});
+async function loader4() {
+  return { datos: "desde el loader" };
 }
 
 // route:/Users/andres/Documents/Github/ttf/app/routes/sign-in/$.tsx
@@ -347,9 +372,9 @@ function SignUpPage() {
 var privado_exports = {};
 __export(privado_exports, {
   default: () => Privado,
-  loader: () => loader4
+  loader: () => loader5
 });
-var import_ssr4 = require("@clerk/remix/ssr.server"), import_remix6 = require("@clerk/remix"), import_node3 = require("@remix-run/node"), import_react7 = require("@remix-run/react"), loader4 = async ({ request }) => {
+var import_ssr4 = require("@clerk/remix/ssr.server"), import_remix6 = require("@clerk/remix"), import_node3 = require("@remix-run/node"), import_react7 = require("@remix-run/react"), loader5 = async ({ request }) => {
   let { userId } = await (0, import_ssr4.getAuth)(request);
   return userId ? { userId } : (0, import_node3.redirect)(`${process.env.CLERK_REDIRECT_LOGIN}?redirect_url=${request.url}`);
 };
@@ -488,10 +513,10 @@ function MePage() {
 var uno_exports = {};
 __export(uno_exports, {
   default: () => Index2,
-  loader: () => loader5
+  loader: () => loader6
 });
 var import_node4 = require("@remix-run/node"), import_react10 = require("@remix-run/react");
-var loader5 = async () => {
+var loader6 = async () => {
   let data = await db.questionnaire.findMany();
   return (0, import_node4.json)(data);
 };
@@ -503,7 +528,7 @@ function Index2() {
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { version: "b75b350e", entry: { module: "/build/entry.client-VRGUGIDA.js", imports: ["/build/_shared/chunk-6DVABPHU.js", "/build/_shared/chunk-BNRLY3XL.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-GRWA5ORO.js", imports: ["/build/_shared/chunk-EK7WFTK5.js", "/build/_shared/chunk-A563IWXS.js", "/build/_shared/chunk-XEIQH75F.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-5ST5SHU4.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/me/$": { id: "routes/me/$", parentId: "root", path: "me/*", index: void 0, caseSensitive: void 0, module: "/build/routes/me/$-4QVGNMDG.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/privado": { id: "routes/privado", parentId: "root", path: "privado", index: void 0, caseSensitive: void 0, module: "/build/routes/privado-FXFLAK5I.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/create": { id: "routes/questionnaire/create", parentId: "root", path: "questionnaire/create", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/create-BHBNYXYE.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/owner": { id: "routes/questionnaire/owner", parentId: "root", path: "questionnaire/owner", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/owner-NEPCC4QQ.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/resolved": { id: "routes/questionnaire/resolved", parentId: "root", path: "questionnaire/resolved", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/resolved-OP3WHT6W.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-in/$": { id: "routes/sign-in/$", parentId: "root", path: "sign-in/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-in/$-3PLBKNBZ.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-up/$": { id: "routes/sign-up/$", parentId: "root", path: "sign-up/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-up/$-ZSMGRISJ.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/uno": { id: "routes/uno", parentId: "root", path: "uno", index: void 0, caseSensitive: void 0, module: "/build/routes/uno-WOGPDEDM.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-B75B350E.js" };
+var assets_manifest_default = { version: "28628b24", entry: { module: "/build/entry.client-VRGUGIDA.js", imports: ["/build/_shared/chunk-6DVABPHU.js", "/build/_shared/chunk-BNRLY3XL.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-GRWA5ORO.js", imports: ["/build/_shared/chunk-EK7WFTK5.js", "/build/_shared/chunk-A563IWXS.js", "/build/_shared/chunk-XEIQH75F.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !1 }, "routes/api/example": { id: "routes/api/example", parentId: "root", path: "api/example", index: void 0, caseSensitive: void 0, module: "/build/routes/api/example-X47OQW2K.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-5ST5SHU4.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/me/$": { id: "routes/me/$", parentId: "root", path: "me/*", index: void 0, caseSensitive: void 0, module: "/build/routes/me/$-4QVGNMDG.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/privado": { id: "routes/privado", parentId: "root", path: "privado", index: void 0, caseSensitive: void 0, module: "/build/routes/privado-FXFLAK5I.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/create": { id: "routes/questionnaire/create", parentId: "root", path: "questionnaire/create", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/create-L3REMQA2.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/owner": { id: "routes/questionnaire/owner", parentId: "root", path: "questionnaire/owner", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/owner-6DUJWRNQ.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/resolved": { id: "routes/questionnaire/resolved", parentId: "root", path: "questionnaire/resolved", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/resolved-OP3WHT6W.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-in/$": { id: "routes/sign-in/$", parentId: "root", path: "sign-in/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-in/$-3PLBKNBZ.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-up/$": { id: "routes/sign-up/$", parentId: "root", path: "sign-up/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-up/$-ZSMGRISJ.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/uno": { id: "routes/uno", parentId: "root", path: "uno", index: void 0, caseSensitive: void 0, module: "/build/routes/uno-WOGPDEDM.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-28628B24.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var entry = { module: entry_server_exports }, routes = {
@@ -538,6 +563,14 @@ var entry = { module: entry_server_exports }, routes = {
     index: void 0,
     caseSensitive: void 0,
     module: owner_exports
+  },
+  "routes/api/example": {
+    id: "routes/api/example",
+    parentId: "root",
+    path: "api/example",
+    index: void 0,
+    caseSensitive: void 0,
+    module: example_exports
   },
   "routes/sign-in/$": {
     id: "routes/sign-in/$",

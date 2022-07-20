@@ -1,12 +1,14 @@
 import { getAuth } from "@clerk/remix/ssr.server";
 import { Category, Questionnaire } from "@prisma/client";
 import { LoaderFunction, redirect } from "@remix-run/node";
+import dayjs from "dayjs";
 import { Link, useLoaderData } from "@remix-run/react";
 import { db } from "~/utils/db.server";
 import { getQueryIntParameter } from "~/utils/params.server";
 
 type LoaderTypeData = {
-    questionnaries: any
+    total: number;
+    questionnaries: (Questionnaire & { category: Category })[];
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -19,28 +21,34 @@ export const loader: LoaderFunction = async ({ request }) => {
     const take = getQueryIntParameter(request, "per_page", 2); 
     const skip = getQueryIntParameter(request, "offset", 0);
 
-    const questionnaries = await db.questionnaire.findMany({
+    const totalQuery = await db.questionnaire.count({
+        where: {
+            userId
+        }
+    });
+    
+    const questionnariesQuery =  await db.questionnaire.findMany({
         skip,
         take,
         where: {
             userId
         },
-        include: {
-            category: true
-        },
         orderBy: {
             createdAt: "desc"
         },
+        include: {
+            category: true
+        }
     });
 
-    return { questionnaries };
+    const [total, questionnaries] = await Promise.all([ totalQuery, questionnariesQuery ]);
+
+    return { total, questionnaries };
 }
 
 export default function QuestionnarieOwnerPage() {
 
-    const { questionnaries } = useLoaderData<LoaderTypeData>();
-
-    console.log(questionnaries)
+    const { total, questionnaries } = useLoaderData<LoaderTypeData>();
 
     return (
         <>
@@ -68,7 +76,7 @@ export default function QuestionnarieOwnerPage() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {/* { questionnaries.map(questionnarie: => (
+                                { questionnaries.map(questionnarie => (
                                     <tr key={questionnarie.id} className="bg-white border-b">
                                         <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
                                             {questionnarie.name}
@@ -77,16 +85,19 @@ export default function QuestionnarieOwnerPage() {
                                             {questionnarie.category.name}
                                         </td>
                                         <td className="py-4 px-6">
-                                            {questionnarie.createdAt}
+                                            {dayjs(questionnarie.createdAt).format("MMMM D, YYYY h:mm A")}
                                         </td>
                                         <td className="py-4 px-6">
                                             -
                                         </td>
                                     </tr>
-                                ))} */}
+                                ))}
                             </tbody>
                         </table>
                     </div>
+
+
+                    
 
                 </div>
             </div>

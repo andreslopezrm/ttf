@@ -1,6 +1,6 @@
 import { getAuth } from "@clerk/remix/ssr.server";
 import { Category } from "@prisma/client";
-import { LoaderFunction, redirect, ActionFunction, json } from "@remix-run/node";
+import { LoaderFunction, redirect, ActionFunction } from "@remix-run/node";
 import { Form, useLoaderData, useTransition } from "@remix-run/react";
 import { db } from "~/utils/db.server";
 
@@ -33,12 +33,8 @@ export const action: ActionFunction = async ({ request }) => {
     }
 
     const formData = await request.formData();
-  
     const name = formData.get("name")?.toString() ?? "";
-    
-
-    
-    const categoryId = "21ffc43c-f3f1-4ed6-b1e5-24666584efe9";
+    const categoryId = formData.get("categoryId")?.toString() ?? "";
 
     const questionnarie = await db.questionnaire.create({
         data: {
@@ -61,9 +57,9 @@ export const action: ActionFunction = async ({ request }) => {
         }
     });
 
-    const questions = await db.question.createMany({ data: questionsData });
+    await db.question.createMany({ data: questionsData });
 
-    return json({ name, id: questionnarie.id, questions: questions.count  });
+    return redirect("/questionnaire/owner");
 };
 
 export default function QuestionnairePageCreate() {
@@ -77,12 +73,12 @@ export default function QuestionnairePageCreate() {
                 <div className="px-8">
                     <Form method='post' className='flex flex-col md:w-8/12'>
                     
-                        <label className="block text-gray-900 text-2xl font-extrabold mb-2" htmlFor="name">
+                        <label className="block text-gray-900 text-3xl font-extrabold mb-4" htmlFor="name">
                             Questionnarie Name
                         </label>
                         <input defaultValue={questionnarie} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" name="name" type="text" placeholder="name" />
             
-                        <p className="mt-8">Enter 10 questions each with a true or false answer, can be a combination of true/false or all true or all false</p>
+                        <p className="mt-8 mb-4">Enter 10 questions each with a true or false answer, can be a combination of true/false or all true or all false</p>
 
                         <div>
                             <label htmlFor="categoryId" className="block text-gray-700 text-sm font-bold mb-2">Category</label>
