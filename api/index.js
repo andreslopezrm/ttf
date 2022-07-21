@@ -54,7 +54,7 @@ __export(root_exports, {
 var import_react4 = require("@remix-run/react"), import_ssr = require("@clerk/remix/ssr.server"), import_remix2 = require("@clerk/remix"), import_remix3 = require("@clerk/remix");
 
 // app/styles/app.css
-var app_default = "/build/_assets/app-LRUIU3VT.css";
+var app_default = "/build/_assets/app-4COEBGUR.css";
 
 // app/components/navbar.tsx
 var import_remix = require("@clerk/remix"), import_react2 = require("@remix-run/react"), import_react3 = require("react");
@@ -249,39 +249,36 @@ function QuestionnaireEdit() {
       type: "text",
       placeholder: `Question ${identifierNumber}`
     }), /* @__PURE__ */ React.createElement("div", {
-      className: "mt-4 flex gap-6"
-    }, /* @__PURE__ */ React.createElement("div", {
-      className: "flex items-center"
-    }, /* @__PURE__ */ React.createElement("input", {
+      className: "mt-6 flex gap-4"
+    }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("input", {
       id: `${name2}-answer-true`,
       defaultChecked: answer === !0,
       value: "true",
       name: `${name2}-answer`,
       type: "radio",
-      className: "focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+      className: "sr-only peer"
     }), /* @__PURE__ */ React.createElement("label", {
       htmlFor: `${name2}-answer-true`,
-      className: "cursor-pointer ml-3 block text-sm font-medium text-gray-700"
-    }, "True")), /* @__PURE__ */ React.createElement("div", {
-      className: "flex items-center"
-    }, /* @__PURE__ */ React.createElement("input", {
+      className: "cursor-pointer px-5 py-3 rounded-md text-slate-600 bg-gradient-to-br from-white to-white peer-checked:bg-gradient-to-br border-purple-500 border-solid border-2 peer-checked:from-purple-500 peer-checked:to-pink-500 peer-checked:text-white peer-checked:border-white"
+    }, "True")), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("input", {
       id: `${name2}-answer-false`,
       defaultChecked: answer === !1,
       value: "false",
       name: `${name2}-answer`,
       type: "radio",
-      className: "focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+      className: "sr-only peer"
     }), /* @__PURE__ */ React.createElement("label", {
       htmlFor: `${name2}-answer-false`,
-      className: "cursor-pointer ml-3 block text-sm font-medium text-gray-700"
+      className: "cursor-pointer px-5 py-3 rounded-md text-slate-600 bg-gradient-to-br from-white to-white peer-checked:bg-gradient-to-br border-purple-500 border-solid border-2 peer-checked:from-purple-500 peer-checked:to-pink-500 peer-checked:text-white peer-checked:border-white"
     }, "False"))));
   }), /* @__PURE__ */ React.createElement("div", {
-    className: "mt-8"
+    className: "mt-16 mb-32 flex justify-end"
   }, /* @__PURE__ */ React.createElement("button", {
     disabled: state === "submitting",
-    type: "submit",
-    className: "cursor-pointer text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-xl px-5 py-2.5 text-center mr-2 mb-2 disabled:opacity-20"
-  }, "Save")))));
+    className: "w-40 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 focus:ring-4 focus:outline-none focus:ring-red-100 disabled:opacity-40 disabled:pointer-events-none"
+  }, /* @__PURE__ */ React.createElement("span", {
+    className: "w-40 relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0 text-lg"
+  }, "Save ", state === "submitting" ? " ..." : ""))))));
 }
 
 // route:/Users/andres/Documents/Github/ttf/app/routes/questionnaire/resolved.tsx
@@ -350,7 +347,7 @@ function QuestionnairePageCreate() {
     type: "text",
     placeholder: "name"
   }), /* @__PURE__ */ React.createElement("p", {
-    className: "mt-8"
+    className: "mt-8 mb-4"
   }, "Enter 10 questions each with a true or false answer, can be a combination of true/false or all true or all false"), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", {
     htmlFor: "categoryId",
     className: "block text-gray-700 text-sm font-bold mb-2"
@@ -365,7 +362,7 @@ function QuestionnairePageCreate() {
     key: id,
     value: id
   }, name)))), questionsKeyList.map((questionKey) => /* @__PURE__ */ React.createElement("div", {
-    className: "mt-8",
+    className: "mt-8 mb-2",
     key: questionKey
   }, /* @__PURE__ */ React.createElement("label", {
     className: "block text-gray-700 text-sm font-bold mb-2",
@@ -378,37 +375,34 @@ function QuestionnairePageCreate() {
     type: "text",
     placeholder: `Question ${parseInt(questionKey, 10)}`
   }), /* @__PURE__ */ React.createElement("div", {
-    className: "mt-4 flex gap-6"
-  }, /* @__PURE__ */ React.createElement("div", {
-    className: "flex items-center"
-  }, /* @__PURE__ */ React.createElement("input", {
+    className: "mt-6 flex gap-4"
+  }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("input", {
     id: `question-${questionKey}-answer-true`,
     value: "true",
     name: `question-${questionKey}-answer`,
     type: "radio",
-    className: "focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+    className: "sr-only peer"
   }), /* @__PURE__ */ React.createElement("label", {
     htmlFor: `question-${questionKey}-answer-true`,
-    className: "cursor-pointer ml-3 block text-sm font-medium text-gray-700"
-  }, "True")), /* @__PURE__ */ React.createElement("div", {
-    className: "flex items-center"
-  }, /* @__PURE__ */ React.createElement("input", {
-    id: `question-${questionKey}-answer-false`,
+    className: "cursor-pointer px-5 py-3 rounded-md text-slate-600 bg-gradient-to-br from-white to-white peer-checked:bg-gradient-to-br border-purple-500 border-solid border-2 peer-checked:from-purple-500 peer-checked:to-pink-500 peer-checked:text-white peer-checked:border-white"
+  }, "True")), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("input", {
     defaultChecked: !0,
+    id: `question-${questionKey}-answer-false`,
     value: "false",
     name: `question-${questionKey}-answer`,
     type: "radio",
-    className: "focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+    className: "sr-only peer"
   }), /* @__PURE__ */ React.createElement("label", {
     htmlFor: `question-${questionKey}-answer-false`,
-    className: "cursor-pointer ml-3 block text-sm font-medium text-gray-700"
+    className: "cursor-pointer px-5 py-3 rounded-md text-slate-600 bg-gradient-to-br from-white to-white peer-checked:bg-gradient-to-br border-purple-500 border-solid border-2 peer-checked:from-purple-500 peer-checked:to-pink-500 peer-checked:text-white peer-checked:border-white"
   }, "False"))))), /* @__PURE__ */ React.createElement("div", {
-    className: "mt-8"
+    className: "mt-16 mb-32 flex justify-end"
   }, /* @__PURE__ */ React.createElement("button", {
     disabled: state === "submitting",
-    type: "submit",
-    className: "cursor-pointer text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-xl px-5 py-2.5 text-center mr-2 mb-2 disabled:opacity-20"
-  }, "Save"))))));
+    className: "w-40 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 focus:ring-4 focus:outline-none focus:ring-red-100 disabled:opacity-40 disabled:pointer-events-none"
+  }, /* @__PURE__ */ React.createElement("span", {
+    className: "w-40 relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0 text-lg"
+  }, "Save ", state === "submitting" ? " ..." : "")))))));
 }
 
 // route:/Users/andres/Documents/Github/ttf/app/routes/questionnaire/owner.tsx
@@ -716,7 +710,7 @@ function Index2() {
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { version: "22b1179a", entry: { module: "/build/entry.client-VRGUGIDA.js", imports: ["/build/_shared/chunk-6DVABPHU.js", "/build/_shared/chunk-BNRLY3XL.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-4LJDCE5W.js", imports: ["/build/_shared/chunk-EK7WFTK5.js", "/build/_shared/chunk-A563IWXS.js", "/build/_shared/chunk-XEIQH75F.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !1 }, "routes/404": { id: "routes/404", parentId: "root", path: "404", index: void 0, caseSensitive: void 0, module: "/build/routes/404-TJPSGBUX.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-5ST5SHU4.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/me/$": { id: "routes/me/$", parentId: "root", path: "me/*", index: void 0, caseSensitive: void 0, module: "/build/routes/me/$-4QVGNMDG.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/privado": { id: "routes/privado", parentId: "root", path: "privado", index: void 0, caseSensitive: void 0, module: "/build/routes/privado-FXFLAK5I.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/create": { id: "routes/questionnaire/create", parentId: "root", path: "questionnaire/create", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/create-7UN3BURD.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/edit/$questionnaireId": { id: "routes/questionnaire/edit/$questionnaireId", parentId: "root", path: "questionnaire/edit/:questionnaireId", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/edit/$questionnaireId-2N2UKUU2.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/owner": { id: "routes/questionnaire/owner", parentId: "root", path: "questionnaire/owner", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/owner-AJ4L4VWU.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/resolved": { id: "routes/questionnaire/resolved", parentId: "root", path: "questionnaire/resolved", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/resolved-OP3WHT6W.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-in/$": { id: "routes/sign-in/$", parentId: "root", path: "sign-in/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-in/$-3PLBKNBZ.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-up/$": { id: "routes/sign-up/$", parentId: "root", path: "sign-up/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-up/$-ZSMGRISJ.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/uno": { id: "routes/uno", parentId: "root", path: "uno", index: void 0, caseSensitive: void 0, module: "/build/routes/uno-WOGPDEDM.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-22B1179A.js" };
+var assets_manifest_default = { version: "1c9585f8", entry: { module: "/build/entry.client-VRGUGIDA.js", imports: ["/build/_shared/chunk-6DVABPHU.js", "/build/_shared/chunk-BNRLY3XL.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-CAOZKEAB.js", imports: ["/build/_shared/chunk-EK7WFTK5.js", "/build/_shared/chunk-A563IWXS.js", "/build/_shared/chunk-XEIQH75F.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !1 }, "routes/404": { id: "routes/404", parentId: "root", path: "404", index: void 0, caseSensitive: void 0, module: "/build/routes/404-TJPSGBUX.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-5ST5SHU4.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/me/$": { id: "routes/me/$", parentId: "root", path: "me/*", index: void 0, caseSensitive: void 0, module: "/build/routes/me/$-4QVGNMDG.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/privado": { id: "routes/privado", parentId: "root", path: "privado", index: void 0, caseSensitive: void 0, module: "/build/routes/privado-FXFLAK5I.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/create": { id: "routes/questionnaire/create", parentId: "root", path: "questionnaire/create", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/create-WHAKRSO4.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/edit/$questionnaireId": { id: "routes/questionnaire/edit/$questionnaireId", parentId: "root", path: "questionnaire/edit/:questionnaireId", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/edit/$questionnaireId-G7PX7DXR.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/owner": { id: "routes/questionnaire/owner", parentId: "root", path: "questionnaire/owner", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/owner-AJ4L4VWU.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/resolved": { id: "routes/questionnaire/resolved", parentId: "root", path: "questionnaire/resolved", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/resolved-OP3WHT6W.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-in/$": { id: "routes/sign-in/$", parentId: "root", path: "sign-in/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-in/$-3PLBKNBZ.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-up/$": { id: "routes/sign-up/$", parentId: "root", path: "sign-up/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-up/$-ZSMGRISJ.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/uno": { id: "routes/uno", parentId: "root", path: "uno", index: void 0, caseSensitive: void 0, module: "/build/routes/uno-WOGPDEDM.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-1C9585F8.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var entry = { module: entry_server_exports }, routes = {

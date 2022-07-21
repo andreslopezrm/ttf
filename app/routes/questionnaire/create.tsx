@@ -78,7 +78,7 @@ export default function QuestionnairePageCreate() {
                         </label>
                         <input defaultValue={questionnarie} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" name="name" type="text" placeholder="name" />
             
-                        <p className="mt-8">Enter 10 questions each with a true or false answer, can be a combination of true/false or all true or all false</p>
+                        <p className="mt-8 mb-4">Enter 10 questions each with a true or false answer, can be a combination of true/false or all true or all false</p>
 
                         <div>
                             <label htmlFor="categoryId" className="block text-gray-700 text-sm font-bold mb-2">Category</label>
@@ -92,23 +92,23 @@ export default function QuestionnairePageCreate() {
 
                         {
                             questionsKeyList.map(questionKey => (
-                                <div className="mt-8" key={questionKey}>
+                                <div className="mt-8 mb-2" key={questionKey}>
                                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={`question-${questionKey}-description`}>
                                         Question {parseInt(questionKey, 10)}
                                     </label>
                                     <input required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id={`question-${questionKey}-description`} name={`question-${questionKey}-description`} type="text" placeholder={`Question ${parseInt(questionKey, 10)}`} />
                                     
-                                    <div className="mt-4 flex gap-6">
-                                        <div className="flex items-center">
-                                            <input id={`question-${questionKey}-answer-true`} value="true" name={`question-${questionKey}-answer`} type="radio" className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300" />
-                                            <label htmlFor={`question-${questionKey}-answer-true`} className="cursor-pointer ml-3 block text-sm font-medium text-gray-700">
+                                    <div className="mt-6 flex gap-4">
+                                        <div>
+                                            <input id={`question-${questionKey}-answer-true`} value="true" name={`question-${questionKey}-answer`} type="radio" className="sr-only peer" />
+                                            <label htmlFor={`question-${questionKey}-answer-true`} className="cursor-pointer px-5 py-3 rounded-md text-slate-600 bg-gradient-to-br from-white to-white peer-checked:bg-gradient-to-br border-purple-500 border-solid border-2 peer-checked:from-purple-500 peer-checked:to-pink-500 peer-checked:text-white peer-checked:border-white">
                                                 True
                                             </label>
                                         </div>
 
-                                        <div className="flex items-center">
-                                            <input id={`question-${questionKey}-answer-false`} defaultChecked value="false" name={`question-${questionKey}-answer`} type="radio" className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300" />
-                                            <label htmlFor={`question-${questionKey}-answer-false`} className="cursor-pointer ml-3 block text-sm font-medium text-gray-700">
+                                        <div>
+                                            <input defaultChecked id={`question-${questionKey}-answer-false`} value="false" name={`question-${questionKey}-answer`} type="radio" className="sr-only peer" />
+                                            <label htmlFor={`question-${questionKey}-answer-false`} className="cursor-pointer px-5 py-3 rounded-md text-slate-600 bg-gradient-to-br from-white to-white peer-checked:bg-gradient-to-br border-purple-500 border-solid border-2 peer-checked:from-purple-500 peer-checked:to-pink-500 peer-checked:text-white peer-checked:border-white">
                                                 False
                                             </label>
                                         </div>
@@ -117,8 +117,12 @@ export default function QuestionnairePageCreate() {
                             ))
                         }
 
-                        <div className="mt-8">
-                            <button disabled={state === "submitting"} type="submit" className="cursor-pointer text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 dark:focus:ring-purple-800 font-medium rounded-lg text-xl px-5 py-2.5 text-center mr-2 mb-2 disabled:opacity-20">Save</button>
+                        <div className="mt-16 mb-32 flex justify-end">
+                            <button disabled={state === "submitting"} className="w-40 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 focus:ring-4 focus:outline-none focus:ring-red-100 disabled:opacity-40 disabled:pointer-events-none">
+                                <span className="w-40 relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0 text-lg">
+                                    Save {state === "submitting" ? " ..." : ""}
+                                </span>
+                            </button>
                         </div>
 
                     </Form>
