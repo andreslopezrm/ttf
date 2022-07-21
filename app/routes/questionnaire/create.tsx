@@ -4,7 +4,7 @@ import { LoaderFunction, redirect, ActionFunction } from "@remix-run/node";
 import { Form, useLoaderData, useTransition } from "@remix-run/react";
 import { db } from "~/utils/db.server";
 
-const questionsKeyList = [1,2,3,4,5,6,7,8,9,10];
+const questionsKeyList = ["01", "02","03","04","05", "06", "07", "08", "09","10"];
 
 type LoaderTypeData = {
     questionnarie: string;
@@ -73,12 +73,12 @@ export default function QuestionnairePageCreate() {
                 <div className="px-8">
                     <Form method='post' className='flex flex-col md:w-8/12'>
                     
-                        <label className="block text-gray-900 text-3xl font-extrabold mb-4" htmlFor="name">
+                        <label className="block text-gray-900 text-3xl font-extrabold mb-" htmlFor="name">
                             Questionnarie Name
                         </label>
                         <input defaultValue={questionnarie} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" name="name" type="text" placeholder="name" />
             
-                        <p className="mt-8 mb-4">Enter 10 questions each with a true or false answer, can be a combination of true/false or all true or all false</p>
+                        <p className="mt-8">Enter 10 questions each with a true or false answer, can be a combination of true/false or all true or all false</p>
 
                         <div>
                             <label htmlFor="categoryId" className="block text-gray-700 text-sm font-bold mb-2">Category</label>
@@ -94,9 +94,9 @@ export default function QuestionnairePageCreate() {
                             questionsKeyList.map(questionKey => (
                                 <div className="mt-8" key={questionKey}>
                                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={`question-${questionKey}-description`}>
-                                        Question {questionKey}
+                                        Question {parseInt(questionKey, 10)}
                                     </label>
-                                    <input required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id={`question-${questionKey}-description`} name={`question-${questionKey}-description`} type="text" placeholder={`Question ${questionKey}`} />
+                                    <input required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id={`question-${questionKey}-description`} name={`question-${questionKey}-description`} type="text" placeholder={`Question ${parseInt(questionKey, 10)}`} />
                                     
                                     <div className="mt-4 flex gap-6">
                                         <div className="flex items-center">

@@ -2,7 +2,7 @@ import { getAuth } from "@clerk/remix/ssr.server";
 import { Category, Questionnaire } from "@prisma/client";
 import { LoaderFunction, redirect } from "@remix-run/node";
 import dayjs from "dayjs";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useFetcher, useLoaderData } from "@remix-run/react";
 import { db } from "~/utils/db.server";
 import { getQueryIntParameter } from "~/utils/params.server";
 
@@ -49,6 +49,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function QuestionnarieOwnerPage() {
 
     const { total, questionnaries } = useLoaderData<LoaderTypeData>();
+    
 
     return (
         <>
@@ -88,17 +89,48 @@ export default function QuestionnarieOwnerPage() {
                                             {dayjs(questionnarie.createdAt).format("MMMM D, YYYY h:mm A")}
                                         </td>
                                         <td className="py-4 px-6">
-                                            -
+                                            <div className="flex">
+
+                                                {/* <button className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-purple-200">
+                                                    <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0">
+                                                        Edit
+                                                    </span>
+                                                </button> */}
+
+                                                <Link to={`/questionnaire/edit/${questionnarie.id}`} className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-purple-200">
+                                                    <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0">
+                                                        Edit
+                                                    </span>
+                                                </Link>
+
+                                                <button className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400  hover:from-pink-500 hover:to-orange-500 text-white focus:ring-4 focus:outline-none focus:ring-pink-200">
+                                                    <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md bg-opacity-0">
+                                                        Remove
+                                                    </span>
+                                                </button>
+
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                     </div>
-
-
                     
+                    <div className="mt-8 flex gap-4 justify-between">
+                        <button disabled className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 disabled:opacity-50 disabled:pointer-events-none disabled:from-slate-300 disabled:to-slate-400">
+                            <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0">
+                                Previous
+                            </span>
+                        </button>
 
+                        <button disabled className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 disabled:opacity-50 disabled:pointer-events-none disabled:from-slate-300 disabled:to-slate-400">
+                            <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0">
+                                Next
+                            </span>
+                        </button>
+
+                    </div>
                 </div>
             </div>
         </>
