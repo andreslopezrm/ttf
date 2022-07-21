@@ -120,9 +120,9 @@ export default function QuestionnaireEdit() {
         <div className="container m-0 mx-auto">
             <div className="px-8">
 
-                <Form method="post" className="flex flex-col md:w-8/12">
+                <Form method="post" className="flex flex-col md:w-8/12 md:m-0 md:mx-auto">
                         
-                        <label className="block text-gray-900 text-3xl font-extrabold mb-" htmlFor="name">
+                        <label className="block text-gray-900 text-3xl font-extrabold mb-4 mt-4" htmlFor="name">
                             Questionnarie Name
                         </label>
                         <input defaultValue={name} required className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" name="name" type="text" placeholder="name" />
