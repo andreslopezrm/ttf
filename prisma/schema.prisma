@@ -15,6 +15,7 @@ generator client {
 model Category {
   id              String            @default(uuid()) @id
   name            String            @unique
+  slug            String            @unique
   questionnaires  Questionnaire[]
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
