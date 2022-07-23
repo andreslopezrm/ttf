@@ -1,4 +1,6 @@
 import { Category } from "@prisma/client"
+import { Link } from "@remix-run/react";
+import { getGradientColor } from "~/utils/gradient";
 
 type Props = {
     categories: Category[]
@@ -6,12 +8,14 @@ type Props = {
 
 export function CategoryExplorer({ categories }: Props) {
     return (
-        <section className="mt-8">
-            <h4 className="font-bold text-xl">Explorer categories</h4>
-            <ul>
-                { categories.map(({ id, name }) => (
+        <section className="my-8">
+            <h4 className="font-bold text-xl mb-8">Explorer categories</h4>
+            <ul className="md:grid grid-cols-3 gap-8">
+                { categories.map(({ id, name, slug }, index) => (
                     <li key={id}>
-                        {name}
+                        <Link to={`/category/${slug}`} className={`text-white text-xl font-semibold py-16 flex justify-center items-center mb-8 rounded md:mb-0 md:text-2xl ${getGradientColor(index)}`}>
+                            {name}
+                        </Link>
                     </li>
                 ))}
             </ul>
