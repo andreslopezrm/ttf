@@ -1,0 +1,1 @@
+export const PER_PAGE_CATEGORY_QUESTIONNAIRES = 1;
