@@ -61,7 +61,7 @@ __export(root_exports, {
 var import_react4 = require("@remix-run/react"), import_ssr = require("@clerk/remix/ssr.server"), import_remix2 = require("@clerk/remix"), import_remix3 = require("@clerk/remix");
 
 // app/styles/app.css
-var app_default = "/build/_assets/app-ZXAS5ESL.css";
+var app_default = "/build/_assets/app-7HUVTU6L.css";
 
 // app/components/navbar.tsx
 var import_remix = require("@clerk/remix"), import_react2 = require("@remix-run/react"), import_react3 = require("react");
@@ -124,54 +124,21 @@ function App() {
 }
 var root_default = (0, import_remix2.ClerkApp)(App);
 
-// route:/Users/andres/Documents/Github/ttf/app/routes/api/category/$categoryId/questionnaires.ts
-var questionnaires_exports = {};
-__export(questionnaires_exports, {
-  loader: () => loader2
-});
-
-// app/utils/db.server.ts
-var import_client = require("@prisma/client"), db;
-global.__db || (global.__db = new import_client.PrismaClient()), db = global.__db;
-
-// app/utils/params.server.ts
-function getQueryIntParameter(request, name, defaultValue) {
-  let url = new URL(request.url), param = parseInt(url.searchParams.get(name) ?? "", 10);
-  return isNaN(param) ? defaultValue : param;
-}
-function getQueryStringParameter(request, name) {
-  return new URL(request.url).searchParams.get(name);
-}
-
-// route:/Users/andres/Documents/Github/ttf/app/routes/api/category/$categoryId/questionnaires.ts
-var loader2 = async ({ request, params }) => {
-  let { categoryId } = params, take = getQueryIntParameter(request, "per_page", 1), skip = getQueryIntParameter(request, "offset", 0), search = getQueryStringParameter(request, "search"), searchFilter = search != null ? {
-    name: {
-      contains: search
-    }
-  } : {};
-  return { questionnaires: await db.questionnaire.findMany({
-    skip,
-    take,
-    where: __spreadValues({
-      categoryId,
-      active: !0
-    }, searchFilter),
-    orderBy: {
-      createdAt: "desc"
-    }
-  }) };
-};
-
 // route:/Users/andres/Documents/Github/ttf/app/routes/questionnaire/edit/$questionnaireId.tsx
 var questionnaireId_exports = {};
 __export(questionnaireId_exports, {
   action: () => action,
   default: () => QuestionnaireEdit,
-  loader: () => loader3
+  loader: () => loader2
 });
 var import_ssr2 = require("@clerk/remix/ssr.server"), import_node = require("@remix-run/node"), import_react5 = require("@remix-run/react");
-var loader3 = async ({ request, params }) => {
+
+// app/utils/db.server.ts
+var import_client = require("@prisma/client"), db;
+global.__db || (global.__db = new import_client.PrismaClient()), db = global.__db;
+
+// route:/Users/andres/Documents/Github/ttf/app/routes/questionnaire/edit/$questionnaireId.tsx
+var loader2 = async ({ request, params }) => {
   let { userId } = await (0, import_ssr2.getAuth)(request);
   if (!userId)
     return (0, import_node.redirect)(`${process.env.CLERK_REDIRECT_LOGIN}?redirect_url=${request.url}`);
@@ -334,10 +301,10 @@ var create_exports = {};
 __export(create_exports, {
   action: () => action2,
   default: () => QuestionnairePageCreate,
-  loader: () => loader4
+  loader: () => loader3
 });
 var import_ssr3 = require("@clerk/remix/ssr.server"), import_node2 = require("@remix-run/node"), import_react6 = require("@remix-run/react");
-var questionsKeyList = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"], loader4 = async ({ request }) => {
+var questionsKeyList = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10"], loader3 = async ({ request }) => {
   let { userId } = await (0, import_ssr3.getAuth)(request);
   if (!userId)
     return (0, import_node2.redirect)(`${process.env.CLERK_REDIRECT_LOGIN}?redirect_url=${request.url}`);
@@ -449,10 +416,21 @@ function QuestionnairePageCreate() {
 var owner_exports = {};
 __export(owner_exports, {
   default: () => QuestionnarieOwnerPage,
-  loader: () => loader5
+  loader: () => loader4
 });
 var import_ssr4 = require("@clerk/remix/ssr.server"), import_node3 = require("@remix-run/node"), import_dayjs = __toESM(require("dayjs")), import_react7 = require("@remix-run/react");
-var loader5 = async ({ request }) => {
+
+// app/utils/params.server.ts
+function getQueryIntParameter(request, name, defaultValue) {
+  let url = new URL(request.url), param = parseInt(url.searchParams.get(name) ?? "", 10);
+  return isNaN(param) ? defaultValue : param;
+}
+function getQueryStringParameter(request, name) {
+  return new URL(request.url).searchParams.get(name);
+}
+
+// route:/Users/andres/Documents/Github/ttf/app/routes/questionnaire/owner.tsx
+var loader4 = async ({ request }) => {
   let { userId } = await (0, import_ssr4.getAuth)(request);
   if (!userId)
     return (0, import_node3.redirect)(`${process.env.CLERK_REDIRECT_LOGIN}?redirect_url=${request.url}`);
@@ -539,10 +517,34 @@ function QuestionnarieOwnerPage() {
   }, "Next"))))));
 }
 
+// route:/Users/andres/Documents/Github/ttf/app/routes/api/questionnaires.ts
+var questionnaires_exports = {};
+__export(questionnaires_exports, {
+  loader: () => loader5
+});
+var loader5 = async ({ request }) => {
+  let take = getQueryIntParameter(request, "per_page", 1), skip = getQueryIntParameter(request, "offset", 0), search = getQueryStringParameter(request, "search"), categoryId = getQueryStringParameter(request, "category_id"), filter = {
+    active: !0
+  };
+  categoryId && (filter.categoryId = categoryId), search && (filter.name = {
+    contains: search
+  });
+  let totalQuery = db.questionnaire.count({
+    where: __spreadValues({}, filter)
+  }), questionnairesQuery = db.questionnaire.findMany({
+    skip,
+    take,
+    where: __spreadValues({}, filter),
+    orderBy: {
+      createdAt: "desc"
+    }
+  }), [total, questionnaires] = await Promise.all([totalQuery, questionnairesQuery]);
+  return { take, skip, search, total, questionnaires };
+};
+
 // route:/Users/andres/Documents/Github/ttf/app/routes/category/$slug.tsx
 var slug_exports = {};
 __export(slug_exports, {
-  action: () => action3,
   default: () => CategoryPage,
   loader: () => loader6
 });
@@ -573,62 +575,48 @@ function CategoryQuestionnaireItem({ questionnaire, userId }) {
 }
 
 // route:/Users/andres/Documents/Github/ttf/app/routes/category/$slug.tsx
-var import_ssr5 = require("@clerk/remix/ssr.server");
-var loader6 = async ({ request, params }) => {
-  let { slug } = params, take = 1, skip = 0, category = await db.category.findFirst({
+var import_ssr5 = require("@clerk/remix/ssr.server"), loader6 = async ({ request, params }) => {
+  let { slug } = params, category = await db.category.findFirst({
     where: { slug }
   });
   if (!category)
     return (0, import_node4.redirect)("/404");
-  let { userId } = await (0, import_ssr5.getAuth)(request), { id: categoryId } = category, search = getQueryStringParameter(request, "search");
-  console.log("search", search);
-  let searchFilter = search != null ? {
-    name: {
-      contains: search
-    }
-  } : {}, totalQuery = db.questionnaire.count({
-    where: __spreadValues({
-      categoryId,
-      active: !0
-    }, searchFilter)
-  }), initialQuestionnairesQuery = db.questionnaire.findMany({
-    skip,
-    take,
-    where: __spreadValues({
-      categoryId,
-      active: !0
-    }, searchFilter),
-    orderBy: {
-      createdAt: "desc"
-    }
-  }), [total, initialQuestionnaires] = await Promise.all([totalQuery, initialQuestionnairesQuery]);
-  return { slug, category, total, initialQuestionnaires, userId };
-}, action3 = async ({ request }) => {
-  let search = (await request.formData()).get("search") ?? "";
-  return (0, import_node4.redirect)(`/category/design/?search=${search}`);
+  let { userId } = await (0, import_ssr5.getAuth)(request);
+  return { slug, category, userId };
 };
 function CategoryPage() {
-  let { category, initialQuestionnaires, total, userId } = (0, import_react9.useLoaderData)(), [questionnaires, setQuestionnaires] = (0, import_react8.useState)(initialQuestionnaires), [offset, setOffset] = (0, import_react8.useState)(0), { name, id: categoryId } = category, fetcher = (0, import_react9.useFetcher)();
-  (0, import_react8.useEffect)(() => {
+  var _a;
+  let { category, userId } = (0, import_react9.useLoaderData)(), [questionnaires, setQuestionnaires] = (0, import_react8.useState)([]), [offset, setOffset] = (0, import_react8.useState)(0), [search, setSeach] = (0, import_react8.useState)(""), { name, id: categoryId } = category, fetcher = (0, import_react9.useFetcher)();
+  (0, import_react8.useEffect)(() => load(), []), (0, import_react8.useEffect)(() => {
     if (!fetcher.data)
       return;
-    let { questionnaires: newQuestionnaires } = fetcher.data;
-    setQuestionnaires([...questionnaires, ...newQuestionnaires]);
-  }, [fetcher.data]);
+    let { skip, questionnaires: paginQuestionnaires } = fetcher.data;
+    setQuestionnaires(skip === 0 ? paginQuestionnaires : [...questionnaires, ...paginQuestionnaires]);
+  }, [fetcher.data]), (0, import_react8.useEffect)(() => {
+    search === "" && obtaintWithResetOffset();
+  }, [search]);
   let handleOnMore = () => {
-    let newOffset = offset + 1;
-    fetcher.load(`/api/category/${categoryId}/questionnaires?offset=${newOffset}&per_page=${1}`), setOffset(newOffset);
+    let offsetMore = offset + 1;
+    load(offsetMore), setOffset(offsetMore);
+  }, handleOnChageSearch = (event) => setSeach(event.target.value), handleOnSearch = (event) => {
+    event.preventDefault(), obtaintWithResetOffset();
+  }, load = (currenOffset = 0) => {
+    let params = new URLSearchParams();
+    params.append("categoryId", categoryId), params.append("offset", currenOffset.toString()), params.append("search", search), fetcher.load(`/api/questionnaires?${params.toString()}`);
+  }, obtaintWithResetOffset = () => {
+    load(0), setOffset(0);
   };
   return /* @__PURE__ */ React.createElement("section", {
     className: "container m-0 mx-auto"
   }, /* @__PURE__ */ React.createElement("div", {
     className: "px-8"
-  }, /* @__PURE__ */ React.createElement(import_react9.Form, {
-    method: "post",
+  }, /* @__PURE__ */ React.createElement("div", {
     className: "md:flex md:justify-between md:items-center"
   }, /* @__PURE__ */ React.createElement("h1", {
     className: "mt-12 text-3xl mb-8 font-extrabold"
-  }, "Category: ", name), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", {
+  }, "Category: ", name), /* @__PURE__ */ React.createElement("form", {
+    onSubmit: handleOnSearch
+  }, /* @__PURE__ */ React.createElement("label", {
     htmlFor: "search",
     className: "mb-2 text-sm font-medium text-gray-900 sr-only"
   }, "Search"), /* @__PURE__ */ React.createElement("div", {
@@ -653,10 +641,11 @@ function CategoryPage() {
     name: "search",
     className: "block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500",
     placeholder: "Search...",
-    required: !0
+    required: !0,
+    onChange: handleOnChageSearch
   }), /* @__PURE__ */ React.createElement("button", {
     type: "submit",
-    className: "text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
+    className: "text-white absolute right-2.5 bottom-2.5 bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-2"
   }, "Search")))), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", {
     className: "overflow-x-auto relative"
   }, /* @__PURE__ */ React.createElement("table", {
@@ -675,7 +664,7 @@ function CategoryPage() {
     userId
   }))))), /* @__PURE__ */ React.createElement("div", {
     className: "mt-8"
-  }, questionnaires.length < total ? /* @__PURE__ */ React.createElement("button", {
+  }, questionnaires.length < ((_a = fetcher == null ? void 0 : fetcher.data) == null ? void 0 : _a.total) ? /* @__PURE__ */ React.createElement("button", {
     disabled: fetcher.state === "submitting",
     type: "submit",
     onClick: handleOnMore,
@@ -897,7 +886,7 @@ function NotFound() {
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { version: "9f3007d3", entry: { module: "/build/entry.client-DWJGSBWK.js", imports: ["/build/_shared/chunk-5AUMOSJV.js", "/build/_shared/chunk-BNRLY3XL.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-6CVUOW24.js", imports: ["/build/_shared/chunk-MEULKKRS.js", "/build/_shared/chunk-4Y5SH57R.js", "/build/_shared/chunk-A563IWXS.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !1 }, "routes/404": { id: "routes/404", parentId: "root", path: "404", index: void 0, caseSensitive: void 0, module: "/build/routes/404-TJPSGBUX.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/api/category/$categoryId/questionnaires": { id: "routes/api/category/$categoryId/questionnaires", parentId: "root", path: "api/category/:categoryId/questionnaires", index: void 0, caseSensitive: void 0, module: "/build/routes/api/category/$categoryId/questionnaires-6Z7HCH6O.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/category/$slug": { id: "routes/category/$slug", parentId: "root", path: "category/:slug", index: void 0, caseSensitive: void 0, module: "/build/routes/category/$slug-6PP5PXO5.js", imports: ["/build/_shared/chunk-7DIR46HH.js", "/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-SMSB47PC.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/me/$": { id: "routes/me/$", parentId: "root", path: "me/*", index: void 0, caseSensitive: void 0, module: "/build/routes/me/$-6TE4AGZH.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/create": { id: "routes/questionnaire/create", parentId: "root", path: "questionnaire/create", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/create-SMGELQ7B.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/edit/$questionnaireId": { id: "routes/questionnaire/edit/$questionnaireId", parentId: "root", path: "questionnaire/edit/:questionnaireId", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/edit/$questionnaireId-OU2GASXG.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/owner": { id: "routes/questionnaire/owner", parentId: "root", path: "questionnaire/owner", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/owner-26AZRKRJ.js", imports: ["/build/_shared/chunk-7DIR46HH.js", "/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/resolved": { id: "routes/questionnaire/resolved", parentId: "root", path: "questionnaire/resolved", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/resolved-OP3WHT6W.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-in/$": { id: "routes/sign-in/$", parentId: "root", path: "sign-in/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-in/$-XBUCA7Y4.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-up/$": { id: "routes/sign-up/$", parentId: "root", path: "sign-up/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-up/$-OAE3WUBA.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-9F3007D3.js" };
+var assets_manifest_default = { version: "128a3c61", entry: { module: "/build/entry.client-DWJGSBWK.js", imports: ["/build/_shared/chunk-5AUMOSJV.js", "/build/_shared/chunk-BNRLY3XL.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-CSK6J7FQ.js", imports: ["/build/_shared/chunk-MEULKKRS.js", "/build/_shared/chunk-4Y5SH57R.js", "/build/_shared/chunk-A563IWXS.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !1 }, "routes/404": { id: "routes/404", parentId: "root", path: "404", index: void 0, caseSensitive: void 0, module: "/build/routes/404-TJPSGBUX.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/api/questionnaires": { id: "routes/api/questionnaires", parentId: "root", path: "api/questionnaires", index: void 0, caseSensitive: void 0, module: "/build/routes/api/questionnaires-TPEOKUXR.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/category/$slug": { id: "routes/category/$slug", parentId: "root", path: "category/:slug", index: void 0, caseSensitive: void 0, module: "/build/routes/category/$slug-DUSROLSJ.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-SMSB47PC.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/me/$": { id: "routes/me/$", parentId: "root", path: "me/*", index: void 0, caseSensitive: void 0, module: "/build/routes/me/$-6TE4AGZH.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/create": { id: "routes/questionnaire/create", parentId: "root", path: "questionnaire/create", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/create-SMGELQ7B.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/edit/$questionnaireId": { id: "routes/questionnaire/edit/$questionnaireId", parentId: "root", path: "questionnaire/edit/:questionnaireId", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/edit/$questionnaireId-OU2GASXG.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/owner": { id: "routes/questionnaire/owner", parentId: "root", path: "questionnaire/owner", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/owner-SRZI3XW4.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/resolved": { id: "routes/questionnaire/resolved", parentId: "root", path: "questionnaire/resolved", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/resolved-OP3WHT6W.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-in/$": { id: "routes/sign-in/$", parentId: "root", path: "sign-in/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-in/$-XBUCA7Y4.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-up/$": { id: "routes/sign-up/$", parentId: "root", path: "sign-up/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-up/$-OAE3WUBA.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-128A3C61.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var entry = { module: entry_server_exports }, routes = {
@@ -908,14 +897,6 @@ var entry = { module: entry_server_exports }, routes = {
     index: void 0,
     caseSensitive: void 0,
     module: root_exports
-  },
-  "routes/api/category/$categoryId/questionnaires": {
-    id: "routes/api/category/$categoryId/questionnaires",
-    parentId: "root",
-    path: "api/category/:categoryId/questionnaires",
-    index: void 0,
-    caseSensitive: void 0,
-    module: questionnaires_exports
   },
   "routes/questionnaire/edit/$questionnaireId": {
     id: "routes/questionnaire/edit/$questionnaireId",
@@ -948,6 +929,14 @@ var entry = { module: entry_server_exports }, routes = {
     index: void 0,
     caseSensitive: void 0,
     module: owner_exports
+  },
+  "routes/api/questionnaires": {
+    id: "routes/api/questionnaires",
+    parentId: "root",
+    path: "api/questionnaires",
+    index: void 0,
+    caseSensitive: void 0,
+    module: questionnaires_exports
   },
   "routes/category/$slug": {
     id: "routes/category/$slug",
