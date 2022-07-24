@@ -1,8 +1,15 @@
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf, __hasOwnProp = Object.prototype.hasOwnProperty;
+var __getOwnPropNames = Object.getOwnPropertyNames, __getOwnPropSymbols = Object.getOwnPropertySymbols, __getProtoOf = Object.getPrototypeOf, __hasOwnProp = Object.prototype.hasOwnProperty, __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: !0, configurable: !0, writable: !0, value }) : obj[key] = value, __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    __hasOwnProp.call(b, prop) && __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b))
+      __propIsEnum.call(b, prop) && __defNormalProp(a, prop, b[prop]);
+  return a;
+};
 var __markAsModule = (target) => __defProp(target, "__esModule", { value: !0 });
 var __export = (target, all) => {
   for (var name in all)
@@ -54,7 +61,7 @@ __export(root_exports, {
 var import_react4 = require("@remix-run/react"), import_ssr = require("@clerk/remix/ssr.server"), import_remix2 = require("@clerk/remix"), import_remix3 = require("@clerk/remix");
 
 // app/styles/app.css
-var app_default = "/build/_assets/app-W2D7ENX2.css";
+var app_default = "/build/_assets/app-ZXAS5ESL.css";
 
 // app/components/navbar.tsx
 var import_remix = require("@clerk/remix"), import_react2 = require("@remix-run/react"), import_react3 = require("react");
@@ -132,17 +139,24 @@ function getQueryIntParameter(request, name, defaultValue) {
   let url = new URL(request.url), param = parseInt(url.searchParams.get(name) ?? "", 10);
   return isNaN(param) ? defaultValue : param;
 }
+function getQueryStringParameter(request, name) {
+  return new URL(request.url).searchParams.get(name);
+}
 
 // route:/Users/andres/Documents/Github/ttf/app/routes/api/category/$categoryId/questionnaires.ts
 var loader2 = async ({ request, params }) => {
-  let { categoryId } = params, take = getQueryIntParameter(request, "per_page", 1), skip = getQueryIntParameter(request, "offset", 0);
+  let { categoryId } = params, take = getQueryIntParameter(request, "per_page", 1), skip = getQueryIntParameter(request, "offset", 0), search = getQueryStringParameter(request, "search"), searchFilter = search != null ? {
+    name: {
+      contains: search
+    }
+  } : {};
   return { questionnaires: await db.questionnaire.findMany({
     skip,
     take,
-    where: {
+    where: __spreadValues({
       categoryId,
       active: !0
-    },
+    }, searchFilter),
     orderBy: {
       createdAt: "desc"
     }
@@ -528,6 +542,7 @@ function QuestionnarieOwnerPage() {
 // route:/Users/andres/Documents/Github/ttf/app/routes/category/$slug.tsx
 var slug_exports = {};
 __export(slug_exports, {
+  action: () => action3,
   default: () => CategoryPage,
   loader: () => loader6
 });
@@ -558,29 +573,39 @@ function CategoryQuestionnaireItem({ questionnaire, userId }) {
 }
 
 // route:/Users/andres/Documents/Github/ttf/app/routes/category/$slug.tsx
-var import_ssr5 = require("@clerk/remix/ssr.server"), loader6 = async ({ request, params }) => {
+var import_ssr5 = require("@clerk/remix/ssr.server");
+var loader6 = async ({ request, params }) => {
   let { slug } = params, take = 1, skip = 0, category = await db.category.findFirst({
     where: { slug }
   });
   if (!category)
     return (0, import_node4.redirect)("/404");
-  let { userId } = await (0, import_ssr5.getAuth)(request), { id: categoryId } = category, totalQuery = db.questionnaire.count({
-    where: {
+  let { userId } = await (0, import_ssr5.getAuth)(request), { id: categoryId } = category, search = getQueryStringParameter(request, "search");
+  console.log("search", search);
+  let searchFilter = search != null ? {
+    name: {
+      contains: search
+    }
+  } : {}, totalQuery = db.questionnaire.count({
+    where: __spreadValues({
       categoryId,
       active: !0
-    }
+    }, searchFilter)
   }), initialQuestionnairesQuery = db.questionnaire.findMany({
     skip,
     take,
-    where: {
+    where: __spreadValues({
       categoryId,
       active: !0
-    },
+    }, searchFilter),
     orderBy: {
       createdAt: "desc"
     }
   }), [total, initialQuestionnaires] = await Promise.all([totalQuery, initialQuestionnairesQuery]);
   return { slug, category, total, initialQuestionnaires, userId };
+}, action3 = async ({ request }) => {
+  let search = (await request.formData()).get("search") ?? "";
+  return (0, import_node4.redirect)(`/category/design/?search=${search}`);
 };
 function CategoryPage() {
   let { category, initialQuestionnaires, total, userId } = (0, import_react9.useLoaderData)(), [questionnaires, setQuestionnaires] = (0, import_react8.useState)(initialQuestionnaires), [offset, setOffset] = (0, import_react8.useState)(0), { name, id: categoryId } = category, fetcher = (0, import_react9.useFetcher)();
@@ -598,9 +623,41 @@ function CategoryPage() {
     className: "container m-0 mx-auto"
   }, /* @__PURE__ */ React.createElement("div", {
     className: "px-8"
+  }, /* @__PURE__ */ React.createElement(import_react9.Form, {
+    method: "post",
+    className: "md:flex md:justify-between md:items-center"
   }, /* @__PURE__ */ React.createElement("h1", {
     className: "mt-12 text-3xl mb-8 font-extrabold"
-  }, "Category: ", name), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", {
+  }, "Category: ", name), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("label", {
+    htmlFor: "search",
+    className: "mb-2 text-sm font-medium text-gray-900 sr-only"
+  }, "Search"), /* @__PURE__ */ React.createElement("div", {
+    className: "relative"
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"
+  }, /* @__PURE__ */ React.createElement("svg", {
+    "aria-hidden": "true",
+    className: "w-5 h-5 text-gray-500",
+    fill: "none",
+    stroke: "currentColor",
+    viewBox: "0 0 24 24",
+    xmlns: "http://www.w3.org/2000/svg"
+  }, /* @__PURE__ */ React.createElement("path", {
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    strokeWidth: "2",
+    d: "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+  }))), /* @__PURE__ */ React.createElement("input", {
+    type: "search",
+    id: "search",
+    name: "search",
+    className: "block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500",
+    placeholder: "Search...",
+    required: !0
+  }), /* @__PURE__ */ React.createElement("button", {
+    type: "submit",
+    className: "text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
+  }, "Search")))), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", {
     className: "overflow-x-auto relative"
   }, /* @__PURE__ */ React.createElement("table", {
     className: "w-full text-sm text-left text-gray-500"
@@ -840,7 +897,7 @@ function NotFound() {
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { version: "410e49bf", entry: { module: "/build/entry.client-DWJGSBWK.js", imports: ["/build/_shared/chunk-5AUMOSJV.js", "/build/_shared/chunk-BNRLY3XL.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-5FXQVHCM.js", imports: ["/build/_shared/chunk-MEULKKRS.js", "/build/_shared/chunk-4Y5SH57R.js", "/build/_shared/chunk-A563IWXS.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !1 }, "routes/404": { id: "routes/404", parentId: "root", path: "404", index: void 0, caseSensitive: void 0, module: "/build/routes/404-TJPSGBUX.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/api/category/$categoryId/questionnaires": { id: "routes/api/category/$categoryId/questionnaires", parentId: "root", path: "api/category/:categoryId/questionnaires", index: void 0, caseSensitive: void 0, module: "/build/routes/api/category/$categoryId/questionnaires-6Z7HCH6O.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/category/$slug": { id: "routes/category/$slug", parentId: "root", path: "category/:slug", index: void 0, caseSensitive: void 0, module: "/build/routes/category/$slug-Z3NTUHAX.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-SMSB47PC.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/me/$": { id: "routes/me/$", parentId: "root", path: "me/*", index: void 0, caseSensitive: void 0, module: "/build/routes/me/$-6TE4AGZH.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/create": { id: "routes/questionnaire/create", parentId: "root", path: "questionnaire/create", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/create-SMGELQ7B.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/edit/$questionnaireId": { id: "routes/questionnaire/edit/$questionnaireId", parentId: "root", path: "questionnaire/edit/:questionnaireId", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/edit/$questionnaireId-OU2GASXG.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/owner": { id: "routes/questionnaire/owner", parentId: "root", path: "questionnaire/owner", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/owner-SRZI3XW4.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/resolved": { id: "routes/questionnaire/resolved", parentId: "root", path: "questionnaire/resolved", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/resolved-OP3WHT6W.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-in/$": { id: "routes/sign-in/$", parentId: "root", path: "sign-in/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-in/$-XBUCA7Y4.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-up/$": { id: "routes/sign-up/$", parentId: "root", path: "sign-up/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-up/$-OAE3WUBA.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-410E49BF.js" };
+var assets_manifest_default = { version: "9f3007d3", entry: { module: "/build/entry.client-DWJGSBWK.js", imports: ["/build/_shared/chunk-5AUMOSJV.js", "/build/_shared/chunk-BNRLY3XL.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-6CVUOW24.js", imports: ["/build/_shared/chunk-MEULKKRS.js", "/build/_shared/chunk-4Y5SH57R.js", "/build/_shared/chunk-A563IWXS.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !1 }, "routes/404": { id: "routes/404", parentId: "root", path: "404", index: void 0, caseSensitive: void 0, module: "/build/routes/404-TJPSGBUX.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/api/category/$categoryId/questionnaires": { id: "routes/api/category/$categoryId/questionnaires", parentId: "root", path: "api/category/:categoryId/questionnaires", index: void 0, caseSensitive: void 0, module: "/build/routes/api/category/$categoryId/questionnaires-6Z7HCH6O.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/category/$slug": { id: "routes/category/$slug", parentId: "root", path: "category/:slug", index: void 0, caseSensitive: void 0, module: "/build/routes/category/$slug-6PP5PXO5.js", imports: ["/build/_shared/chunk-7DIR46HH.js", "/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-SMSB47PC.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/me/$": { id: "routes/me/$", parentId: "root", path: "me/*", index: void 0, caseSensitive: void 0, module: "/build/routes/me/$-6TE4AGZH.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/create": { id: "routes/questionnaire/create", parentId: "root", path: "questionnaire/create", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/create-SMGELQ7B.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/edit/$questionnaireId": { id: "routes/questionnaire/edit/$questionnaireId", parentId: "root", path: "questionnaire/edit/:questionnaireId", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/edit/$questionnaireId-OU2GASXG.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/owner": { id: "routes/questionnaire/owner", parentId: "root", path: "questionnaire/owner", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/owner-26AZRKRJ.js", imports: ["/build/_shared/chunk-7DIR46HH.js", "/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/resolved": { id: "routes/questionnaire/resolved", parentId: "root", path: "questionnaire/resolved", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/resolved-OP3WHT6W.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-in/$": { id: "routes/sign-in/$", parentId: "root", path: "sign-in/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-in/$-XBUCA7Y4.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-up/$": { id: "routes/sign-up/$", parentId: "root", path: "sign-up/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-up/$-OAE3WUBA.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-9F3007D3.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var entry = { module: entry_server_exports }, routes = {

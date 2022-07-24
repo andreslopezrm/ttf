@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { Category, Questionnaire } from "@prisma/client";
-import { LoaderFunction, redirect } from "@remix-run/node";
-import { useFetcher, useLoaderData } from "@remix-run/react";
+import { ActionFunction, LoaderFunction, redirect } from "@remix-run/node";
+import { Form, useFetcher, useLoaderData } from "@remix-run/react";
 import { db } from "~/utils/db.server";
 import { CategoryQuestionnaireItem } from "~/components/category/questionnaire-item";
 import { PER_PAGE_CATEGORY_QUESTIONNAIRES } from "~/utils/constants";
 import { getAuth } from "@clerk/remix/ssr.server";
+import { getQueryStringParameter } from "~/utils/params.server";
 
 type LoaderTypeData = {
     initialQuestionnaires: Questionnaire[];
@@ -35,11 +36,20 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 
     const { userId } = await getAuth(request);
     const { id: categoryId } = category;
+    const search = getQueryStringParameter(request, "search");
+    console.log("search", search)
+
+    const searchFilter = search != null ? {
+        name: {
+            contains: search,   
+        }
+    } : {};
 
     const totalQuery = db.questionnaire.count({
         where: { 
             categoryId,
-            active: true
+            active: true,
+            ...searchFilter
          }
     });
 
@@ -49,7 +59,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
         take,
         where: {
             categoryId,
-            active: true
+            active: true,
+            ...searchFilter
         },
         orderBy: {
             createdAt: "desc"
@@ -59,6 +70,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     const [total, initialQuestionnaires] = await Promise.all([totalQuery, initialQuestionnairesQuery]);
 
     return { slug, category, total, initialQuestionnaires, userId };
+}
+
+export const action: ActionFunction = async ({ request }) => {
+    const formData = await request.formData();
+    const search =  formData.get("search") ?? "";
+    return redirect(`/category/design/?search=${search}`);
 }
 
 export default function CategoryPage() {
@@ -90,7 +107,19 @@ export default function CategoryPage() {
     return (
         <section className="container m-0 mx-auto">
             <div className="px-8">
-                <h1 className="mt-12 text-3xl mb-8 font-extrabold">Category: {name}</h1>
+                <Form method="post" className="md:flex md:justify-between md:items-center">
+                    <h1 className="mt-12 text-3xl mb-8 font-extrabold">Category: {name}</h1>
+                    <div>
+                        <label htmlFor="search" className="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
+                        <div className="relative">
+                            <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                                <svg aria-hidden="true" className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                            </div>
+                            <input type="search" id="search" name="search" className="block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Search..." required />
+                            <button type="submit" className="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">Search</button>
+                        </div>
+                    </div>
+                </Form>
                 <div> 
                     <div className="overflow-x-auto relative">
                         <table className="w-full text-sm text-left text-gray-500">

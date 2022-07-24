@@ -6,3 +6,8 @@ export function getQueryIntParameter(request: Request, name: string, defaultValu
     }
     return defaultValue;
 }
+
+export function getQueryStringParameter(request: Request, name: string): string | null {
+    const url = new URL(request.url);
+    return url.searchParams.get(name);
+}
