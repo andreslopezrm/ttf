@@ -1,10 +1,11 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { Category, Questionnaire } from "@prisma/client";
 import { ActionFunction, LoaderFunction, redirect } from "@remix-run/node";
-import { Form, useFetcher, useLoaderData } from "@remix-run/react";
+import { useFetcher, useLoaderData } from "@remix-run/react";
 import { db } from "~/utils/db.server";
 import { CategoryQuestionnaireItem } from "~/components/category/questionnaire-item";
 import { getAuth } from "@clerk/remix/ssr.server";
+import { PER_PAGE_CATEGORY_QUESTIONNAIRES } from "~/utils/constants";
 
 type LoaderTypeData = {
     category: Category;
@@ -70,7 +71,7 @@ export default function CategoryPage() {
     }, [search]);
 
     const handleOnMore = () => {
-        const offsetMore = offset + 1;
+        const offsetMore = offset + PER_PAGE_CATEGORY_QUESTIONNAIRES;
         load(offsetMore);
         setOffset(offsetMore);
     }
@@ -84,7 +85,7 @@ export default function CategoryPage() {
 
     const load = (currenOffset: number = 0) => {
         const params = new URLSearchParams();
-        params.append("categoryId", categoryId);
+        params.append("category_id", categoryId);
         params.append("offset", currenOffset.toString());
         params.append("search", search);
 

@@ -6,7 +6,7 @@ import { db } from "~/utils/db.server";
 
 
 type LoaderTypeData = {
-    questionnaire: (Questionnaire & { questions: Question[] });
+    questionnaire: Questionnaire & { questions: Question[] };
     categories: Category[];
 }
 
