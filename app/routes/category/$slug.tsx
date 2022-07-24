@@ -103,7 +103,7 @@ export default function CategoryPage() {
             <div className="px-8">
                 <div className="md:flex md:justify-between md:items-center">
                     <h1 className="mt-12 text-3xl mb-8 font-extrabold">Category: {name}</h1>
-                    <form onSubmit={handleOnSearch}>
+                    <form onSubmit={handleOnSearch} className="mb-8 md:mb-0">
                         <label htmlFor="search" className="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
                         <div className="relative">
                             <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
