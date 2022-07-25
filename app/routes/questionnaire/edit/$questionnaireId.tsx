@@ -90,8 +90,6 @@ export const action: ActionFunction = async ({ request, params }) => {
         const description = formData.get(`${name}-description`)?.toString() ?? "";
         const answer = formData.get(`${name}-answer`) === "true";
 
-        
-
         return db.question.update({
             where: {
                 id
