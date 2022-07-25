@@ -2,10 +2,11 @@ import dayjs from "dayjs";
 import { getAuth } from "@clerk/remix/ssr.server";
 import { Category, Questionnaire } from "@prisma/client";
 import { LoaderFunction, redirect } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData, useNavigate } from "@remix-run/react";
 import { db } from "~/utils/db.server";
-import { getQueryIntParameter } from "~/utils/params.server";
+import { getQueryIntParameter, getQueryStringParameter } from "~/utils/params.server";
 import { PER_PAGE_OWN_QUESTIONNAIRES } from "~/utils/constants";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 type LoaderTypeData = {
     total: number;
@@ -13,6 +14,14 @@ type LoaderTypeData = {
     hasPrev: boolean, 
     hasNext: boolean;
     questionnaries: (Questionnaire & { category: Category })[];
+    search: string | null;
+}
+
+type FilterData = {
+    userId: string;
+    name?: {
+        contains: string
+    }
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -24,10 +33,21 @@ export const loader: LoaderFunction = async ({ request }) => {
 
     const take = getQueryIntParameter(request, "per_page", PER_PAGE_OWN_QUESTIONNAIRES); 
     const skip = getQueryIntParameter(request, "offset", 0);
+    const search = getQueryStringParameter(request, "search");
+
+    const filter: FilterData = {
+        userId
+    }
+
+    if(search) {
+        filter.name = {
+            contains: search
+        };
+    }
 
     const totalQuery = await db.questionnaire.count({
         where: {
-            userId
+            ...filter
         }
     });
     
@@ -35,7 +55,7 @@ export const loader: LoaderFunction = async ({ request }) => {
         skip,
         take,
         where: {
-            userId
+            ...filter
         },
         orderBy: {
             createdAt: "desc"
@@ -57,14 +77,71 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function QuestionnarieOwnerPage() {
 
-    const { questionnaries, hasPrev, hasNext, offset } = useLoaderData<LoaderTypeData>();
-    
-    console.log({ hasPrev, hasNext, offset });
+    const navigate = useNavigate();
+    const { questionnaries, hasPrev, hasNext, offset, search } = useLoaderData<LoaderTypeData>();
+    const [term, setTerm] = useState<string | null>(search);
+
+    useEffect(() => {
+        if(term === "") {
+            navigate("/questionnaire/owner");
+        }
+    }, [term]);
+
+    const handleOnChageSearch = (event: ChangeEvent<HTMLInputElement>) => setTerm(event.target.value);
+
+    const handleOnSearch = (event: FormEvent) => {
+        event.preventDefault();
+        navigate(`/questionnaire/owner?search=${term}`);
+    }
+
+    const buildLinkPrev = () => {
+        if(offset === 0 && !term) {
+            return "/questionnaire/owner";
+        }
+
+        const params = new URLSearchParams();
+        const offserDiff = offset - PER_PAGE_OWN_QUESTIONNAIRES
+        if(offserDiff > 0) {
+            params.append("offset", offserDiff.toString());
+        }
+
+        if(term) {
+            params.append("search", term);
+        }
+
+        return `/questionnaire/owner?${params.toString()}`;
+    }
+
+    const buildLinkNext = () => {
+        const params = new URLSearchParams();
+
+        const nextOffset = offset + PER_PAGE_OWN_QUESTIONNAIRES;
+        params.append("offset", nextOffset.toString());
+
+        if(term) {
+            params.append("search", term);
+        }
+        
+        return `/questionnaire/owner?${params.toString()}`;
+    }
+
     return (
         <>
             <div className="container m-0 mx-auto">
                 <div className="px-8">
-                    <h2 className="text-3xl font-extrabold mb-8">My Questionnaries</h2>
+                    <div className="md:flex md:justify-between md:items-center">
+                        <h1 className="mt-12 text-3xl mb-8 font-extrabold">My Questionnaires</h1>
+                        <form onSubmit={handleOnSearch} className="mb-8 md:mb-0">
+                            <label htmlFor="search" className="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
+                            <div className="relative">
+                                <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                                    <svg aria-hidden="true" className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                </div>
+                                <input type="search" id="search" name="search" className="block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Search..." required onChange={handleOnChageSearch} />
+                                <button type="submit" className="text-white absolute right-2.5 bottom-2.5 bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-2">Search</button>
+                            </div>
+                        </form>
+                    </div>
                     <div className="overflow-x-auto relative">
                         <table className="w-full text-sm text-left text-gray-500">
                             <thead className="text-xs text-gray-700 uppercase bg-gray-50">
@@ -117,13 +194,13 @@ export default function QuestionnarieOwnerPage() {
                     </div>
                     
                     <div className="mt-8 flex gap-4 justify-between">
-                        <Link to={offset - PER_PAGE_OWN_QUESTIONNAIRES > 0 ? `/questionnaire/owner?offset=${offset - PER_PAGE_OWN_QUESTIONNAIRES}` : "/questionnaire/owner"} className={`relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 disabled:opacity-50 disabled:pointer-events-none disabled:from-slate-300 disabled:to-slate-400 ${hasPrev ? "": "pointer-events-none opacity-40 grayscale"}`}>
+                        <Link to={buildLinkPrev()} className={`relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 disabled:opacity-50 disabled:pointer-events-none disabled:from-slate-300 disabled:to-slate-400 ${hasPrev ? "": "pointer-events-none opacity-40 grayscale"}`}>
                             <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0">
                                 Previous
                             </span>
                         </Link>
 
-                        <Link to={`/questionnaire/owner?offset=${offset + PER_PAGE_OWN_QUESTIONNAIRES}`} className={`relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 disabled:opacity-50 disabled:pointer-events-none disabled:from-slate-300 disabled:to-slate-400 ${hasNext ? "" : "pointer-events-none opacity-40 grayscale"}`}>
+                        <Link to={buildLinkNext()} className={`relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-purple-200 disabled:opacity-50 disabled:pointer-events-none disabled:from-slate-300 disabled:to-slate-400 ${hasNext ? "" : "pointer-events-none opacity-40 grayscale"}`}>
                             <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0">
                                 Next
                             </span>
