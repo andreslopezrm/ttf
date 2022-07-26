@@ -42,7 +42,6 @@ export const action: ActionFunction = async ({ request }) => {
         }
     });
 
-
     const questionsData = questionsKeyList.map(questionKey => {
 
         const description = formData.get(`question-${questionKey}-description`)?.toString() ?? "";

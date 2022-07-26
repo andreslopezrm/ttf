@@ -1,16 +1,19 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { Category, Questionnaire } from "@prisma/client";
-import { ActionFunction, LoaderFunction, redirect } from "@remix-run/node";
+import { LoaderFunction, redirect } from "@remix-run/node";
 import { useFetcher, useLoaderData } from "@remix-run/react";
 import { db } from "~/utils/db.server";
 import { CategoryQuestionnaireItem } from "~/components/category/questionnaire-item";
 import { getAuth } from "@clerk/remix/ssr.server";
 import { PER_PAGE_CATEGORY_QUESTIONNAIRES } from "~/utils/constants";
+import { QuestionnaireExtended } from "~/types/questionnaire";
+import { generateQuestionnairesExt } from "~/utils/questionnaire";
 
 type LoaderTypeData = {
     category: Category;
     slug: string;
     userId: string | null; 
+    resolved: string[];
 }
 
 type FetcherData = {
@@ -20,7 +23,6 @@ type FetcherData = {
     take: number;
     questionnaires: Questionnaire[];
 }
-
 
 export const loader: LoaderFunction = async ({ request, params }) => {
     const { slug } = params;
@@ -34,14 +36,27 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     }
 
     const { userId } = await getAuth(request);
+
+    let resolved: string[] = [];
+    if(userId) {
+        const userResolved = await db.resolve.findMany({
+            where: {
+                userId
+            },
+            select: {
+                questionnaireId: true
+            }
+        });
+        resolved = userResolved.map(resolve => resolve.questionnaireId);
+    }
    
-    return { slug, category, userId };
+    return { slug, category, userId, resolved };
 }
 
 export default function CategoryPage() {
 
-    const { category, userId } = useLoaderData<LoaderTypeData>();
-    const [questionnaires, setQuestionnaires] = useState<Questionnaire[]>([]);
+    const { category, userId, resolved } = useLoaderData<LoaderTypeData>();
+    const [questionnaires, setQuestionnaires] = useState<QuestionnaireExtended[]>([]);
     
     const [offset, setOffset] = useState(0);
     const [search, setSeach] = useState("");
@@ -58,9 +73,9 @@ export default function CategoryPage() {
 
         const { skip, questionnaires: paginQuestionnaires } = fetcher.data as FetcherData;
         if(skip === 0) {
-            setQuestionnaires(paginQuestionnaires);
+            setQuestionnaires(generateQuestionnairesExt(paginQuestionnaires, userId, resolved));
         } else {
-            setQuestionnaires([...questionnaires, ...paginQuestionnaires]);
+            setQuestionnaires([...questionnaires, ...generateQuestionnairesExt(paginQuestionnaires, userId, resolved)]);
         }
     }, [fetcher.data]);
 

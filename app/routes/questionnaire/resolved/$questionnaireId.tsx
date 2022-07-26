@@ -19,6 +19,18 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     }
 
     const { questionnaireId } = params;
+
+    const existResolve = await db.resolve.findFirst({
+        where: {
+            userId,
+            questionnaireId
+        }
+    });
+
+    if(existResolve) {
+        return redirect("/");
+    }
+
     const questionnarie = await db.questionnaire.findFirst({
         where: {
             id: questionnaireId
@@ -63,8 +75,6 @@ export const action: ActionFunction = async ({ request, params }) => {
             }
         }
     });
-
-    
 
     if(!questionnarie) {
         return redirect("/404");
