@@ -26,7 +26,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
         include: {
             questions: {
                 orderBy: {
-                    name: 'asc'
+                    name: "asc"
                 }
             }
         }

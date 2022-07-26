@@ -8,7 +8,6 @@ type Props = {
 
 export function CategoryQuestionnaireItem({ questionnaire, userId } : Props) {
     const { name, id, isOwner, isResolved } = questionnaire;
-    console.log(isResolved)
 
     const buildAction = () => {
         if(isOwner) {
