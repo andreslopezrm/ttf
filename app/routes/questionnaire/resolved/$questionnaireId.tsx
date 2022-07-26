@@ -117,8 +117,7 @@ export default function QuestionnarieResolvedPage() {
 
     const { name, questions } = questionnarie;
     const { state } = useTransition();
-
-    console.log('data', data?.score);
+    
     
 
     return (
