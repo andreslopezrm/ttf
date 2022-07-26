@@ -2,11 +2,12 @@ import dayjs from "dayjs";
 import { getAuth } from "@clerk/remix/ssr.server";
 import { Category, Questionnaire } from "@prisma/client";
 import { LoaderFunction, redirect } from "@remix-run/node";
-import { Link, useLoaderData, useNavigate } from "@remix-run/react";
+import { useLoaderData, useNavigate } from "@remix-run/react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { PER_PAGE_OWN_QUESTIONNAIRES } from "~/utils/constants";
 import { db } from "~/utils/db.server";
 import { getQueryIntParameter, getQueryStringParameter } from "~/utils/params.server";
-import { PER_PAGE_OWN_QUESTIONNAIRES } from "~/utils/constants";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 type LoaderTypeData = {
     total: number;
@@ -19,13 +20,14 @@ type LoaderTypeData = {
 
 type FilterData = {
     userId: string;
-    name?: {
-        contains: string
+    questionnaire?: {
+        name: {
+            contains: string;
+        }
     }
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-
     const { userId } = await getAuth(request);
     if(!userId){
         return redirect(`${process.env.CLERK_REDIRECT_LOGIN!!}?redirect_url=${request.url}`);
@@ -40,32 +42,39 @@ export const loader: LoaderFunction = async ({ request }) => {
     };
 
     if(search) {
-        filter.name = {
-            contains: search
+        filter.questionnaire = {
+            name: {
+                contains: search
+            }
         };
     }
 
-    const totalQuery =  db.questionnaire.count({
+    const totalQuery = await db.resolve.count({
         where: {
             ...filter
         }
     });
-    
-    const questionnariesQuery = db.questionnaire.findMany({
+
+    const resolvedQuery = db.resolve.findMany({
         skip,
         take,
         where: {
-            ...filter
+            ...filter,
         },
         orderBy: {
             createdAt: "desc"
         },
         include: {
-            category: true
+            questionnaire: {
+                include: {
+                    category: true
+                }
+            }
         }
     });
 
-    const [total, questionnaries] = await Promise.all([ totalQuery, questionnariesQuery ]);
+    const [total, resolved] = await Promise.all([ totalQuery, resolvedQuery ]);
+    const questionnaries = resolved.map(({ questionnaire }) => questionnaire);
 
     const hasPrev = skip > 0;
     const totalCurrent = skip + take;
@@ -75,7 +84,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     return { total, questionnaries, offset: skip, hasPrev, hasNext };
 }
 
-export default function QuestionnarieOwnerPage() {
+export default function QuestionnaireResolvePage() {
 
     const navigate = useNavigate();
     const { questionnaries, hasPrev, hasNext, offset, search } = useLoaderData<LoaderTypeData>();
@@ -83,7 +92,7 @@ export default function QuestionnarieOwnerPage() {
 
     useEffect(() => {
         if(term === "") {
-            navigate("/questionnaire/owner");
+            navigate("/questionnaire/resolved");
         }
     }, [term]);
 
@@ -91,12 +100,12 @@ export default function QuestionnarieOwnerPage() {
 
     const handleOnSearch = (event: FormEvent) => {
         event.preventDefault();
-        navigate(`/questionnaire/owner?search=${term}`);
+        navigate(`/questionnaire/resolved?search=${term}`);
     }
 
     const buildLinkPrev = () => {
         if(offset === 0 && !term) {
-            return "/questionnaire/owner";
+            return "/questionnaire/resolved";
         }
 
         const params = new URLSearchParams();
@@ -109,7 +118,7 @@ export default function QuestionnarieOwnerPage() {
             params.append("search", term);
         }
 
-        return `/questionnaire/owner?${params.toString()}`;
+        return `/questionnaire/resolved?${params.toString()}`;
     }
 
     const buildLinkNext = () => {
@@ -122,14 +131,14 @@ export default function QuestionnarieOwnerPage() {
             params.append("search", term);
         }
         
-        return `/questionnaire/owner?${params.toString()}`;
+        return `/questionnaire/resolved?${params.toString()}`;
     }
 
     return (
         <div className="container m-0 mx-auto">
             <div className="px-8">
                 <div className="md:flex md:justify-between md:items-center">
-                    <h1 className="mt-12 text-3xl mb-8 font-extrabold">My Questionnaires</h1>
+                    <h1 className="mt-12 text-3xl mb-8 font-extrabold">My Resolved</h1>
                     <form onSubmit={handleOnSearch} className="mb-8 md:mb-0">
                         <label htmlFor="search" className="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
                         <div className="relative">
@@ -152,7 +161,7 @@ export default function QuestionnarieOwnerPage() {
                                     Category
                                 </th>
                                 <th scope="col" className="py-3 px-6">
-                                    Create At
+                                    Resolved At
                                 </th>
                                 <th scope="col" className="py-3 px-6">
                                     Actions
@@ -181,7 +190,7 @@ export default function QuestionnarieOwnerPage() {
 
                                             <button className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400  hover:from-pink-500 hover:to-orange-500 text-white focus:ring-4 focus:outline-none focus:ring-pink-200">
                                                 <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md bg-opacity-0">
-                                                    Remove
+                                                    Tweet
                                                 </span>
                                             </button>
                                         </div>
