@@ -1,12 +1,15 @@
+import { db } from "~/utils/db.server";
 import { getAuth } from "@clerk/remix/ssr.server";
 import { Question, Questionnaire } from "@prisma/client";
 import { ActionFunction, LoaderFunction, redirect } from "@remix-run/node";
-import { Form, useActionData, useLoaderData, useTransition } from "@remix-run/react";
+import { Form, useActionData, useLoaderData, useNavigate, useTransition } from "@remix-run/react";
 import { Modal } from "~/components/shared/modal";
-import { db } from "~/utils/db.server";
+import Confetti from "react-confetti";
+import { getClientHeight, getClientWidth } from "~/utils/browser";
 
 type LoaderTypeData = {
     questionnarie: Questionnaire & { questions: Question[] };
+    baseUrl: string;
 }
 
 type ActionTypeData = {
@@ -54,7 +57,9 @@ export const loader: LoaderFunction = async ({ request, params }) => {
         return redirect(`/questionnaire/edit/${questionnarie.id}`);
     }
 
-    return { questionnarie };
+    const baseUrl = process.env.BASE_URL;
+
+    return { questionnarie, baseUrl };
 }
 
 
@@ -114,11 +119,14 @@ export const action: ActionFunction = async ({ request, params }) => {
 }
 
 export default function QuestionnarieResolvedPage() {
-    const { questionnarie } = useLoaderData<LoaderTypeData>();
+    const { questionnarie, baseUrl } = useLoaderData<LoaderTypeData>();
     const data = useActionData<ActionTypeData>();
 
-    const { name, questions } = questionnarie;
+    const { name, questions, id } = questionnarie;
     const { state } = useTransition();
+    const navigate = useNavigate();
+
+    const handleOnClose = () => navigate("/questionnaire/resolved");
     
     return (
         <>
@@ -131,34 +139,30 @@ export default function QuestionnarieResolvedPage() {
                         </label>
 
                         {
-                            questions.map(({ id, name, description }) => {
-                                const identifierNumber = parseInt(name.split("-")[1], 10);
-                                return (
-                                    (
-                                        <div className="py-6 border-b border-b-slate-200 flex justify-between items-center" key={id}>
-                                            <label className="block text-slate-600 text-lg font-normal mb-2" htmlFor={`${name}-description`}>
-                                                {description}
-                                            </label>
-                                            
-                                            <div className="mt-6 flex gap-4">
-                                                <div>
-                                                    <input required id={`${name}-answer-true`} value="true" name={`${name}-answer`} type="radio" className="sr-only peer" />
-                                                    <label htmlFor={`${name}-answer-true`} className=" text-sm cursor-pointer px-3 py-2 rounded-md text-slate-600 bg-gradient-to-br from-white to-white peer-checked:bg-gradient-to-br border-purple-500 border-solid border-2 peer-checked:from-purple-500 peer-checked:to-pink-500 peer-checked:text-white peer-checked:border-white">
-                                                        True
-                                                    </label>
-                                                </div>
+                            questions.map(({ id, name, description }) => (
+                                    <div className="py-6 border-b border-b-slate-200 flex justify-between items-center" key={id}>
+                                        <label className="block text-slate-600 text-lg font-normal mb-2" htmlFor={`${name}-description`}>
+                                            {description}
+                                        </label>
+                                        
+                                        <div className="mt-6 flex gap-4">
+                                            <div>
+                                                <input required id={`${name}-answer-true`} value="true" name={`${name}-answer`} type="radio" className="sr-only peer" />
+                                                <label htmlFor={`${name}-answer-true`} className=" text-sm cursor-pointer px-3 py-2 rounded-md text-slate-600 bg-gradient-to-br from-white to-white peer-checked:bg-gradient-to-br border-purple-500 border-solid border-2 peer-checked:from-purple-500 peer-checked:to-pink-500 peer-checked:text-white peer-checked:border-white">
+                                                    True
+                                                </label>
+                                            </div>
 
-                                                <div>
-                                                    <input required id={`${name}-answer-false`} value="false" name={`${name}-answer`} type="radio" className="sr-only peer" />
-                                                    <label htmlFor={`${name}-answer-false`} className="text-sm cursor-pointer px-3 py-2 rounded-md text-slate-600 bg-gradient-to-br from-white to-white peer-checked:bg-gradient-to-br border-purple-500 border-solid border-2 peer-checked:from-purple-500 peer-checked:to-pink-500 peer-checked:text-white peer-checked:border-white">
-                                                        False
-                                                    </label>
-                                                </div>
+                                            <div>
+                                                <input required id={`${name}-answer-false`} value="false" name={`${name}-answer`} type="radio" className="sr-only peer" />
+                                                <label htmlFor={`${name}-answer-false`} className="text-sm cursor-pointer px-3 py-2 rounded-md text-slate-600 bg-gradient-to-br from-white to-white peer-checked:bg-gradient-to-br border-purple-500 border-solid border-2 peer-checked:from-purple-500 peer-checked:to-pink-500 peer-checked:text-white peer-checked:border-white">
+                                                    False
+                                                </label>
                                             </div>
                                         </div>
-                                    )
-                                );
-                            })
+                                    </div>
+                                )
+                            )
                         }
                         <div className="mt-8 mb-32 flex justify-end">
                             <button disabled={state === "submitting"} type="submit" className="w-40 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 focus:ring-4 focus:outline-none focus:ring-red-100 disabled:opacity-40 disabled:pointer-events-none">
@@ -170,11 +174,26 @@ export default function QuestionnarieResolvedPage() {
                     </Form>
                 </div>
             </section>
-            { true
-                ?   <Modal>
-                        <p>Contenido</p>
+            { data?.resolveId
+                ?   <Modal onClose={handleOnClose} shareUrl={`${baseUrl}/questionnaire/resolved/${id}`}>
+                        <div className="font- text-lg font-extralight">
+                            <p>
+                                You have achieved a score for this quiz of 
+                                <strong> { data?.score } / 10</strong>
+                            </p>
+                        </div>
                     </Modal> 
                 : null 
+            }
+            {
+                data?.score === 10
+                    ? <div className="fixed z-20 top-0 left-0 right-0 h-1/5">
+                            <Confetti
+                                width={getClientWidth()}
+                                height={getClientHeight() * 0.4}
+                            />
+                        </div>
+                    : null
             }
         </>
     );

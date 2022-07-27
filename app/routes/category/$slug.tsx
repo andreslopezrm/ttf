@@ -14,6 +14,7 @@ type LoaderTypeData = {
     slug: string;
     userId: string | null; 
     resolved: string[];
+    baseUrl: string;
 }
 
 type FetcherData = {
@@ -50,12 +51,14 @@ export const loader: LoaderFunction = async ({ request, params }) => {
         resolved = userResolved.map(resolve => resolve.questionnaireId);
     }
    
-    return { slug, category, userId, resolved };
+    const baseUrl = process.env.BASE_URL;
+
+    return { slug, category, userId, resolved, baseUrl };
 }
 
 export default function CategoryPage() {
 
-    const { category, userId, resolved } = useLoaderData<LoaderTypeData>();
+    const { category, userId, resolved, baseUrl } = useLoaderData<LoaderTypeData>();
     const [questionnaires, setQuestionnaires] = useState<QuestionnaireExtended[]>([]);
     
     const [offset, setOffset] = useState(0);
@@ -145,7 +148,7 @@ export default function CategoryPage() {
                             </thead>
                             <tbody>
                             {questionnaires.map(questionnaire => (
-                                <CategoryQuestionnaireItem key={questionnaire.id} questionnaire={questionnaire} userId={userId} />
+                                <CategoryQuestionnaireItem key={questionnaire.id} questionnaire={questionnaire} baseUrl={baseUrl} />
                             ))} 
                             </tbody>
                         </table>

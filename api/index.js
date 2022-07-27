@@ -58,7 +58,7 @@ __export(root_exports, {
 var import_react4 = require("@remix-run/react"), import_ssr = require("@clerk/remix/ssr.server"), import_remix2 = require("@clerk/remix"), import_remix3 = require("@clerk/remix");
 
 // app/styles/app.css
-var app_default = "/build/_assets/app-CWK63Z3E.css";
+var app_default = "/build/_assets/app-XKXI5PZC.css";
 
 // app/components/navbar.tsx
 var import_remix = require("@clerk/remix"), import_react2 = require("@remix-run/react"), import_react3 = require("react");
@@ -128,56 +128,60 @@ __export(questionnaireId_exports, {
   default: () => QuestionnarieResolvedPage,
   loader: () => loader2
 });
-var import_ssr2 = require("@clerk/remix/ssr.server"), import_node = require("@remix-run/node"), import_react5 = require("@remix-run/react");
-
-// app/components/shared/modal.tsx
-function Modal({ children, onClose }) {
-  return /* @__PURE__ */ React.createElement("div", {
-    id: "defaultModal",
-    "aria-hidden": "true",
-    className: "bg-slate-500 bg-opacity-70 flex justify-center items-center overflow-y-auto overflow-x-hidden fixed top-0 right-0 bottom-0 left-0 z-10 w-full md:inset-0 h-modal md:h-full"
-  }, /* @__PURE__ */ React.createElement("div", {
-    className: "relative p-4 w-full max-w-2xl h-full md:h-auto"
-  }, /* @__PURE__ */ React.createElement("div", {
-    className: "relative bg-white rounded-lg shadow"
-  }, /* @__PURE__ */ React.createElement("div", {
-    className: "flex justify-between items-start p-4 rounded-t border-b"
-  }, /* @__PURE__ */ React.createElement("h3", {
-    className: "text-xl font-semibold text-gray-900"
-  }, "TTF"), /* @__PURE__ */ React.createElement("button", {
-    type: "button",
-    className: "text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center",
-    "data-modal-toggle": "defaultModal"
-  }, /* @__PURE__ */ React.createElement("svg", {
-    "aria-hidden": "true",
-    className: "w-5 h-5",
-    fill: "currentColor",
-    viewBox: "0 0 20 20",
-    xmlns: "http://www.w3.org/2000/svg"
-  }, /* @__PURE__ */ React.createElement("path", {
-    "fill-rule": "evenodd",
-    d: "M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z",
-    "clip-rule": "evenodd"
-  })), /* @__PURE__ */ React.createElement("span", {
-    className: "sr-only"
-  }, "Close modal"))), /* @__PURE__ */ React.createElement("div", {
-    className: "p-6 space-y-6"
-  }, children), /* @__PURE__ */ React.createElement("div", {
-    className: "flex items-center justify-end p-6 space-x-2 rounded-b border-t border-gray-200"
-  }, /* @__PURE__ */ React.createElement("button", {
-    className: "relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-cyan-200"
-  }, /* @__PURE__ */ React.createElement("span", {
-    className: "relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0"
-  }, "Tweet")), /* @__PURE__ */ React.createElement("button", {
-    className: "relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-purple-200"
-  }, /* @__PURE__ */ React.createElement("span", {
-    className: "relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0"
-  }, "Acept"))))));
-}
 
 // app/utils/db.server.ts
 var import_client = require("@prisma/client"), db;
 global.__db || (global.__db = new import_client.PrismaClient()), db = global.__db;
+
+// route:/Users/andres/Documents/Github/ttf/app/routes/questionnaire/resolved/$questionnaireId.tsx
+var import_ssr2 = require("@clerk/remix/ssr.server"), import_node = require("@remix-run/node"), import_react5 = require("@remix-run/react");
+
+// app/utils/share.ts
+function shareTwitterUrl(text, url = null, hashtags = null) {
+  let params = new URLSearchParams();
+  return params.append("text", text), url && params.append("url", url), hashtags && params.append("hashtags", hashtags), `http://twitter.com/share?${params.toString()}`;
+}
+
+// app/components/shared/modal.tsx
+function Modal({ children, onClose, shareUrl }) {
+  return /* @__PURE__ */ React.createElement("div", {
+    id: "defaultModal",
+    "aria-hidden": "true",
+    className: " bg-white bg-opacity-80 flex justify-center items-center overflow-y-auto overflow-x-hidden fixed top-0 right-0 bottom-0 left-0 z-10 w-full md:inset-0 h-modal md:h-full"
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "max-w-2xl m-8 relative inline-flex items-center justify-center p-1 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 focus:ring-4 focus:outline-none focus:ring-purple-200"
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "relative p-8 transition-all ease-in duration-75 bg-white rounded-md"
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "mb-4 flex justify-between"
+  }, /* @__PURE__ */ React.createElement("h3", {
+    className: "font-bold text-xl"
+  }, "#TTF"), /* @__PURE__ */ React.createElement("button", {
+    type: "button",
+    onClick: () => onClose()
+  }, /* @__PURE__ */ React.createElement("img", {
+    src: "/img/incorrect.png",
+    width: "31"
+  }))), /* @__PURE__ */ React.createElement("div", null, children), /* @__PURE__ */ React.createElement("div", {
+    className: "flex justify-end gap-2 mt-8"
+  }, /* @__PURE__ */ React.createElement("a", {
+    href: shareTwitterUrl("twitter", shareUrl),
+    target: "_blank",
+    className: "relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 focus:ring-4 focus:outline-none focus:ring-cyan-200"
+  }, /* @__PURE__ */ React.createElement("span", {
+    className: "relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md"
+  }, "Tweet")), /* @__PURE__ */ React.createElement("button", {
+    type: "button",
+    onClick: () => onClose(),
+    className: "text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 font-semibold rounded-lg text-base px-8 py-2.5 text-center mr-2 mb-2"
+  }, "Acept")))));
+}
+
+// route:/Users/andres/Documents/Github/ttf/app/routes/questionnaire/resolved/$questionnaireId.tsx
+var import_react_confetti = __toESM(require("react-confetti"));
+
+// app/utils/browser.ts
+var getClientWidth = () => window.document.body.clientWidth, getClientHeight = () => window.document.body.clientHeight;
 
 // route:/Users/andres/Documents/Github/ttf/app/routes/questionnaire/resolved/$questionnaireId.tsx
 var loader2 = async ({ request, params }) => {
@@ -204,7 +208,12 @@ var loader2 = async ({ request, params }) => {
       }
     }
   });
-  return questionnarie ? questionnarie.userId === userId ? (0, import_node.redirect)(`/questionnaire/edit/${questionnarie.id}`) : { questionnarie } : (0, import_node.redirect)("/404");
+  if (!questionnarie)
+    return (0, import_node.redirect)("/404");
+  if (questionnarie.userId === userId)
+    return (0, import_node.redirect)(`/questionnaire/edit/${questionnarie.id}`);
+  let baseUrl = process.env.BASE_URL;
+  return { questionnarie, baseUrl };
 }, action = async ({ request, params }) => {
   let { userId } = await (0, import_ssr2.getAuth)(request);
   if (!userId)
@@ -238,7 +247,7 @@ var loader2 = async ({ request, params }) => {
   }), { score, resolveId };
 };
 function QuestionnarieResolvedPage() {
-  let { questionnarie } = (0, import_react5.useLoaderData)(), data = (0, import_react5.useActionData)(), { name, questions } = questionnarie, { state } = (0, import_react5.useTransition)();
+  let { questionnarie, baseUrl } = (0, import_react5.useLoaderData)(), data = (0, import_react5.useActionData)(), { name, questions, id } = questionnarie, { state } = (0, import_react5.useTransition)(), navigate = (0, import_react5.useNavigate)(), handleOnClose = () => navigate("/questionnaire/resolved");
   return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("section", {
     className: "container m-0 mx-auto"
   }, /* @__PURE__ */ React.createElement("div", {
@@ -249,38 +258,35 @@ function QuestionnarieResolvedPage() {
   }, /* @__PURE__ */ React.createElement("label", {
     className: "block text-gray-900 text-3xl font-extrabold mb-4 mt-4",
     htmlFor: "name"
-  }, name), questions.map(({ id, name: name2, description }) => {
-    let identifierNumber = parseInt(name2.split("-")[1], 10);
-    return /* @__PURE__ */ React.createElement("div", {
-      className: "py-6 border-b border-b-slate-200 flex justify-between items-center",
-      key: id
-    }, /* @__PURE__ */ React.createElement("label", {
-      className: "block text-slate-600 text-lg font-normal mb-2",
-      htmlFor: `${name2}-description`
-    }, description), /* @__PURE__ */ React.createElement("div", {
-      className: "mt-6 flex gap-4"
-    }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("input", {
-      required: !0,
-      id: `${name2}-answer-true`,
-      value: "true",
-      name: `${name2}-answer`,
-      type: "radio",
-      className: "sr-only peer"
-    }), /* @__PURE__ */ React.createElement("label", {
-      htmlFor: `${name2}-answer-true`,
-      className: " text-sm cursor-pointer px-3 py-2 rounded-md text-slate-600 bg-gradient-to-br from-white to-white peer-checked:bg-gradient-to-br border-purple-500 border-solid border-2 peer-checked:from-purple-500 peer-checked:to-pink-500 peer-checked:text-white peer-checked:border-white"
-    }, "True")), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("input", {
-      required: !0,
-      id: `${name2}-answer-false`,
-      value: "false",
-      name: `${name2}-answer`,
-      type: "radio",
-      className: "sr-only peer"
-    }), /* @__PURE__ */ React.createElement("label", {
-      htmlFor: `${name2}-answer-false`,
-      className: "text-sm cursor-pointer px-3 py-2 rounded-md text-slate-600 bg-gradient-to-br from-white to-white peer-checked:bg-gradient-to-br border-purple-500 border-solid border-2 peer-checked:from-purple-500 peer-checked:to-pink-500 peer-checked:text-white peer-checked:border-white"
-    }, "False"))));
-  }), /* @__PURE__ */ React.createElement("div", {
+  }, name), questions.map(({ id: id2, name: name2, description }) => /* @__PURE__ */ React.createElement("div", {
+    className: "py-6 border-b border-b-slate-200 flex justify-between items-center",
+    key: id2
+  }, /* @__PURE__ */ React.createElement("label", {
+    className: "block text-slate-600 text-lg font-normal mb-2",
+    htmlFor: `${name2}-description`
+  }, description), /* @__PURE__ */ React.createElement("div", {
+    className: "mt-6 flex gap-4"
+  }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("input", {
+    required: !0,
+    id: `${name2}-answer-true`,
+    value: "true",
+    name: `${name2}-answer`,
+    type: "radio",
+    className: "sr-only peer"
+  }), /* @__PURE__ */ React.createElement("label", {
+    htmlFor: `${name2}-answer-true`,
+    className: " text-sm cursor-pointer px-3 py-2 rounded-md text-slate-600 bg-gradient-to-br from-white to-white peer-checked:bg-gradient-to-br border-purple-500 border-solid border-2 peer-checked:from-purple-500 peer-checked:to-pink-500 peer-checked:text-white peer-checked:border-white"
+  }, "True")), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("input", {
+    required: !0,
+    id: `${name2}-answer-false`,
+    value: "false",
+    name: `${name2}-answer`,
+    type: "radio",
+    className: "sr-only peer"
+  }), /* @__PURE__ */ React.createElement("label", {
+    htmlFor: `${name2}-answer-false`,
+    className: "text-sm cursor-pointer px-3 py-2 rounded-md text-slate-600 bg-gradient-to-br from-white to-white peer-checked:bg-gradient-to-br border-purple-500 border-solid border-2 peer-checked:from-purple-500 peer-checked:to-pink-500 peer-checked:text-white peer-checked:border-white"
+  }, "False"))))), /* @__PURE__ */ React.createElement("div", {
     className: "mt-8 mb-32 flex justify-end"
   }, /* @__PURE__ */ React.createElement("button", {
     disabled: state === "submitting",
@@ -288,7 +294,17 @@ function QuestionnarieResolvedPage() {
     className: "w-40 relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 focus:ring-4 focus:outline-none focus:ring-red-100 disabled:opacity-40 disabled:pointer-events-none"
   }, /* @__PURE__ */ React.createElement("span", {
     className: "w-40 relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0 text-lg"
-  }, "Resolve ", state === "submitting" ? " ..." : "")))))), /* @__PURE__ */ React.createElement(Modal, null, /* @__PURE__ */ React.createElement("p", null, "Contenido")));
+  }, "Resolve ", state === "submitting" ? " ..." : "")))))), (data == null ? void 0 : data.resolveId) ? /* @__PURE__ */ React.createElement(Modal, {
+    onClose: handleOnClose,
+    shareUrl: `${baseUrl}/questionnaire/resolved/${id}`
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "font- text-lg font-extralight"
+  }, /* @__PURE__ */ React.createElement("p", null, "You have achieved a score for this quiz of", /* @__PURE__ */ React.createElement("strong", null, " ", data == null ? void 0 : data.score, " / 10")))) : null, (data == null ? void 0 : data.score) === 10 ? /* @__PURE__ */ React.createElement("div", {
+    className: "fixed z-20 top-0 left-0 right-0 h-1/5"
+  }, /* @__PURE__ */ React.createElement(import_react_confetti.default, {
+    width: getClientWidth(),
+    height: getClientHeight() * 0.4
+  })) : null);
 }
 
 // route:/Users/andres/Documents/Github/ttf/app/routes/questionnaire/edit/$questionnaireId.tsx
@@ -562,11 +578,11 @@ var loader5 = async ({ request }) => {
         }
       }
     }
-  }), [total, resolved] = await Promise.all([totalQuery, resolvedQuery]), questionnaries = resolved.map(({ questionnaire }) => questionnaire), hasPrev = skip > 0, hasNext = skip + take < total;
-  return { total, questionnaries, offset: skip, hasPrev, hasNext };
+  }), [total, resolved] = await Promise.all([totalQuery, resolvedQuery]), questionnaries = resolved.map(({ questionnaire }) => questionnaire), hasPrev = skip > 0, hasNext = skip + take < total, baseUrl = process.env.BASE_URL;
+  return { total, questionnaries, offset: skip, hasPrev, hasNext, baseUrl };
 };
 function QuestionnaireResolvePage() {
-  let navigate = (0, import_react8.useNavigate)(), { questionnaries, hasPrev, hasNext, offset, search } = (0, import_react8.useLoaderData)(), [term, setTerm] = (0, import_react9.useState)(search);
+  let navigate = (0, import_react8.useNavigate)(), { questionnaries, hasPrev, hasNext, offset, search, baseUrl } = (0, import_react8.useLoaderData)(), [term, setTerm] = (0, import_react9.useState)(search);
   (0, import_react9.useEffect)(() => {
     term === "" && navigate("/questionnaire/resolved");
   }, [term]);
@@ -655,15 +671,16 @@ function QuestionnaireResolvePage() {
   }, /* @__PURE__ */ React.createElement("div", {
     className: "flex"
   }, /* @__PURE__ */ React.createElement(import_react_router_dom.Link, {
-    to: `/questionnaire/edit/${questionnarie.id}`,
+    to: `/questionnaire/view/${questionnarie.id}`,
     className: "relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-purple-200"
   }, /* @__PURE__ */ React.createElement("span", {
     className: "relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0"
-  }, "Edit")), /* @__PURE__ */ React.createElement("button", {
-    className: "relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400  hover:from-pink-500 hover:to-orange-500 text-white focus:ring-4 focus:outline-none focus:ring-pink-200"
-  }, /* @__PURE__ */ React.createElement("span", {
-    className: "relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md bg-opacity-0"
-  }, "Tweet"))))))))), /* @__PURE__ */ React.createElement("div", {
+  }, "View")), /* @__PURE__ */ React.createElement("a", {
+    href: shareTwitterUrl("I invite you to solve this questionnaire of only 10 questions", `${baseUrl}/questionnaire/resolved/${questionnarie.id}`),
+    target: "_blank",
+    type: "button",
+    className: "text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+  }, "Tweet")))))))), /* @__PURE__ */ React.createElement("div", {
     className: "mt-8 flex gap-4 justify-between"
   }, /* @__PURE__ */ React.createElement(import_react_router_dom.Link, {
     to: buildLinkPrev(),
@@ -975,7 +992,7 @@ var import_react13 = require("react"), import_node7 = require("@remix-run/node")
 
 // app/components/category/questionnaire-item.tsx
 var import_react_router_dom2 = require("react-router-dom");
-function CategoryQuestionnaireItem({ questionnaire, userId }) {
+function CategoryQuestionnaireItem({ questionnaire, baseUrl }) {
   let { name, id, isOwner, isResolved } = questionnaire;
   return /* @__PURE__ */ React.createElement("tr", {
     className: "bg-white border-b"
@@ -988,18 +1005,23 @@ function CategoryQuestionnaireItem({ questionnaire, userId }) {
     to: `/questionnaire/edit/${id}`,
     className: "relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 focus:ring-4 focus:outline-none focus:ring-red-100"
   }, /* @__PURE__ */ React.createElement("span", {
-    className: "relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0"
+    className: "relative px-7 py-3 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0"
   }, "Edit")) : isResolved ? /* @__PURE__ */ React.createElement(import_react_router_dom2.Link, {
     to: `/questionnaire/view/${id}`,
     className: "relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-red-200 via-red-300 to-yellow-200 group-hover:from-red-200 group-hover:via-red-300 group-hover:to-yellow-200 focus:ring-4 focus:outline-none focus:ring-red-100"
   }, /* @__PURE__ */ React.createElement("span", {
-    className: "relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0"
+    className: "relative px-7 py-3 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0"
   }, "View")) : /* @__PURE__ */ React.createElement(import_react_router_dom2.Link, {
     to: `/questionnaire/resolved/${id}`,
     className: "relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-purple-200"
   }, /* @__PURE__ */ React.createElement("span", {
     className: "relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0"
-  }, "Resolve")))()));
+  }, "Resolve")))(), /* @__PURE__ */ React.createElement("a", {
+    href: shareTwitterUrl("I invite you to solve this questionnaire of only 10 questions", `${baseUrl}/questionnaire/resolved/${id}`),
+    target: "_blank",
+    type: "button",
+    className: "text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-7 py-3.5 text-center mr-4 mb-2 inline-block"
+  }, "Tweet")));
 }
 
 // route:/Users/andres/Documents/Github/ttf/app/routes/category/$slug.tsx
@@ -1021,18 +1043,20 @@ var loader9 = async ({ request, params }) => {
   if (!category)
     return (0, import_node7.redirect)("/404");
   let { userId } = await (0, import_ssr8.getAuth)(request), resolved = [];
-  return userId && (resolved = (await db.resolve.findMany({
+  userId && (resolved = (await db.resolve.findMany({
     where: {
       userId
     },
     select: {
       questionnaireId: !0
     }
-  })).map((resolve) => resolve.questionnaireId)), { slug, category, userId, resolved };
+  })).map((resolve) => resolve.questionnaireId));
+  let baseUrl = process.env.BASE_URL;
+  return { slug, category, userId, resolved, baseUrl };
 };
 function CategoryPage() {
   var _a;
-  let { category, userId, resolved } = (0, import_react14.useLoaderData)(), [questionnaires, setQuestionnaires] = (0, import_react13.useState)([]), [offset, setOffset] = (0, import_react13.useState)(0), [search, setSeach] = (0, import_react13.useState)(""), { name, id: categoryId } = category, fetcher = (0, import_react14.useFetcher)();
+  let { category, userId, resolved, baseUrl } = (0, import_react14.useLoaderData)(), [questionnaires, setQuestionnaires] = (0, import_react13.useState)([]), [offset, setOffset] = (0, import_react13.useState)(0), [search, setSeach] = (0, import_react13.useState)(""), { name, id: categoryId } = category, fetcher = (0, import_react14.useFetcher)();
   (0, import_react13.useEffect)(() => load(), []), (0, import_react13.useEffect)(() => {
     if (!fetcher.data)
       return;
@@ -1108,7 +1132,7 @@ function CategoryPage() {
   }, "Actions"))), /* @__PURE__ */ React.createElement("tbody", null, questionnaires.map((questionnaire) => /* @__PURE__ */ React.createElement(CategoryQuestionnaireItem, {
     key: questionnaire.id,
     questionnaire,
-    userId
+    baseUrl
   }))))), /* @__PURE__ */ React.createElement("div", {
     className: "mt-8"
   }, questionnaires.length < ((_a = fetcher == null ? void 0 : fetcher.data) == null ? void 0 : _a.total) ? /* @__PURE__ */ React.createElement("button", {
@@ -1333,7 +1357,7 @@ function NotFound() {
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { version: "15e9b80a", entry: { module: "/build/entry.client-UI52GWGX.js", imports: ["/build/_shared/chunk-EEMW7LQ2.js", "/build/_shared/chunk-BNRLY3XL.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-P2XGI3KN.js", imports: ["/build/_shared/chunk-VSTSINXQ.js", "/build/_shared/chunk-G3QIDN43.js", "/build/_shared/chunk-A563IWXS.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !1 }, "routes/404": { id: "routes/404", parentId: "root", path: "404", index: void 0, caseSensitive: void 0, module: "/build/routes/404-TJPSGBUX.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/api/questionnaires": { id: "routes/api/questionnaires", parentId: "root", path: "api/questionnaires", index: void 0, caseSensitive: void 0, module: "/build/routes/api/questionnaires-TPEOKUXR.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/category/$slug": { id: "routes/category/$slug", parentId: "root", path: "category/:slug", index: void 0, caseSensitive: void 0, module: "/build/routes/category/$slug-FJROIHPX.js", imports: ["/build/_shared/chunk-5MLM22RV.js", "/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-VTG4AUDK.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/me/$": { id: "routes/me/$", parentId: "root", path: "me/*", index: void 0, caseSensitive: void 0, module: "/build/routes/me/$-4G3OFD4T.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/create": { id: "routes/questionnaire/create", parentId: "root", path: "questionnaire/create", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/create-XRUAMB5Q.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/edit/$questionnaireId": { id: "routes/questionnaire/edit/$questionnaireId", parentId: "root", path: "questionnaire/edit/:questionnaireId", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/edit/$questionnaireId-EWZ64KNU.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/owner": { id: "routes/questionnaire/owner", parentId: "root", path: "questionnaire/owner", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/owner-QURPHKGK.js", imports: ["/build/_shared/chunk-S3CAL4FU.js", "/build/_shared/chunk-5MLM22RV.js", "/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/resolved/$questionnaireId": { id: "routes/questionnaire/resolved/$questionnaireId", parentId: "root", path: "questionnaire/resolved/:questionnaireId", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/resolved/$questionnaireId-KZZ74DSY.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/resolved/index": { id: "routes/questionnaire/resolved/index", parentId: "root", path: "questionnaire/resolved", index: !0, caseSensitive: void 0, module: "/build/routes/questionnaire/resolved/index-IQMR5B44.js", imports: ["/build/_shared/chunk-S3CAL4FU.js", "/build/_shared/chunk-5MLM22RV.js", "/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/view/$questionnaireId": { id: "routes/questionnaire/view/$questionnaireId", parentId: "root", path: "questionnaire/view/:questionnaireId", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/view/$questionnaireId-MEPKDPHO.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-in/$": { id: "routes/sign-in/$", parentId: "root", path: "sign-in/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-in/$-DWLJKACQ.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-up/$": { id: "routes/sign-up/$", parentId: "root", path: "sign-up/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-up/$-UBHR2C3H.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-15E9B80A.js" };
+var assets_manifest_default = { version: "3b10a05e", entry: { module: "/build/entry.client-UI52GWGX.js", imports: ["/build/_shared/chunk-EEMW7LQ2.js", "/build/_shared/chunk-BNRLY3XL.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-RVVCKLKH.js", imports: ["/build/_shared/chunk-VSTSINXQ.js", "/build/_shared/chunk-G3QIDN43.js", "/build/_shared/chunk-A563IWXS.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !1 }, "routes/404": { id: "routes/404", parentId: "root", path: "404", index: void 0, caseSensitive: void 0, module: "/build/routes/404-TJPSGBUX.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/api/questionnaires": { id: "routes/api/questionnaires", parentId: "root", path: "api/questionnaires", index: void 0, caseSensitive: void 0, module: "/build/routes/api/questionnaires-TPEOKUXR.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/category/$slug": { id: "routes/category/$slug", parentId: "root", path: "category/:slug", index: void 0, caseSensitive: void 0, module: "/build/routes/category/$slug-2HIUQBTE.js", imports: ["/build/_shared/chunk-QO2DFU26.js", "/build/_shared/chunk-5MLM22RV.js", "/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-VTG4AUDK.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/me/$": { id: "routes/me/$", parentId: "root", path: "me/*", index: void 0, caseSensitive: void 0, module: "/build/routes/me/$-4G3OFD4T.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/create": { id: "routes/questionnaire/create", parentId: "root", path: "questionnaire/create", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/create-XRUAMB5Q.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/edit/$questionnaireId": { id: "routes/questionnaire/edit/$questionnaireId", parentId: "root", path: "questionnaire/edit/:questionnaireId", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/edit/$questionnaireId-EWZ64KNU.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/owner": { id: "routes/questionnaire/owner", parentId: "root", path: "questionnaire/owner", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/owner-QURPHKGK.js", imports: ["/build/_shared/chunk-S3CAL4FU.js", "/build/_shared/chunk-5MLM22RV.js", "/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/resolved/$questionnaireId": { id: "routes/questionnaire/resolved/$questionnaireId", parentId: "root", path: "questionnaire/resolved/:questionnaireId", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/resolved/$questionnaireId-AUJPH624.js", imports: ["/build/_shared/chunk-QO2DFU26.js", "/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/resolved/index": { id: "routes/questionnaire/resolved/index", parentId: "root", path: "questionnaire/resolved", index: !0, caseSensitive: void 0, module: "/build/routes/questionnaire/resolved/index-WJFX7OFF.js", imports: ["/build/_shared/chunk-QO2DFU26.js", "/build/_shared/chunk-S3CAL4FU.js", "/build/_shared/chunk-5MLM22RV.js", "/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/view/$questionnaireId": { id: "routes/questionnaire/view/$questionnaireId", parentId: "root", path: "questionnaire/view/:questionnaireId", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/view/$questionnaireId-MEPKDPHO.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-in/$": { id: "routes/sign-in/$", parentId: "root", path: "sign-in/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-in/$-DWLJKACQ.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-up/$": { id: "routes/sign-up/$", parentId: "root", path: "sign-up/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-up/$-UBHR2C3H.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-3B10A05E.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var entry = { module: entry_server_exports }, routes = {

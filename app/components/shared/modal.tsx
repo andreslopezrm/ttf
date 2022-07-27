@@ -1,39 +1,33 @@
+import { shareTwitterUrl } from "~/utils/share";
+
 type Props = {
     children?: JSX.Element;
-    onClose?: Function;
+    onClose: Function;
+    shareUrl?: string | null;
 }
 
-export function Modal({ children, onClose }: Props) {
+export function Modal({ children, onClose, shareUrl }: Props) {
     return (
-        <div id="defaultModal" aria-hidden="true" className="bg-slate-500 bg-opacity-70 flex justify-center items-center overflow-y-auto overflow-x-hidden fixed top-0 right-0 bottom-0 left-0 z-10 w-full md:inset-0 h-modal md:h-full">
-            <div className="relative p-4 w-full max-w-2xl h-full md:h-auto">
-                <div className="relative bg-white rounded-lg shadow">
-                    <div className="flex justify-between items-start p-4 rounded-t border-b">
-                        <h3 className="text-xl font-semibold text-gray-900">
-                            TTF
-                        </h3>
-                        <button type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" data-modal-toggle="defaultModal">
-                            <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                            <span className="sr-only">Close modal</span>
+        <div id="defaultModal" aria-hidden="true" className=" bg-white bg-opacity-80 flex justify-center items-center overflow-y-auto overflow-x-hidden fixed top-0 right-0 bottom-0 left-0 z-10 w-full md:inset-0 h-modal md:h-full">
+            <div className="max-w-2xl m-8 relative inline-flex items-center justify-center p-1 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 focus:ring-4 focus:outline-none focus:ring-purple-200">
+                <div className="relative p-8 transition-all ease-in duration-75 bg-white rounded-md">
+                    <div className="mb-4 flex justify-between">
+                        <h3 className="font-bold text-xl">#TTF</h3>
+                        <button type="button" onClick={() => onClose()}>
+                            <img src="/img/incorrect.png" width="31" />
                         </button>
                     </div>
-                    
-                    <div className="p-6 space-y-6">
-                        {children}
+                    <div>
+                        { children }
                     </div>
-                    
-                    <div className="flex items-center justify-end p-6 space-x-2 rounded-b border-t border-gray-200">
-                        
-                        <button className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-cyan-200">
-                            <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0">
+                    <div className="flex justify-end gap-2 mt-8">
+                        <a href={shareTwitterUrl("twitter", shareUrl)} target="_blank" className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 focus:ring-4 focus:outline-none focus:ring-cyan-200">
+                            <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md">
                                 Tweet
                             </span>
-                        </button>
-
-                        <button className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-purple-200">
-                            <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0">
-                                Acept
-                            </span>
+                        </a>
+                        <button type="button" onClick={() => onClose()} className="text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:bg-gradient-to-l focus:ring-4 focus:outline-none focus:ring-purple-200 font-semibold rounded-lg text-base px-8 py-2.5 text-center mr-2 mb-2">
+                            Acept
                         </button>
                     </div>
                 </div>
