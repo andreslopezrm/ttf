@@ -7,6 +7,7 @@ import { db } from "~/utils/db.server";
 import { getQueryIntParameter, getQueryStringParameter } from "~/utils/params.server";
 import { PER_PAGE_OWN_QUESTIONNAIRES } from "~/utils/constants";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { shareTwitterUrl } from "~/utils/share";
 
 type LoaderTypeData = {
     total: number;
@@ -15,6 +16,7 @@ type LoaderTypeData = {
     hasNext: boolean;
     questionnaries: (Questionnaire & { category: Category })[];
     search: string | null;
+    baseUrl: string;
 }
 
 type FilterData = {
@@ -72,13 +74,15 @@ export const loader: LoaderFunction = async ({ request }) => {
 
     const hasNext = totalCurrent < total ? true : false;
 
-    return { total, questionnaries, offset: skip, hasPrev, hasNext };
+    const baseUrl = process.env.BASE_URL;
+
+    return { total, questionnaries, offset: skip, hasPrev, hasNext, baseUrl };
 }
 
 export default function QuestionnarieOwnerPage() {
 
     const navigate = useNavigate();
-    const { questionnaries, hasPrev, hasNext, offset, search } = useLoaderData<LoaderTypeData>();
+    const { questionnaries, hasPrev, hasNext, offset, search, baseUrl } = useLoaderData<LoaderTypeData>();
     const [term, setTerm] = useState<string | null>(search);
 
     useEffect(() => {
@@ -179,11 +183,9 @@ export default function QuestionnarieOwnerPage() {
                                                 </span>
                                             </Link>
 
-                                            <button className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400  hover:from-pink-500 hover:to-orange-500 text-white focus:ring-4 focus:outline-none focus:ring-pink-200">
-                                                <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md bg-opacity-0">
-                                                    Remove
-                                                </span>
-                                            </button>
+                                            <a href={shareTwitterUrl("I invite you to solve this quizz of only 10 questions 💿 ", `${baseUrl}/questionnaire/resolved/${questionnarie.id}`)} target="_blank" type="button" className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                                                Tweet
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>

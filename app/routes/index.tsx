@@ -7,7 +7,8 @@ import { HomeOut } from "~/components/home/home-out";
 import { db } from "~/utils/db.server";
 
 type LoaderTypeData = {
-  categories: Category[]
+  categories: Category[];
+  baseUrl: string;
 }
 
 export const loader: LoaderFunction = async () => {

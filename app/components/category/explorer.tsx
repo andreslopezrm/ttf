@@ -9,7 +9,7 @@ type Props = {
 export function CategoryExplorer({ categories }: Props) {
     return (
         <section className="my-8">
-            <h4 className="font-bold text-xl mb-8">Explorer categories</h4>
+            <h4 className="font-bold text-2xl mb-8">Explorer categories</h4>
             <ul className="md:grid grid-cols-3 gap-8">
                 { categories.map(({ id, name, slug }, index) => (
                     <li key={id}>
