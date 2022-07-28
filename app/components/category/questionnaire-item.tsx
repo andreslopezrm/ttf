@@ -48,7 +48,7 @@ export function CategoryQuestionnaireItem({ questionnaire, baseUrl } : Props) {
             <td className="py-4 px-6">
                 {buildAction()}
 
-                <a href={shareTwitterUrl("I invite you to solve this quizz of only 10 questions", `${baseUrl}/questionnaire/resolved/${id}`)} target="_blank" type="button" className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-7 py-3.5 text-center mr-4 mb-2 inline-block">
+                <a href={shareTwitterUrl("I invite you to solve this quizz of only 10 questions", `${baseUrl}/questionnaire/resolved/${id}`)} target="_blank" className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-7 py-3.5 text-center mr-4 mb-2 inline-block">
                     Tweet
                 </a>
             </td>

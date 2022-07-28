@@ -62,26 +62,38 @@ export default function QuestionnaireViewPage() {
                 <h3 className="block text-gray-900 text-3xl font-extrabold mb-4 mt-4">
                     {questionnaire.name}
                 </h3>
-                <p className="mt-4 text-slate-600 text-sm mb-8">Score: {score} / 10</p>
-                <div className="mb-16">
-                    {
-                        answers.map(({ name, value, isCorrect }) => {
-                            return (
-                                <div className="md:flex md:justify-between mb-4">
-                                    <div className="mb-2">{obtainQuestionByName(name)}</div>
-                                    <div className="flex gap-2 items-center">
-                                        <span className="text-slate-600 font-extralight">{ value ? "True" : "False"}</span>
-                                        {
-                                            isCorrect 
-                                            ? <img src="/img/correct.png" alt="correct" className="w-9" /> 
-                                            : <img src="/img/incorrect.png" alt="incorrect" className="w-9" />
-                                        }
-                                    </div>
-                                </div>
-                            );
-                        })
-                    }
+                <p className="mt-4 text-slate-700 text-lg mb-4 font-extrabold">Score: {score} / 10</p>
+                
+                <div className="overflow-x-auto relative mb-16">
+                    <table className="w-full text-sm text-left text-gray-500">
+                        <tbody>
+                            {
+                                answers.map(({ name, value, isCorrect }) => (
+                                    <tr className="bg-white border-b">
+                                        <td className="py-4 px-6">
+                                            {obtainQuestionByName(name)}
+                                        </td>
+                                        <td className="py-4 px-6">
+                                            { value ? "True" : "False"}
+                                        </td>
+                                        <td className="py-4 px-6">
+                                            {
+                                                isCorrect 
+                                                ? <div className="flex items-center ml-3 gap-1">
+                                                    <span className="text-green-800">Correct</span>
+                                                </div>
+                                                : <div className="flex items-center ml-3 gap-1">
+                                                    <span className="text-red-800">Incorrect</span>
+                                                </div>
+                                            }
+                                        </td>
+                                    </tr>
+                                ))
+                            }
+                        </tbody>
+                    </table>
                 </div>
+
             </div>
         </div>
     );
