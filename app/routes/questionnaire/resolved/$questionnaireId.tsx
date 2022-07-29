@@ -3,13 +3,10 @@ import { getAuth } from "@clerk/remix/ssr.server";
 import { Question, Questionnaire } from "@prisma/client";
 import { ActionFunction, LoaderFunction, redirect } from "@remix-run/node";
 import { Form, useActionData, useLoaderData, useNavigate, useTransition } from "@remix-run/react";
-import { Modal } from "~/components/shared/modal";
-import Confetti from "react-confetti";
-import { getClientHeight, getClientWidth } from "~/utils/browser";
+
 
 type LoaderTypeData = {
     questionnarie: Questionnaire & { questions: Question[] };
-    baseUrl: string;
 }
 
 type ActionTypeData = {
@@ -33,7 +30,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     });
 
     if(existResolve) {
-        return redirect("/");
+        return redirect(`/questionnaire/view/${questionnaireId}?show_modal=yes`);
     }
 
     const questionnarie = await db.questionnaire.findFirst({
@@ -57,9 +54,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
         return redirect(`/questionnaire/edit/${questionnarie.id}`);
     }
 
-    const baseUrl = process.env.BASE_URL;
-
-    return { questionnarie, baseUrl };
+    return { questionnarie };
 }
 
 
@@ -70,6 +65,7 @@ export const action: ActionFunction = async ({ request, params }) => {
     }
 
     const { questionnaireId } = params;
+    console.log('*****action', questionnaireId);
     const questionnarie = await db.questionnaire.findFirst({
         where: {
             id: questionnaireId
@@ -119,14 +115,13 @@ export const action: ActionFunction = async ({ request, params }) => {
 }
 
 export default function QuestionnarieResolvedPage() {
-    const { questionnarie, baseUrl } = useLoaderData<LoaderTypeData>();
+    const { questionnarie } = useLoaderData<LoaderTypeData>();
     const data = useActionData<ActionTypeData>();
+    console.log('data', data)
 
     const { name, questions, id } = questionnarie;
     const { state } = useTransition();
     const navigate = useNavigate();
-
-    const handleOnClose = () => navigate("/questionnaire/resolved");
     
     return (
         <>
@@ -174,27 +169,6 @@ export default function QuestionnarieResolvedPage() {
                     </Form>
                 </div>
             </section>
-            { data?.resolveId
-                ?   <Modal onClose={handleOnClose} shareUrl={`${baseUrl}/questionnaire/resolved/${id}`}>
-                        <div className="font- text-lg font-extralight">
-                            <p>
-                                You have achieved a score for this quiz of 
-                                <strong> { data?.score } / 10</strong>
-                            </p>
-                        </div>
-                    </Modal> 
-                : null 
-            }
-            {
-                data?.score === 10
-                    ? <div className="fixed z-20 top-0 left-0 right-0 h-1/5">
-                            <Confetti
-                                width={getClientWidth()}
-                                height={getClientHeight() * 0.4}
-                            />
-                        </div>
-                    : null
-            }
         </>
     );
 }
