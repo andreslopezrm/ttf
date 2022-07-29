@@ -14,6 +14,7 @@ import { ClerkCatchBoundary } from "@clerk/remix";
 
 import styles from "./styles/app.css";
 import { Navbar } from "./components/navbar";
+import { Footer } from "./components/shared/footer";
 
 export const CatchBoundary = ClerkCatchBoundary();
 
@@ -39,11 +40,12 @@ function App() {
         <Meta />
         <Links />
       </head>
-      <body className="bg-white text-black min-h-full">
+      <body className="bg-white text-black">
         <Navbar />
-        <div className="mt-20">
+        <main className="mt-20 min-h-screen">
           <Outlet />
-        </div>
+        </main>
+        <Footer />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
