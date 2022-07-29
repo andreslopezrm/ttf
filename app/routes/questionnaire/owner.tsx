@@ -164,32 +164,46 @@ export default function QuestionnarieOwnerPage() {
                             </tr>
                         </thead>
                         <tbody>
-                            { questionnaries.map(questionnarie => (
-                                <tr key={questionnarie.id} className="bg-white border-b">
-                                    <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
-                                        {questionnarie.name}
-                                    </th>
-                                    <td className="py-4 px-6">
-                                        {questionnarie.category.name}
-                                    </td>
-                                    <td className="py-4 px-6">
-                                        {dayjs(questionnarie.createdAt).format("MMMM D, YYYY h:mm A")}
-                                    </td>
-                                    <td className="py-4 px-6">
-                                        <div className="flex">
-                                            <Link to={`/questionnaire/edit/${questionnarie.id}`} className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-purple-200">
-                                                <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0">
-                                                    Edit
-                                                </span>
-                                            </Link>
-
-                                            <a href={shareTwitterUrl("I invite you to solve this quizz of only 10 questions 💿 ", `${baseUrl}/questionnaire/resolved/${questionnarie.id}`)} target="_blank" className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
-                                                Tweet
-                                            </a>
+                            { questionnaries.length > 0 
+                                ? questionnaries.map(questionnarie => (
+                                    <tr key={questionnarie.id} className="bg-white border-b">
+                                        <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
+                                            {questionnarie.name}
+                                        </th>
+                                        <td className="py-4 px-6">
+                                            {questionnarie.category.name}
+                                        </td>
+                                        <td className="py-4 px-6">
+                                            {dayjs(questionnarie.createdAt).format("MMMM D, YYYY h:mm A")}
+                                        </td>
+                                        <td className="py-4 px-6">
+                                            <div className="flex">
+                                                <Link to={`/questionnaire/edit/${questionnarie.id}`} className="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-purple-500 to-pink-500 group-hover:from-purple-500 group-hover:to-pink-500 hover:text-white focus:ring-4 focus:outline-none focus:ring-purple-200">
+                                                    <span className="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0">
+                                                        Edit
+                                                    </span>
+                                                </Link>
+    
+                                                <a href={shareTwitterUrl("I invite you to solve this quizz of only 10 questions 💿 ", `${baseUrl}/questionnaire/resolved/${questionnarie.id}`)} target="_blank" className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                                                    Tweet
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+                                : <tr>
+                                    <td colSpan={4}>
+                                        <div className="flex justify-center mt-8">
+                                            <div>
+                                                <figure>
+                                                    <img src="/img/empty.png" alt="empty" width="50" />
+                                                </figure>
+                                                <p className="text-lg text-slate-600 font-light">Empty</p>
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
-                            ))}
+                            }
                         </tbody>
                     </table>
                 </div>

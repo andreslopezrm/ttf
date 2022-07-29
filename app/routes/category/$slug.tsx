@@ -147,9 +147,24 @@ export default function CategoryPage() {
                                 </tr>
                             </thead>
                             <tbody>
-                            {questionnaires.map(questionnaire => (
-                                <CategoryQuestionnaireItem key={questionnaire.id} questionnaire={questionnaire} baseUrl={baseUrl} />
-                            ))} 
+                            {
+                                questionnaires.length > 0 
+                                ? questionnaires.map(questionnaire => (
+                                    <CategoryQuestionnaireItem key={questionnaire.id} questionnaire={questionnaire} baseUrl={baseUrl} />
+                                ))
+                                : <tr>
+                                    <td colSpan={2}>
+                                        <div className="flex justify-center mt-8">
+                                            <div>
+                                                <figure>
+                                                    <img src="/img/empty.png" alt="empty" width="50" />
+                                                </figure>
+                                                <p className="text-lg text-slate-600 font-light">Empty</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                  </tr>
+                            } 
                             </tbody>
                         </table>
                     </div>
