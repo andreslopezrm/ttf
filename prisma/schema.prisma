@@ -37,7 +37,7 @@ model Questionnaire {
 model Question {
   id                String            @default(uuid()) @id
   name              String
-  description       String
+  description       String            @db.LongText
   answer            Boolean
   questionnaire     Questionnaire     @relation(fields: [questionnaireId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   questionnaireId   String

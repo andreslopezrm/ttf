@@ -135,7 +135,7 @@ export default function QuestionnarieResolvedPage() {
 
                         {
                             questions.map(({ id, name, description }) => (
-                                    <div className="py-6 border-b border-b-slate-200 flex justify-between items-center" key={id}>
+                                    <div className="py-6 border-b border-b-slate-200 flex justify-between items-center gap-4" key={id}>
                                         <label className="block text-slate-600 text-lg font-normal mb-2" htmlFor={`${name}-description`}>
                                             {description}
                                         </label>

@@ -7,9 +7,12 @@ module.exports = {
   ],
   theme: {
     extend: {
+      spacing: {
+        "150": "150%"
+      },
       colors: {
         "secundary": "#f8f9fa"
-      }
+      },
     },
   },
   plugins: [],
