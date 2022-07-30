@@ -76,7 +76,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     });
 
     const [total, resolved] = await Promise.all([ totalQuery, resolvedQuery ]);
-    const questionnaries = resolved.map(({ questionnaire }) => questionnaire);
+    const questionnaries = resolved.map(({ questionnaire, score }) => ({...questionnaire, score}));
 
     const hasPrev = skip > 0;
     const totalCurrent = skip + take;
@@ -84,6 +84,7 @@ export const loader: LoaderFunction = async ({ request }) => {
     const hasNext = totalCurrent < total ? true : false;
 
     const baseUrl = process.env.BASE_URL;
+    
 
     return { total, questionnaries, offset: skip, hasPrev, hasNext, baseUrl };
 }
@@ -164,6 +165,9 @@ export default function QuestionnaireResolvePage() {
                                 <th scope="col" className="py-3 px-6">
                                     Category
                                 </th>
+                                <th>
+                                    Score
+                                </th>
                                 <th scope="col" className="py-3 px-6">
                                     Resolved At
                                 </th>
@@ -181,6 +185,9 @@ export default function QuestionnaireResolvePage() {
                                         </th>
                                         <td className="py-4 px-6">
                                             {questionnarie.category.name}
+                                        </td>
+                                        <td>
+                                            {}
                                         </td>
                                         <td className="py-4 px-6">
                                             {dayjs(questionnarie.createdAt).format("MMMM D, YYYY h:mm A")}
@@ -201,7 +208,7 @@ export default function QuestionnaireResolvePage() {
                                     </tr>
                                 ))
                                 : <tr>
-                                    <td colSpan={4}>
+                                    <td colSpan={5}>
                                         <div className="flex justify-center mt-8">
                                             <div>
                                                 <figure>

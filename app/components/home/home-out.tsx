@@ -55,8 +55,33 @@ export function HomeOut() {
                 </div>
                 <Wave type="invert" />
             </section>
+            <section className="container m-0 mx-auto p-8 md:p-8">
+                <h2 className="text-2xl md:text-5xl font-extrabold mb-8 md:mb-0">Perfect Score!</h2>
+                <div className="flex">
+                    <div className="flex-1">1</div>
+                    <figure className="p-8 flex-1">
+                        <img src="/img/score.png" alt="perfect" className="max-w-full border-gray-100 border-solid border-8 rounded-xl" />
+                    </figure>
+                    <div>
+                        <p>
+                            Challenge yourself to achieve the perfect answers every day in the quizzes
+                        </p>
+                        <p>
+                            Improve your score every day, and review the history of the quizzes you are solving
+                        </p>
+                    </div>
+                </div>
+            </section>
             <section>
-                <h2>Perfect Score!</h2>
+                <h2>True Or False</h2>
+
+                <p>It is combined that the fewer options it is easier to say, all the quizzes the answers are true or false</p>
+                <p>The fun of these challenges is if the answers are a combination of true/false or all the answers are true or all the answers are false, they will test your knowledge.</p>
+            </section>
+
+            <section>
+                <h2>Share on Twitter</h2>
+                <p>Show through a tweet the questionnaire with your followers</p>
             </section>
         </>
     );
