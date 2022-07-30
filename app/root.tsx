@@ -27,9 +27,20 @@ export function links() {
 
 
 export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: "Ten True or False",
-  viewport: "width=device-width,initial-scale=1",
+  "charset": "utf-8",
+  "title": "Ten True or False",
+  "viewport": "width=device-width,initial-scale=1",
+  "og:title": "Ten True or False",
+  "og:type": "website",
+  "og:image": "https://ttf-psi.vercel.app/img/cover.png",
+  "og:image:width": "1280",
+  "og:image:height": "720",
+  "og:description": "The new age questions for developers",
+  "og:site_name": "Ten True or False",
+  "twitter:card": "summary",
+  "twitter:title": "Ten True or False",
+  "twitter:description": "The new age questions for developers",
+  "twitter:image": "https://ttf-psi.vercel.app/img/cover.png"
 });
 
 
@@ -39,6 +50,7 @@ function App() {
       <head>
         <Meta />
         <Links />
+
       </head>
       <body className="bg-white text-black">
         <Navbar />
