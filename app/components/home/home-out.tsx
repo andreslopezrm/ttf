@@ -58,18 +58,17 @@ export function HomeOut() {
             <section className="container m-0 mx-auto p-8 md:p-8">
                 <h2 className="text-2xl md:text-5xl font-extrabold mb-8 md:mb-0">Perfect Score!</h2>
                 <div className="flex">
-                    <div className="flex-1">1</div>
+                    <div className="flex-1 md:p-8 font-extralight text-xl">
+                        <p className="mb-4">
+                            Challenge yourself to achieve the perfect answers every day in the quizzes.
+                        </p>
+                        <p>
+                            Improve your score every day, and review the history of the quizzes you are solving.
+                        </p>
+                    </div>
                     <figure className="p-8 flex-1">
                         <img src="/img/score.png" alt="perfect" className="max-w-full border-gray-100 border-solid border-8 rounded-xl" />
                     </figure>
-                    <div>
-                        <p>
-                            Challenge yourself to achieve the perfect answers every day in the quizzes
-                        </p>
-                        <p>
-                            Improve your score every day, and review the history of the quizzes you are solving
-                        </p>
-                    </div>
                 </div>
             </section>
             <section>

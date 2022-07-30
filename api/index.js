@@ -58,7 +58,7 @@ __export(root_exports, {
 var import_react4 = require("@remix-run/react"), import_ssr = require("@clerk/remix/ssr.server"), import_remix2 = require("@clerk/remix"), import_remix3 = require("@clerk/remix");
 
 // app/styles/app.css
-var app_default = "/build/_assets/app-FKABSPDN.css";
+var app_default = "/build/_assets/app-6KAXDKFV.css";
 
 // app/components/navbar.tsx
 var import_remix = require("@clerk/remix"), import_react2 = require("@remix-run/react"), import_react3 = require("react");
@@ -471,7 +471,7 @@ function shareTwitterUrl(text, url = null, hashtags = null) {
 }
 
 // app/components/shared/modal.tsx
-function Modal({ children, onClose, shareUrl }) {
+function Modal({ children, onClose, text, shareUrl }) {
   return /* @__PURE__ */ React.createElement("div", {
     id: "defaultModal",
     "aria-hidden": "true",
@@ -493,7 +493,7 @@ function Modal({ children, onClose, shareUrl }) {
   }))), /* @__PURE__ */ React.createElement("div", null, children), /* @__PURE__ */ React.createElement("div", {
     className: "flex justify-end gap-2 mt-8"
   }, /* @__PURE__ */ React.createElement("a", {
-    href: shareTwitterUrl("twitter", shareUrl),
+    href: shareTwitterUrl(text, shareUrl),
     target: "_blank",
     className: "relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 focus:ring-4 focus:outline-none focus:ring-cyan-200"
   }, /* @__PURE__ */ React.createElement("span", {
@@ -544,7 +544,8 @@ function QuestionnaireViewPage() {
   let obtainQuestionByName = (name) => {
     var _a;
     return (_a = questions.find((question) => question.name === name)) == null ? void 0 : _a.description;
-  }, handleOnClose = () => setModal(!1);
+  }, handleOnClose = () => setModal(!1), buildTweetText = () => `#TenTrueOrFalse I have obtained a score of 10 / 10 ${(resolved == null ? void 0 : resolved.score) === 10 ? "\u{1F4C0}" : "\u{1F4BF}"}
+        `;
   return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", {
     className: "container m-0 mx-auto"
   }, /* @__PURE__ */ React.createElement("div", {
@@ -576,6 +577,7 @@ function QuestionnaireViewPage() {
     className: "text-red-800"
   }, "Incorrect")))))))))), modal ? /* @__PURE__ */ React.createElement(Modal, {
     onClose: handleOnClose,
+    text: buildTweetText(),
     shareUrl: `${baseUrl}/questionnaire/resolved/${resolved == null ? void 0 : resolved.questionnaireId}`
   }, /* @__PURE__ */ React.createElement("div", {
     className: "font- text-lg font-extralight"
@@ -622,7 +624,7 @@ var loader5 = async ({ request }) => {
         }
       }
     }
-  }), [total, resolved] = await Promise.all([totalQuery, resolvedQuery]), questionnaries = resolved.map(({ questionnaire }) => questionnaire), hasPrev = skip > 0, hasNext = skip + take < total, baseUrl = process.env.BASE_URL;
+  }), [total, resolved] = await Promise.all([totalQuery, resolvedQuery]), questionnaries = resolved.map(({ questionnaire, score }) => __spreadProps(__spreadValues({}, questionnaire), { score })), hasPrev = skip > 0, hasNext = skip + take < total, baseUrl = process.env.BASE_URL;
   return { total, questionnaries, offset: skip, hasPrev, hasNext, baseUrl };
 };
 function QuestionnaireResolvePage() {
@@ -694,7 +696,7 @@ function QuestionnaireResolvePage() {
   }, "Name"), /* @__PURE__ */ React.createElement("th", {
     scope: "col",
     className: "py-3 px-6"
-  }, "Category"), /* @__PURE__ */ React.createElement("th", {
+  }, "Category"), /* @__PURE__ */ React.createElement("th", null, "Score"), /* @__PURE__ */ React.createElement("th", {
     scope: "col",
     className: "py-3 px-6"
   }, "Resolved At"), /* @__PURE__ */ React.createElement("th", {
@@ -708,7 +710,7 @@ function QuestionnaireResolvePage() {
     className: "py-4 px-6 font-medium text-gray-900 whitespace-nowrap"
   }, questionnarie.name), /* @__PURE__ */ React.createElement("td", {
     className: "py-4 px-6"
-  }, questionnarie.category.name), /* @__PURE__ */ React.createElement("td", {
+  }, questionnarie.category.name), /* @__PURE__ */ React.createElement("td", null), /* @__PURE__ */ React.createElement("td", {
     className: "py-4 px-6"
   }, (0, import_dayjs.default)(questionnarie.createdAt).format("MMMM D, YYYY h:mm A")), /* @__PURE__ */ React.createElement("td", {
     className: "py-4 px-6"
@@ -720,11 +722,12 @@ function QuestionnaireResolvePage() {
   }, /* @__PURE__ */ React.createElement("span", {
     className: "relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0"
   }, "View")), /* @__PURE__ */ React.createElement("a", {
-    href: shareTwitterUrl("I invite you to solve this quizz of only 10 questions", `${baseUrl}/questionnaire/resolved/${questionnarie.id}`),
+    href: shareTwitterUrl(`#TenTrueOrFalse I invite you to solve this quizz of only 10 questions \u{1F4BF} 
+`, `${baseUrl}/questionnaire/resolved/${questionnarie.id}`),
     target: "_blank",
     className: "text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
   }, "Tweet"))))) : /* @__PURE__ */ React.createElement("tr", null, /* @__PURE__ */ React.createElement("td", {
-    colSpan: 4
+    colSpan: 5
   }, /* @__PURE__ */ React.createElement("div", {
     className: "flex justify-center mt-8"
   }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("figure", null, /* @__PURE__ */ React.createElement("img", {
@@ -993,7 +996,8 @@ function QuestionnarieOwnerPage() {
   }, /* @__PURE__ */ React.createElement("span", {
     className: "relative px-5 py-2.5 transition-all ease-in duration-75 bg-white rounded-md group-hover:bg-opacity-0"
   }, "Edit")), /* @__PURE__ */ React.createElement("a", {
-    href: shareTwitterUrl("I invite you to solve this quizz of only 10 questions \u{1F4BF} ", `${baseUrl}/questionnaire/resolved/${questionnarie.id}`),
+    href: shareTwitterUrl(`#TenTrueOrFalse I invite you to solve this quizz of only 10 questions \u{1F4BF} 
+`, `${baseUrl}/questionnaire/resolved/${questionnarie.id}`),
     target: "_blank",
     className: "text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
   }, "Tweet"))))) : /* @__PURE__ */ React.createElement("tr", null, /* @__PURE__ */ React.createElement("td", {
@@ -1446,14 +1450,16 @@ function HomeOut() {
   }, "Perfect Score!"), /* @__PURE__ */ React.createElement("div", {
     className: "flex"
   }, /* @__PURE__ */ React.createElement("div", {
-    className: "flex-1"
-  }, "1"), /* @__PURE__ */ React.createElement("figure", {
+    className: "flex-1 md:p-8 font-extralight text-xl"
+  }, /* @__PURE__ */ React.createElement("p", {
+    className: "mb-4"
+  }, "Challenge yourself to achieve the perfect answers every day in the quizzes."), /* @__PURE__ */ React.createElement("p", null, "Improve your score every day, and review the history of the quizzes you are solving.")), /* @__PURE__ */ React.createElement("figure", {
     className: "p-8 flex-1"
   }, /* @__PURE__ */ React.createElement("img", {
     src: "/img/score.png",
     alt: "perfect",
     className: "max-w-full border-gray-100 border-solid border-8 rounded-xl"
-  })))));
+  })))), /* @__PURE__ */ React.createElement("section", null, /* @__PURE__ */ React.createElement("h2", null, "True Or False"), /* @__PURE__ */ React.createElement("p", null, "It is combined that the fewer options it is easier to say, all the quizzes the answers are true or false"), /* @__PURE__ */ React.createElement("p", null, "The fun of these challenges is if the answers are a combination of true/false or all the answers are true or all the answers are false, they will test your knowledge.")), /* @__PURE__ */ React.createElement("section", null, /* @__PURE__ */ React.createElement("h2", null, "Share on Twitter"), /* @__PURE__ */ React.createElement("p", null, "Show through a tweet the questionnaire with your followers")));
 }
 
 // route:/Users/andres/Documents/Github/ttf/app/routes/index.tsx
@@ -1491,7 +1497,7 @@ function NotFound() {
 }
 
 // server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { version: "8b40e8a6", entry: { module: "/build/entry.client-UI52GWGX.js", imports: ["/build/_shared/chunk-EEMW7LQ2.js", "/build/_shared/chunk-BNRLY3XL.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-LOPRZFTL.js", imports: ["/build/_shared/chunk-VSTSINXQ.js", "/build/_shared/chunk-G3QIDN43.js", "/build/_shared/chunk-A563IWXS.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !1 }, "routes/404": { id: "routes/404", parentId: "root", path: "404", index: void 0, caseSensitive: void 0, module: "/build/routes/404-TJPSGBUX.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/api/questionnaires": { id: "routes/api/questionnaires", parentId: "root", path: "api/questionnaires", index: void 0, caseSensitive: void 0, module: "/build/routes/api/questionnaires-TPEOKUXR.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/category/$slug": { id: "routes/category/$slug", parentId: "root", path: "category/:slug", index: void 0, caseSensitive: void 0, module: "/build/routes/category/$slug-6ZWX3UHA.js", imports: ["/build/_shared/chunk-5MLM22RV.js", "/build/_shared/chunk-QO2DFU26.js", "/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-3JXFMD7U.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/me/$": { id: "routes/me/$", parentId: "root", path: "me/*", index: void 0, caseSensitive: void 0, module: "/build/routes/me/$-4G3OFD4T.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/create": { id: "routes/questionnaire/create", parentId: "root", path: "questionnaire/create", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/create-XRUAMB5Q.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/edit/$questionnaireId": { id: "routes/questionnaire/edit/$questionnaireId", parentId: "root", path: "questionnaire/edit/:questionnaireId", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/edit/$questionnaireId-EWZ64KNU.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/owner": { id: "routes/questionnaire/owner", parentId: "root", path: "questionnaire/owner", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/owner-C4Q7HT7E.js", imports: ["/build/_shared/chunk-3VJDMFEJ.js", "/build/_shared/chunk-5MLM22RV.js", "/build/_shared/chunk-7DIR46HH.js", "/build/_shared/chunk-QO2DFU26.js", "/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/resolved/$questionnaireId": { id: "routes/questionnaire/resolved/$questionnaireId", parentId: "root", path: "questionnaire/resolved/:questionnaireId", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/resolved/$questionnaireId-5SA4JOGO.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/resolved/index": { id: "routes/questionnaire/resolved/index", parentId: "root", path: "questionnaire/resolved", index: !0, caseSensitive: void 0, module: "/build/routes/questionnaire/resolved/index-3CG63EJH.js", imports: ["/build/_shared/chunk-3VJDMFEJ.js", "/build/_shared/chunk-5MLM22RV.js", "/build/_shared/chunk-7DIR46HH.js", "/build/_shared/chunk-QO2DFU26.js", "/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/view/$questionnaireId": { id: "routes/questionnaire/view/$questionnaireId", parentId: "root", path: "questionnaire/view/:questionnaireId", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/view/$questionnaireId-FRYZPSWD.js", imports: ["/build/_shared/chunk-7DIR46HH.js", "/build/_shared/chunk-QO2DFU26.js", "/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-in/$": { id: "routes/sign-in/$", parentId: "root", path: "sign-in/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-in/$-DWLJKACQ.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-up/$": { id: "routes/sign-up/$", parentId: "root", path: "sign-up/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-up/$-UBHR2C3H.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-8B40E8A6.js" };
+var assets_manifest_default = { version: "e335c5e8", entry: { module: "/build/entry.client-UI52GWGX.js", imports: ["/build/_shared/chunk-EEMW7LQ2.js", "/build/_shared/chunk-BNRLY3XL.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-QNPXZOJA.js", imports: ["/build/_shared/chunk-VSTSINXQ.js", "/build/_shared/chunk-G3QIDN43.js", "/build/_shared/chunk-A563IWXS.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !1 }, "routes/404": { id: "routes/404", parentId: "root", path: "404", index: void 0, caseSensitive: void 0, module: "/build/routes/404-TJPSGBUX.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/api/questionnaires": { id: "routes/api/questionnaires", parentId: "root", path: "api/questionnaires", index: void 0, caseSensitive: void 0, module: "/build/routes/api/questionnaires-TPEOKUXR.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/category/$slug": { id: "routes/category/$slug", parentId: "root", path: "category/:slug", index: void 0, caseSensitive: void 0, module: "/build/routes/category/$slug-6ZWX3UHA.js", imports: ["/build/_shared/chunk-5MLM22RV.js", "/build/_shared/chunk-QO2DFU26.js", "/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/index-AA4UCGJS.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/me/$": { id: "routes/me/$", parentId: "root", path: "me/*", index: void 0, caseSensitive: void 0, module: "/build/routes/me/$-4G3OFD4T.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/create": { id: "routes/questionnaire/create", parentId: "root", path: "questionnaire/create", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/create-XRUAMB5Q.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/edit/$questionnaireId": { id: "routes/questionnaire/edit/$questionnaireId", parentId: "root", path: "questionnaire/edit/:questionnaireId", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/edit/$questionnaireId-EWZ64KNU.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/owner": { id: "routes/questionnaire/owner", parentId: "root", path: "questionnaire/owner", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/owner-BAJRS6EV.js", imports: ["/build/_shared/chunk-3VJDMFEJ.js", "/build/_shared/chunk-5MLM22RV.js", "/build/_shared/chunk-7DIR46HH.js", "/build/_shared/chunk-QO2DFU26.js", "/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/resolved/$questionnaireId": { id: "routes/questionnaire/resolved/$questionnaireId", parentId: "root", path: "questionnaire/resolved/:questionnaireId", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/resolved/$questionnaireId-5SA4JOGO.js", imports: ["/build/_shared/chunk-SY7IAUC4.js"], hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/resolved/index": { id: "routes/questionnaire/resolved/index", parentId: "root", path: "questionnaire/resolved", index: !0, caseSensitive: void 0, module: "/build/routes/questionnaire/resolved/index-TKF4LY3U.js", imports: ["/build/_shared/chunk-3VJDMFEJ.js", "/build/_shared/chunk-5MLM22RV.js", "/build/_shared/chunk-7DIR46HH.js", "/build/_shared/chunk-QO2DFU26.js", "/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/questionnaire/view/$questionnaireId": { id: "routes/questionnaire/view/$questionnaireId", parentId: "root", path: "questionnaire/view/:questionnaireId", index: void 0, caseSensitive: void 0, module: "/build/routes/questionnaire/view/$questionnaireId-37QR6AZT.js", imports: ["/build/_shared/chunk-7DIR46HH.js", "/build/_shared/chunk-QO2DFU26.js", "/build/_shared/chunk-SY7IAUC4.js"], hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-in/$": { id: "routes/sign-in/$", parentId: "root", path: "sign-in/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-in/$-DWLJKACQ.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/sign-up/$": { id: "routes/sign-up/$", parentId: "root", path: "sign-up/*", index: void 0, caseSensitive: void 0, module: "/build/routes/sign-up/$-UBHR2C3H.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, url: "/build/manifest-E335C5E8.js" };
 
 // server-entry-module:@remix-run/dev/server-build
 var entry = { module: entry_server_exports }, routes = {

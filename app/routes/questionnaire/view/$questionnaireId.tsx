@@ -72,6 +72,12 @@ export default function QuestionnaireViewPage() {
     const obtainQuestionByName = (name: string) => questions.find(question => question.name === name)?.description;
 
     const handleOnClose = () => setModal(false);
+
+    const buildTweetText = () => {
+        const emoji = resolved?.score === 10 ? "📀" : "💿";
+        return `#TenTrueOrFalse I have obtained a score of 10 / 10 ${emoji}
+        `;
+    }
     
     return (
         <>
@@ -115,7 +121,7 @@ export default function QuestionnaireViewPage() {
                 </div>
             </div>
             { modal
-                ?   <Modal onClose={handleOnClose} shareUrl={`${baseUrl}/questionnaire/resolved/${resolved?.questionnaireId}`}>
+                ?   <Modal onClose={handleOnClose} text={buildTweetText()} shareUrl={`${baseUrl}/questionnaire/resolved/${resolved?.questionnaireId}`}>
                         <div className="font- text-lg font-extralight">
                             <p>
                                 You have achieved a score for this quiz of 
