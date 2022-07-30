@@ -59,7 +59,7 @@ export function HomeOut() {
 
             <section className="container m-0 mx-auto p-8 md:p-8">
                 <h2 className="text-2xl md:text-5xl font-extrabold mb-8 md:mb-0">Perfect Score!</h2>
-                <div className="flex">
+                <div className="md:flex">
                     <div className="flex-1 md:p-8 font-extralight text-xl">
                         <p className="mb-4">
                             Challenge yourself to achieve the perfect answers every day in the quizzes.
@@ -96,7 +96,7 @@ export function HomeOut() {
 
             <section className="container m-0 mx-auto p-8 md:p-8">
                 <h2 className="text-2xl md:text-5xl font-extrabold mb-8 md:mb-0">Share on Twitter</h2>
-                <div className="flex">
+                <div className="md:flex">
                     <div className="flex-1 md:p-8 font-extralight text-xl">
                         <p className="mb-4">
                             Show through a tweet the quiz you have created with your followers so they can solve it

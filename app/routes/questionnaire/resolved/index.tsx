@@ -15,7 +15,7 @@ type LoaderTypeData = {
     offset: number;
     hasPrev: boolean, 
     hasNext: boolean;
-    questionnaries: (Questionnaire & { category: Category })[];
+    questionnaries: (Questionnaire & { category: Category } & { score: number })[];
     baseUrl: string;
     search: string | null;
 }
@@ -187,7 +187,7 @@ export default function QuestionnaireResolvePage() {
                                             {questionnarie.category.name}
                                         </td>
                                         <td>
-                                            {}
+                                            {questionnarie.score}
                                         </td>
                                         <td className="py-4 px-6">
                                             {dayjs(questionnarie.createdAt).format("MMMM D, YYYY h:mm A")}
