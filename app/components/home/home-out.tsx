@@ -6,13 +6,13 @@ export function HomeOut() {
         <>
             <section className="container m-0 mx-auto p-8 md:p-8">
                 <h1 className="text-6xl text-zinc-900 font-extrabold md:text-8xl"><span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">Ten True or False</span> the new age questions for developers</h1>
-                <p className="mt-8 text-2xl text-gray-600 font-extralight md:text-3xl md:w-9/12 md:mt-12">Create easily and simply questionnaires that help other developers to improve their knowledge and share your results with others</p>
+                <p className="mt-8 text-2xl text-gray-600 font-extralight md:text-3xl md:w-9/12 md:mt-12">Create easily and simply quizzes that help other developers to improve their knowledge and share your results with others</p>
                 <div className="mt-8 flex flex-col justify-center gap-4 md:flex-row md:justify-start md:w-9/12">
 
                     <div className="flex gap-4 md:flex-col">
                         <img src="/img/short.png" alt="ten questions" width="70"/>
                         <div className="mt-2">
-                            <h4 className="text-lg">Short Questionnaires</h4>
+                            <h4 className="text-lg">Short Quizzes</h4>
                             <p className="text-gray-500 font-light">Just in ten questions test your knowledge</p>
                         </div>
                     </div>
@@ -21,7 +21,7 @@ export function HomeOut() {
                         <img src="/img/sharew.png" alt="ten questions" width="70" />
                         <div className="mt-2">
                             <h4 className="text-lg">Share with the world</h4>
-                            <p className="text-gray-500 font-light">Questionnaires that other programmers take can solve them</p>
+                            <p className="text-gray-500 font-light">Quizzes that other programmers take can solve them</p>
                         </div>
                     </div>
 
@@ -102,7 +102,7 @@ export function HomeOut() {
                             Show through a tweet the quiz you have created with your followers so they can solve it
                         </p>
                         <p>
-                            You can also share the questionnaires of other categories on the platform and the results obtained through a tweet
+                            You can also share the quizzes of other categories on the platform and the results obtained through a tweet
                         </p>
                     </div>
                     <figure className="p-8 flex-1">
