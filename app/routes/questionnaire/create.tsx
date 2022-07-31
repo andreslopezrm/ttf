@@ -20,7 +20,11 @@ export const loader: LoaderFunction = async ({ request }) => {
     
     const url = new URL(request.url);
     const questionnarie = url.searchParams.get("questionnarie");
-    const categories = await db.category.findMany();
+    const categories = await db.category.findMany({
+        orderBy: {
+          createdAt: "asc"
+        }
+      });
 
     return { userId, questionnarie, categories };
   };

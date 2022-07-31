@@ -12,6 +12,9 @@ export default function NotFound() {
                 <h2 className="mt-4 text-2xl mb-2 font-bold">Made for</h2>
                 This project is made specifically for the <a target="_blank" href="https://townhall.hashnode.com/planetscale-hackathon" className="underline">PlanetScale X Hashnode Hackathon</a>
 
+                <p className="mt-4 font-bold">Link article</p>
+                <a className="underline" href="https://alrdev.hashnode.dev/introducing-ten-true-or-false-the-new-age-questions-for-developers" target="_blank">https://alrdev.hashnode.dev/introducing-ten-true-or-false-the-new-age-questions-for-developers</a>
+
                 <h2 className="mt-4 text-2xl mb-2 font-bold">Tech Stack</h2>
                 <ol className="list-decimal ml-4">
                     <li> <a className="underline" target="_blank" href="https://remix.run/">Remix </a>— The web framewok</li>
