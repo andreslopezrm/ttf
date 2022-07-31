@@ -4,8 +4,8 @@ import type { FormEvent, InputEvent } from "~/types/event";
 
 export function CreateForm() {
 
-    const [name, setName] = useState('');
-    const [path, setPath] = useState('');
+    const [name, setName] = useState("");
+    const [path, setPath] = useState("");
 
     useEffect(() => {
         setPath(`/questionnaire/create?questionnarie=${name}`);

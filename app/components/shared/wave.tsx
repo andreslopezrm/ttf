@@ -1,7 +1,7 @@
 type WaveType = "normal" | "invert";
 
 type Props = {
-    type?: WaveType
+    type?: WaveType;
 }
 
 export function Wave({ type = "normal"}: Props) {

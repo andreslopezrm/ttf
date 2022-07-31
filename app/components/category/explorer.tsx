@@ -3,7 +3,7 @@ import { Link } from "@remix-run/react";
 import { getGradientColor } from "~/utils/gradient";
 
 type Props = {
-    categories: Category[]
+    categories: Category[];
 }
 
 export function CategoryExplorer({ categories }: Props) {

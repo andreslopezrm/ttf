@@ -8,7 +8,7 @@ const questionsKeyList = ["01", "02","03","04","05", "06", "07", "08", "09","10"
 
 type LoaderTypeData = {
     questionnarie: string;
-    categories: Category[]
+    categories: Category[];
 }
 
 export const loader: LoaderFunction = async ({ request }) => {

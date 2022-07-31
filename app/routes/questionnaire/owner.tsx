@@ -22,7 +22,7 @@ type LoaderTypeData = {
 type FilterData = {
     userId: string;
     name?: {
-        contains: string
+        contains: string;
     }
 }
 
