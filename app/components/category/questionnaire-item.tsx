@@ -1,10 +1,12 @@
+import { Questionnaire } from "@prisma/client";
 import { Link } from "react-router-dom";
-import { QuestionnaireExtended } from "~/types/questionnaire";
+import { QuestionnaireExtended } from "~/utils/questionnaire";
 import { shareTwitterUrl } from "~/utils/share";
 
+
 type Props = {
-    questionnaire: QuestionnaireExtended;
     baseUrl: string;
+    questionnaire: QuestionnaireExtended;
 };
 
 export function CategoryQuestionnaireItem({ questionnaire, baseUrl } : Props) {

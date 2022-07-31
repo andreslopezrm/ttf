@@ -6,8 +6,7 @@ import { db } from "~/utils/db.server";
 import { CategoryQuestionnaireItem } from "~/components/category/questionnaire-item";
 import { getAuth } from "@clerk/remix/ssr.server";
 import { PER_PAGE_CATEGORY_QUESTIONNAIRES } from "~/utils/constants";
-import { QuestionnaireExtended } from "~/types/questionnaire";
-import { generateQuestionnairesExt } from "~/utils/questionnaire";
+import { generateQuestionnairesExt, QuestionnaireExtended } from "~/utils/questionnaire";
 
 type LoaderTypeData = {
     category: Category;

@@ -1,5 +1,9 @@
 import { Questionnaire } from "@prisma/client";
-import { QuestionnaireExtended } from "~/types/questionnaire";
+
+export type QuestionnaireExtended = Questionnaire & {
+    isOwner: boolean;
+    isResolved: boolean;
+}
 
 export function generateQuestionnairesExt(questionnaires: Questionnaire[], userId: string | null, resolved: string[]): QuestionnaireExtended[] {
     return questionnaires.map(item => {

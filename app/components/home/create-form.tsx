@@ -1,6 +1,8 @@
 import { useNavigate } from "@remix-run/react";
 import { useState, useEffect } from "react";
-import type { FormEvent, InputEvent } from "~/types/event";
+
+type InputEvent = React.ChangeEvent<HTMLInputElement>;
+type FormEvent = React.ChangeEvent<HTMLFormElement>;
 
 export function CreateForm() {
 
